@@ -2,6 +2,7 @@ export default class School{
     name = "Riverdale High School"
     programs = [];
     teachers = [];
+    
      terms = 3;
      periods = 5;
     constructor(name, terms = 3, periods = 5){
