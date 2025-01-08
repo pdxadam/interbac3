@@ -1,4 +1,4 @@
-class Program{
+export default class Program{
     name="IB Program";
     classes = [];
     subjects = [];

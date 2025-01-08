@@ -9,5 +9,14 @@
 </script>
 <template>
     <h1>Teachers</h1>
-    <TeacherVue v-for = "t in teachers" :teacher = t />
+    <section id="teacherSection">
+        <TeacherVue v-for = "t in teachers" :teacher = t />
+    </section>
 </template>
+<style scoped>
+    #teacherSection{
+        display: flex;
+        flex-flow: row wrap;
+        
+    }
+</style>

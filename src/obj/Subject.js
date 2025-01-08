@@ -1,4 +1,6 @@
-class Subject{
-    title = "subject";
-    
+export default class Subject{
+    name = "subject";
+    constructor(name){
+        this.name = name;
+    }
 }

@@ -1,34 +1,37 @@
 <script setup>
+    import { ref } from 'vue';
     import School from '../obj/School.js';
     import TeachersVue from '../components/TeachersVue.vue';
     import Teacher from '../obj/Teacher.js';
+    import Program from '../obj/Program.js';
+    import ProgramSetup from './ProgramSetup.vue'
     import { onMounted } from 'vue';
-    var school = new School("RHS");
+    import Subject from '../obj/Subject.js';
+    const school = ref(new School("RHS"));
     //add Teachers
     for (var n = 0; n < 15; n++){
-        school.teachers.push(new Teacher("newb " + n, school.terms, school.periods));
+        school.value.teachers.push(new Teacher("newb " + n, school.value.terms, school.value.periods));
     }
     //create a program    
     let p = new Program("IB Draft");
-    console.log(school.teachers);
     //add subjects to the program.
-    p.subjects.push("Language Arts");
-    p.subjects.push("Sciences");
-    p.subjects.push("Arts");
-    p.subjects.push("TOK");
-    p.subjects.push("Extended Essay");
-    p.subjects.push("Individuals and Societies");
-    p.subjects.push("Language Acquisition");
+    p.subjects.push(new Subject("Language Arts"));
+    p.subjects.push(new Subject("Sciences"));
+    p.subjects.push(new Subject("Arts"));
+    p.subjects.push(new Subject("TOK"));
+    p.subjects.push(new Subject("Extended Essay"));
+    p.subjects.push(new Subject("Individuals and Societies"));
+    p.subjects.push(new Subject("Language Acquisition"));
     
     //add the program to the school. 
-    school.programs.push(p);
-
+    school.value.programs.push(p);
+    console.log(school);
     onMounted(() => 
         loadData()
     );
 
     function saveData(){
-        let jsonSchool = JSON.stringify(school);
+        let jsonSchool = JSON.stringify(school.value);
         localStorage.setItem("school", jsonSchool);
 
     }
@@ -36,7 +39,7 @@
         console.log("loading");
         let jsonSchool = localStorage.getItem("school");
         if (jsonSchool !== null){
-            school = JSON.parse(jsonSchool);
+            school.value = JSON.parse(jsonSchool);
         }
 
     }
@@ -47,6 +50,9 @@
         <b-tabs position="is-centered" class="block">
             <b-tab-item label="Teachers">
                 <TeachersVue :teachers = school.teachers />
+            </b-tab-item>
+            <b-tab-item label="Programs">
+                <ProgramSetup :programs = school.programs />
             </b-tab-item>
         </b-tabs>
     </section>
