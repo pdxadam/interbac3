@@ -1,20 +1,24 @@
 <script setup>
     import { ref } from 'vue';
     import Program from '../obj/Program.js';
-    import Subject from '../obj/Subject.js';
+    import Group from '../obj/Group.js';
     import ClassesVue from '@/components/ClassesVue.vue';
-import SubjectVue from '@/components/SubjectVue.vue';
+    import GroupsVue from '@/components/GroupsVue.vue';
+    import School from '@/obj/School.js';
+    import TeacherClassSetup from '@/components/TeacherClassSetup.vue';
     const props = defineProps({
-        programs: [Program],
+       
+        school: School,
     });
     const selectedProgram = ref(null);
+    const selectedGroup = ref(null);
     const editProgram = ref(false);
-    console.log(props.programs);
-    function addSubject(){
-        selectedProgram.value.subjects.push(new Subject("New Subject"));
+    console.log(props.school.programs);
+    function addGroup(){
+        selectedProgram.value.groups.push(new Group("New Group"));
     }
     function createProgram(){
-        props.programs.push(new Program("New Program"));
+        props.school.programs.push(new Program("New Program", props.school.teachers));
     }
 </script>
 <template>    
@@ -22,7 +26,7 @@ import SubjectVue from '@/components/SubjectVue.vue';
         <h1>Programs</h1>
         <b-button @click=createProgram> + </b-button>
         <ul>
-            <li v-for="program in programs" @click="selectedProgram = program">{{ program.name }}</li>
+            <li v-for="program in school.programs" @click="selectedProgram = program">{{ program.name }}</li>
         </ul>
     </nav>
 
@@ -34,20 +38,14 @@ import SubjectVue from '@/components/SubjectVue.vue';
         </h1>
         <b-tabs>
             <b-tab-item label="Classes">
-                    <ClassesVue :classes = selectedProgram.classes />
+                <ClassesVue :classes = selectedProgram.classes />
             </b-tab-item>
-            <b-tab-item label="Subject Areas">
-            <table>
-                <tr>
-                    <th>Subjects: </th>
-                    <td><b-button @click="addSubject"> + </b-button></td>                
-                </tr>
-                <tr v-for="subject in selectedProgram.subjects">
-                    <td>
-                        <SubjectVue :subject = subject />
-                    </td>
-                </tr>
-        </table>
+            <b-tab-item label="Subject Groups">
+                <GroupsVue :groups = selectedProgram.groups :program = selectedProgram />
+
+            </b-tab-item>
+            <b-tab-item label="Teacher Schedules">
+                <TeacherClassSetup :teachers = selectedProgram.teachers :program = selectedProgram />
             </b-tab-item>
 
         </b-tabs>
@@ -84,5 +82,8 @@ nav li:hover{
 }
 section{
     margin: 15px;
+}
+tbody tr:nth-child(even){
+    background-color: rgb(227, 234, 250);
 }
 </style>

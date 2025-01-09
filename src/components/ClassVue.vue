@@ -14,8 +14,8 @@
 
 </script>
 <template>
-    <td v-if='!editClass'>{{ c.name }}</td>
-    <td v-else><input type='text' v-model = c.name /></td>
+    <td v-if='!editClass'>{{ c.title }}</td>
+    <td v-else><input type='text' v-model = c.title /></td>
     <td><b-button @click='editClass = !editClass'>{{ editClass?"Save":"Edit" }}</b-button></td>
     <td v-if='editClass'>
         <b-button @click='emit("deleteClass")'>Delete</b-button>

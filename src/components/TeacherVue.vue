@@ -1,6 +1,7 @@
 <script setup>
     import Teacher from '../obj/Teacher.js';
     import { ref } from 'vue';
+    const emit = defineEmits('deleteTeacher');
     const props = defineProps({
         teacher: Teacher,
     });
@@ -9,8 +10,9 @@
         editMode.value = !editMode.value;
     }
     function deleteMe(){
-        alert("deleted");
+        emit('deleteTeacher');
     }
+
 </script>
 <template>
     <table>
@@ -24,9 +26,10 @@
         <tr v-for = "term, index in teacher.slots">
             <th>term {{ index + 1 }}</th>
             <td v-for = "period, i2 in term">
-                p{{ i2 + 1 }} {{ period }}
+                {{ period }}
             </td>
         </tr>
+        
     </tbody>
     </table>
     </template>

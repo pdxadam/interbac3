@@ -6,11 +6,18 @@
         teachers:[Teacher],
         school: School,
     })
+    function addTeacher(){
+        props.teachers.push(new Teacher("newb", props.school.terms, props.school.periods));
+    }
+    function deleteTeacher(index){
+        props.teachers.splice(index,1);
+    }
 </script>
 <template>
-    <h1>Teachers</h1>
+    <h1>Teachers <b-button @click = addTeacher > + </b-button></h1>
+    
     <section id="teacherSection">
-        <TeacherVue v-for = "t in teachers" :teacher = t />
+        <TeacherVue v-for = "t, index in teachers" :teacher = t @deleteTeacher = deleteTeacher(index); />
     </section>
 </template>
 <style scoped>
