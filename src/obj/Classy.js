@@ -6,7 +6,7 @@ export default class Classy{
     sequence = -1;
     teacher = null;
     offerings = [];
-    subject = null; //points to the subject it belongs to.
+    department = null; 
     constructor(title){
         this.title = title;
     }
@@ -16,9 +16,10 @@ export default class Classy{
         newClass.period = jClass.period;
         newClass.year = jClass.year;
         newClass.sequence = jClass.sequence;
+        newClass.department = jClass.department;
         return newClass;
     }
-    static getSubject(){
-        return this.subject;
+    static getDepartment(){
+        return this.department;
     }
 }

@@ -3,6 +3,7 @@
     import Program from '@/obj/Program.js';
     import Teacher from '@/obj/Teacher.js';
     import TeacherVue from '@/components/TeacherVue.vue';
+    import ClassesVue from '@/components/ClassesVue.vue';
     const props = defineProps({
         program: Program,
         teachers: [Teacher],
@@ -10,11 +11,11 @@
     const selectedTeacher = ref(null);
     const editTeacher = ref(false);
     const selectedClass = ref(null);
-    function assignCourse(i1, i2){
-        if (selectedClass.value == null){
-            return;
-        }        
-        selectedTeacher.value.slots[i1][i2] = selectedClass.value;       
+    function setOffering(term, period){
+        console.log("Creating offering for teacher:" + selectedTeacher.value.name);
+        console.log("class: " + selectedClass.value.title);
+        console.log("term:" + term );
+        console.log("period: " + period);
     }
     function addTeacher(){
         let periods = 5;
@@ -26,6 +27,10 @@
         }
         props.teachers.unshift(new Teacher("--new--",terms, periods));
     }
+    function selectClass(c){
+        selectedClass.value = c;
+
+    }
 </script>
 <template>
     <nav>
@@ -33,31 +38,32 @@
             Teachers &nbsp; <b-button @click=addTeacher()> + </b-button></h1>
         <b-field>
             <div v-for = "t in teachers">
-                <TeacherVue :teacher = t />               
+                <TeacherVue :teacher = t @click="selectedTeacher = t" />               
             </div>
         </b-field>
     </nav>
     <div id="classList">
-       <b-field>
-            <div v-for = "c in program.classes">
-                <b-radio-button v-if = "c.teacher == null" v-model=selectedClass type="is-success is-light is-outlined"  :native-value = c>
-                    {{ c.title }}
-                </b-radio-button>
-            </div>
-        </b-field>
+        <ClassesVue :classes = program.classes @classSelected = "(c) => selectClass(c)" />
     </div>
     <div id="selectedTeacher">
         <table v-if = "selectedTeacher != null">
+        <thead>
+            <tr>
+                <th v-if = "editTeacher"><input type='text' v-model = selectedTeacher.name /></th>
+                <th v-else>{{ selectedTeacher.name }}</th>   
+                <td><b-button @click = "editTeacher = !editTeacher">{{ editTeacher?"Save":"Edit" }}</b-button></td>        
+            </tr>
+            <tr >
+                <td>&nbsp;</td>
+                <td v-for = "i in program.terms">Term {{ i }}</td>
+            </tr>
+
+        </thead>
         <tbody>
-        <tr>
-            <th v-if = "editTeacher"><input type='text' v-model = selectedTeacher.name /></th>
-            <th v-else>{{ selectedTeacher.name }}</th>   
-            <td><b-button @click = "editTeacher = !editTeacher">{{ editTeacher?"Save":"Edit" }}</b-button></td>        
-        </tr>
-        <tr v-for = "term, index in selectedTeacher.slots">
-            <th>term {{ index + 1 }}</th>
-            <td v-for = "period, i2 in term" @click="assignCourse(index, i2)">
-                {{ typeof period == "object"?period.title:"---" }}
+        <tr v-for = "period in program.periods">
+            <th>class {{ period }}</th>
+            <td v-for = "term in program.terms" @click="setOffering(term, period)">
+                ---
             </td>
         </tr>
     </tbody>

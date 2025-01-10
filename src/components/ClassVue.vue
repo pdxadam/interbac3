@@ -1,8 +1,9 @@
 <script setup>
     import { ref } from 'vue';
-    import Class from '@/obj/Classy.js'
+    import Classy from '@/obj/Classy.js'
     const props = defineProps({
-        c: Class,
+        c: Classy,
+        isVisible: Boolean,
     })
     function deleteClass(){
         editClass.value = false;
@@ -14,7 +15,7 @@
 
 </script>
 <template>
-    <div>
+    <div v-if = "editClass || isVisible">
         <table>
             <thead>
                 <tr>
@@ -31,10 +32,14 @@
                 </tr>
             </thead>
             <tbody> 
-                <tr v-if = "editClass"><td colspan = "2">Edit details in program details editor</td></tr>
-                <tr>
-                    <td>Subject: {{ this.subject == null?"?":this.subject.name }}</td>
-                    <td>Teacher: {{ this.teacher == null?"?":this.teacher.name }}</td>
+                <tr v-if = "editClass"><td colspan="2">
+                    department:<input type='text' v-model = c.department />
+                    
+                </td>
+
+            </tr>
+                <tr v-else>
+                    <td>Department: {{ c.department == null?"?":c.department }}</td>
                 </tr>
             </tbody>
         </table>
