@@ -1,5 +1,6 @@
 import Offering from '@/obj/Offering.js';
 export default class Classy{
+    classID = -1;
     title = "asdf";
     term = 0;
     period = -1;
@@ -8,8 +9,10 @@ export default class Classy{
     teacher = null;
     offerings = [];
     department = null; 
-    constructor(title){
+    constructor(title, classID = -1, department = "---"){
         this.title = title;
+        this.department = department;
+        this.classID = classID;
     }
     static FromJson(jClass){
         let newClass = new Classy(jClass.title);
@@ -18,6 +21,7 @@ export default class Classy{
         newClass.year = jClass.year;
         newClass.sequence = jClass.sequence;
         newClass.department = jClass.department;
+        newClass.classID = jClass.classID;
         for (let o of jClass.offerings){
             newClass.offerings.push(Offering.fromJSON(o, newClass));
         }
@@ -27,7 +31,7 @@ export default class Classy{
         return this.department;
     }
     createOffering(teacherID, term, period){
-        let o = new Offering(term, teacherID, period, this.title);
+        let o = new Offering(term, teacherID, period, this.title, this.classID);
         this.offerings.push(o);
         return o;
     }

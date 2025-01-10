@@ -25,6 +25,10 @@
             <td><b-button @click='enableEdit'>{{ editMode?"Save":"Edit" }}</b-button></td>
             <td v-if="editMode"><b-button @click='deleteMe' >Delete</b-button></td>
         </tr>
+        <tr>
+            <td v-if = "!editMode">Dept: {{ teacher.department }}</td>
+            <td v-else><input type="text" v-model = teacher.department /></td>
+        </tr>
         <!-- <tr v-for = "term, index in teacher.slots">
             <th>term {{ index + 1 }}</th>
             <td v-for = "period, i2 in term">

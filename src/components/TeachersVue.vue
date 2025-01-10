@@ -9,7 +9,7 @@
         program: Program,
     })
     function addTeacher(name = "newb", department = "---"){
-        program.createTeacher(name, department);
+        props.program.createTeacher(name, department);
     }
     function deleteTeacher(index){
         props.teachers.splice(index,1);
@@ -63,7 +63,7 @@
             {{ d }}
         </b-dropdown-item>
     </b-dropdown>
-    <h1>Teachers <b-button @click = addTeacher > + </b-button></h1>
+    <h1>Teachers <b-button @click = addTeacher(); > + </b-button></h1>
     
     <section id="teacherSection">
         <TeacherVue :isVisible = "shouldShow(t.department)" v-for = "t, index in teachers" :teacher = t @deleteTeacher = deleteTeacher(index); @click = "selectMe(t);" />

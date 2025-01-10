@@ -3,7 +3,7 @@ import Group from '@/obj/Group.js';
 import Teacher from '@/obj/Teacher.js';
 
 export default class Program{
-
+//TODO: Add course IDs and a 'createCourse' here on Program-- just like Teacher
     name="IB Program";
     classes = [];
     groups = [];
@@ -11,6 +11,7 @@ export default class Program{
     terms = 3;
     periods = 5;
     topTeacherID = 0;
+    topCourseID = 0;
     constructor(name, teachers = [], terms = 3, periods = 5){
         this.name = name;
         this.terms = terms;
@@ -22,7 +23,9 @@ export default class Program{
     }
     static FromJson(jProgram){
         let newProgram = new Program(jProgram.name);
-        
+        newProgram.topTeacherID = jProgram.topTeacherID;
+        newProgram.topCourseID = jProgram.topCourseID;
+
         for (let c of jProgram.classes){
             newProgram.classes.push(Classy.FromJson(c));
         }
@@ -43,6 +46,12 @@ export default class Program{
         this.teachers.push(newTeacher);
         return newTeacher;
 
+    }
+    createClass(title, department = "---"){
+        this.topCourseID++;
+        let newClass = new Classy(title, this.topCourseID, department);
+        this.classes.push(newClass);
+        return newClass;
     }
 
 }

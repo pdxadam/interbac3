@@ -4,14 +4,17 @@ export default class Offering{
     teacherID = -1;
     period = -1
     courseTitle; //points to the class the offering is for
-    constructor(term, teacherID, period, courseTitle){
+    courseID;
+    constructor(term, teacherID, period, courseTitle, courseID){
         this.term = term;
         this.teacherID = teacherID;
         this.period = period;
         this.courseTitle = courseTitle;
+        this.courseID = courseID;
     }
+
     static fromJSON(jOffering, classy){
-        let o = new Offering(jOffering.term, jOffering.teacherID, jOffering.period, classy.title)
+        let o = new Offering(jOffering.term, jOffering.teacherID, jOffering.period, classy.title, jOffering.courseID);
         return o;
     }
     getTitle(){

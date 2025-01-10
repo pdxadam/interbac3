@@ -67,7 +67,7 @@
             </div>
         </b-field> -->
         Teachers
-        <TeachersVue :teachers = teachers @teacherSelected = "(t) => selectTeacher(t)" />
+        <TeachersVue :teachers = teachers :program = program @teacherSelected = "(t) => selectTeacher(t)" />
     </nav>
     <div id="classList">
         <ClassesVue :classes = program.classes @classSelected = "(c) => selectClass(c)" />
