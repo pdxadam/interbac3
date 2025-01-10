@@ -1,12 +1,12 @@
 <script setup>
-    import Class from '../obj/Class.js';
-    import ClassVue from './ClassVue.vue';
+    import Class from '@/obj/Classy.js'
+    import ClassVue from '@/components/ClassVue.vue';
     const props = defineProps({
         classes: [Class],
 
     });
     function newClass(){
-        props.classes.push(new Class("New Class"));
+        props.classes.unshift(new Class("New Class"));
 
     }
     function deleteClass(index){

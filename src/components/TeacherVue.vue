@@ -17,18 +17,19 @@
 <template>
     <table>
         <tbody>
+            <tr><td>{{ teacher.id }}</td></tr>
         <tr>
             <th v-if="!editMode">{{ teacher.name }}</th>
             <th v-else><input type="text"  v-model = teacher.name /></th>
             <td><b-button @click='enableEdit'>{{ editMode?"Save":"Edit" }}</b-button></td>
             <td v-if="editMode"><b-button @click='deleteMe' >Delete</b-button></td>
         </tr>
-        <tr v-for = "term, index in teacher.slots">
+        <!-- <tr v-for = "term, index in teacher.slots">
             <th>term {{ index + 1 }}</th>
             <td v-for = "period, i2 in term">
                 {{ period }}
             </td>
-        </tr>
+        </tr> -->
         
     </tbody>
     </table>

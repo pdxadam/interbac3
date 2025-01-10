@@ -45,6 +45,7 @@
     function loadData(){
         console.log("loading");
         let jsonSchool = localStorage.getItem("school");
+        console.log(jsonSchool);
         if (jsonSchool !== null){
             school.value = School.FromJson(JSON.parse(jsonSchool));
             

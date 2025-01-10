@@ -7,7 +7,7 @@
         school: School,
     })
     function addTeacher(){
-        props.teachers.push(new Teacher("newb", props.school.terms, props.school.periods));
+        props.teachers.unshift(new Teacher("newb", props.school.terms, props.school.periods));
     }
     function deleteTeacher(index){
         props.teachers.splice(index,1);

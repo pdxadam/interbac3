@@ -1,4 +1,4 @@
-import Class from '@/obj/Class.js';
+import Classy from '@/obj/Classy.js';
 
 export default class Subject{
     name = "_Subject Name_";
@@ -10,7 +10,7 @@ export default class Subject{
     static FromJson(jSubject){
         let newSubject = new Subject(jSubject.name);
         for(let c of jSubject.classSequence){
-            newSubject.classSequence.push(Class.FromJson(c));
+            newSubject.classSequence.push(Classy.FromJson(c));
 
         }
         return newSubject;

@@ -8,7 +8,7 @@
         teachers: [Teacher],
     });
     const selectedTeacher = ref(null);
-
+    const editTeacher = ref(false);
     const selectedClass = ref(null);
     function assignCourse(i1, i2){
         if (selectedClass.value == null){
@@ -16,22 +16,31 @@
         }        
         selectedTeacher.value.slots[i1][i2] = selectedClass.value;       
     }
+    function addTeacher(){
+        let periods = 5;
+        let terms = 3;
+        if (props.teachers.count > 0){
+            periods = props.teachers[0].periods;
+            terms = props.teachers[0].terms;
 
+        }
+        props.teachers.unshift(new Teacher("--new--",terms, periods));
+    }
 </script>
 <template>
     <nav>
+        <h1>
+            Teachers &nbsp; <b-button @click=addTeacher()> + </b-button></h1>
         <b-field>
             <div v-for = "t in teachers">
-                <b-radio-button  v-model=selectedTeacher type="is-success is-light is-outlined"  :native-value = t>
-                    {{ t.name }}
-                </b-radio-button>
+                <TeacherVue :teacher = t />               
             </div>
         </b-field>
     </nav>
     <div id="classList">
        <b-field>
             <div v-for = "c in program.classes">
-                <b-radio-button  v-model=selectedClass type="is-success is-light is-outlined"  :native-value = c>
+                <b-radio-button v-if = "c.teacher == null" v-model=selectedClass type="is-success is-light is-outlined"  :native-value = c>
                     {{ c.title }}
                 </b-radio-button>
             </div>
@@ -41,7 +50,9 @@
         <table v-if = "selectedTeacher != null">
         <tbody>
         <tr>
-            <th>{{ selectedTeacher.name }}</th>            
+            <th v-if = "editTeacher"><input type='text' v-model = selectedTeacher.name /></th>
+            <th v-else>{{ selectedTeacher.name }}</th>   
+            <td><b-button @click = "editTeacher = !editTeacher">{{ editTeacher?"Save":"Edit" }}</b-button></td>        
         </tr>
         <tr v-for = "term, index in selectedTeacher.slots">
             <th>term {{ index + 1 }}</th>
@@ -69,5 +80,7 @@
     td{
         border: 1px dashed grey;
         width: 18%;
+        padding: 2px 4px;
+        font-size: 0.8rem;
     }
 </style>

@@ -13,12 +13,11 @@
     const selectedProgram = ref(null);
     const selectedGroup = ref(null);
     const editProgram = ref(false);
-    console.log(props.school.programs);
     function addGroup(){
-        selectedProgram.value.groups.push(new Group("New Group"));
+        selectedProgram.value.groups.unshift(new Group("New Group"));
     }
     function createProgram(){
-        props.school.programs.push(new Program("New Program", props.school.teachers));
+        props.school.programs.unshift(new Program("New Program", props.school.teachers));
     }
 </script>
 <template>    

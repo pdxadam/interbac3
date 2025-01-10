@@ -24,7 +24,7 @@
         <thead>
             <tr>
                 <th>Subjects</th>
-                <td><b-button @click='subjects.push(new Subject("New Subject"))'>+</b-button></td>
+                <td><b-button @click='subjects.unshift(new Subject("New Subject"))'>+</b-button></td>
             </tr>
         </thead>
         <tbody>
