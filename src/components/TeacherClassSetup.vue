@@ -2,7 +2,10 @@
     import { ref } from 'vue';
     import Program from '@/obj/Program.js';
     import Teacher from '@/obj/Teacher.js';
-    import TeacherVue from '@/components/TeacherVue.vue';
+    import TeachersVue from '@/components/TeachersVue.vue';
+    import OfferingVue from '@/components/OfferingVue.vue';
+    import Offering from '@/obj/Offering.js';
+    
     import ClassesVue from '@/components/ClassesVue.vue';
     const props = defineProps({
         program: Program,
@@ -12,10 +15,14 @@
     const editTeacher = ref(false);
     const selectedClass = ref(null);
     function setOffering(term, period){
-        console.log("Creating offering for teacher:" + selectedTeacher.value.name);
-        console.log("class: " + selectedClass.value.title);
-        console.log("term:" + term );
-        console.log("period: " + period);
+        if (selectedClass.value != null && selectedTeacher.value != null){
+            console.log("Creating offering for teacher:" + selectedTeacher.value.name);
+            console.log("class: " + selectedClass.value.title);
+            console.log("term:" + term );
+            console.log("period: " + period);
+            let newOffering = selectedClass.value.createOffering(selectedTeacher.value.id, term, period);
+            console.log(newOffering);
+        }
     }
     function addTeacher(){
         let periods = 5;
@@ -29,18 +36,38 @@
     }
     function selectClass(c){
         selectedClass.value = c;
+        console.log(typeof c);
 
+    }
+    function selectTeacher(t){
+        selectedTeacher.value = t;
+        console.log(t);
+    }
+    function shouldShowOffering(o, term, period){
+        try{
+            if (o.teacherID == selectedTeacher.value.id && o.term == term && o.period == period){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch{
+            return false;
+        }
     }
 </script>
 <template>
     <nav>
-        <h1>
+        <!-- <h1>
             Teachers &nbsp; <b-button @click=addTeacher()> + </b-button></h1>
         <b-field>
             <div v-for = "t in teachers">
                 <TeacherVue :teacher = t @click="selectedTeacher = t" />               
             </div>
-        </b-field>
+        </b-field> -->
+        Teachers
+        <TeachersVue :teachers = teachers @teacherSelected = "(t) => selectTeacher(t)" />
     </nav>
     <div id="classList">
         <ClassesVue :classes = program.classes @classSelected = "(c) => selectClass(c)" />
@@ -63,7 +90,12 @@
         <tr v-for = "period in program.periods">
             <th>class {{ period }}</th>
             <td v-for = "term in program.terms" @click="setOffering(term, period)">
-                ---
+                <!-- loop through the classes, then through the offerings and see fi the term, period, and teacherid match-->
+                <div v-for = "c in program.classes">
+                    <div v-for = "o in c.offerings">
+                        <OfferingVue  v-if = "shouldShowOffering(o, term, period)" :offering = o />
+                    </div>
+                </div>
             </td>
         </tr>
     </tbody>

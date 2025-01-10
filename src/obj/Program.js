@@ -36,12 +36,11 @@ export default class Program{
         }
         return newProgram;
     }
-    createTeacher(name){
+    createTeacher(name, department = "---"){
 
         this.topTeacherID++;
-        let newTeacher = new Teacher(name, 3, 5, this.topTeacherID);
+        let newTeacher = new Teacher(name, this.topTeacherID, department);
         this.teachers.push(newTeacher);
-        console.log(newTeacher);
         return newTeacher;
 
     }

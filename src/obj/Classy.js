@@ -1,3 +1,4 @@
+import Offering from '@/obj/Offering.js';
 export default class Classy{
     title = "asdf";
     term = 0;
@@ -17,9 +18,17 @@ export default class Classy{
         newClass.year = jClass.year;
         newClass.sequence = jClass.sequence;
         newClass.department = jClass.department;
+        for (let o of jClass.offerings){
+            newClass.offerings.push(Offering.fromJSON(o, newClass));
+        }
         return newClass;
     }
     static getDepartment(){
         return this.department;
+    }
+    createOffering(teacherID, term, period){
+        let o = new Offering(term, teacherID, period, this.title);
+        this.offerings.push(o);
+        return o;
     }
 }

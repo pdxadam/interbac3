@@ -24,6 +24,7 @@
                         title: <input type='text' v-model = c.title />
                         year: <input type='number' v-model = c.year />
                         sequence: <input type='number' v-model = c.sequence />
+
                     </td>
                     <td><b-button @click='editClass = !editClass'>{{ editClass?"Save":"Edit" }}</b-button></td>
                     <td v-if='editClass'>
@@ -32,15 +33,15 @@
                 </tr>
             </thead>
             <tbody> 
-                <tr v-if = "editClass"><td colspan="2">
-                    department:<input type='text' v-model = c.department />
-                    
-                </td>
-
-            </tr>
+                <tr v-if = "editClass">
+                    <td colspan="2">
+                        department:<input type='text' v-model = c.department />                    
+                    </td>
+                </tr>
                 <tr v-else>
                     <td>Department: {{ c.department == null?"?":c.department }}</td>
                 </tr>
+                <tr><td>{{ c.offerings.length }}</td></tr>
             </tbody>
         </table>
     </div>

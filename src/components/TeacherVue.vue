@@ -4,6 +4,7 @@
     const emit = defineEmits('deleteTeacher');
     const props = defineProps({
         teacher: Teacher,
+        isVisible: Boolean,
     });
     const editMode = ref(false);
     function enableEdit(){
@@ -15,7 +16,7 @@
 
 </script>
 <template>
-    <table>
+    <table v-if = "editMode || isVisible">
         <tbody>
             <tr><td>{{ teacher.id }}</td></tr>
         <tr>

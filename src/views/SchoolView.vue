@@ -60,9 +60,7 @@
     <h1>{{ school.name }}</h1>
     <section>
         <b-tabs position="is-centered" class="block">
-            <b-tab-item label="Teachers">
-                <TeachersVue :teachers = school.teachers :school = school />
-            </b-tab-item>            
+                  
             <b-tab-item label="Programs">
                 <ProgramSetup :school = school />
             </b-tab-item>
