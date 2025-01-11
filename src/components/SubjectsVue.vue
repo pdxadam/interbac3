@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
     import SubjectVue from '@/components/SubjectVue.vue';
     import Subject from '@/obj/Subject.js';
     import Program from '@/obj/Program.js';
@@ -9,6 +9,11 @@
     });
     const selectedSubject = ref(null);
     const selectedIndex = ref(null);
+    watch(props.subjects, clearSelection, {deep: false});
+    function clearSelection(){
+        selectedSubject.value = null;
+        selectedIndex.value = null;
+    }
     function selectSubject(s, i){
         selectedSubject.value = s;
         selectedIndex.value = i;

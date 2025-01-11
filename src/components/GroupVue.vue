@@ -1,14 +1,15 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
     import Group from '../obj/Group.js';
     import SubjectsVue from '@/components/SubjectsVue.vue';
     import Program from '@/obj/Program.js';
+    
     const props = defineProps({
         group: Group,
         program: Program,
     });
     const editMode = ref(false);
-
+    
 </script>
 <template>
         <table>

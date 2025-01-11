@@ -25,7 +25,8 @@
     </h1>
     <h2>Classes in this subject</h2>
     <ul>
-        <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li>
+        <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
+        <li v-for = "c in subject.classSequence"><ClassVue :class = program.getClassById(c)  /> </li>
     </ul>
     <hr>
     <div>
