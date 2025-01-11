@@ -37,7 +37,7 @@
         </h1>
         <b-tabs>
             <b-tab-item label="Classes">
-                <ClassesVue :classes = selectedProgram.classes />
+                <ClassesVue :classes = selectedProgram.classes :program = selectedProgram />
             </b-tab-item>
             <b-tab-item label="Subject Groups">
                 <GroupsVue :groups = selectedProgram.groups :program = selectedProgram />

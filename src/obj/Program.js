@@ -50,8 +50,24 @@ export default class Program{
     createClass(title, department = "---"){
         this.topCourseID++;
         let newClass = new Classy(title, this.topCourseID, department);
-        this.classes.push(newClass);
+        this.classes.unshift(newClass);
         return newClass;
+    }
+    getClassById(classID){
+        for (let c of this.classes){
+            if (c.classID == classID){
+                return c;
+            }
+        }
+        return null;
+    }
+    getTeacherById(teacherID){
+        for (let t of this.teachers){
+            if (t.teacherID == teacherID){
+                return t;
+            }
+        }
+        return null;
     }
 
 }

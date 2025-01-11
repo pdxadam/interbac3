@@ -1,10 +1,12 @@
 <script setup>
     import Classy from '@/obj/Classy.js'
     import ClassVue from '@/components/ClassVue.vue';
+    import Program from '@/obj/Program.js';
     import { ref, watch } from 'vue';
     const emit = defineEmits('classSelected');
     const props = defineProps({
         classes: [Classy],
+        program: Program,
 
     });
     const departments = ref([]);
@@ -42,11 +44,11 @@
 
     }
     function newClass(){
-        let newClass = new Classy("New Class");
+        let newClass = props.program.createClass("__ New Class __");
+
         if (chosenDepartment.value != "Show All"){
             newClass.department = chosenDepartment.value;
         }
-        props.classes.unshift(newClass);
 
     }
     function deleteClass(index){

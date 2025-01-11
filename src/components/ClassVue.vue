@@ -19,7 +19,7 @@
         <table>
             <thead>
                 <tr>
-                    <td v-if='!editClass'>{{ c.title }} {{ c.year==0?"":"(y " + c.year + ")" }} {{ c.sequence < 0?"":("(seq." + c.sequence + ")" )}}</td>
+                    <td v-if='!editClass'><strong>{{ c.classID }} </strong>::{{ c.title }} {{ c.year==0?"":"(y " + c.year + ")" }} {{ c.sequence < 0?"":("(seq." + c.sequence + ")" )}}</td>
                     <td v-else>
                         title: <input type='text' v-model = c.title />
                         year: <input type='number' v-model = c.year />
