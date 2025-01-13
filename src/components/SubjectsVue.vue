@@ -59,4 +59,7 @@
         background-color: aqua;
         cursor: pointer;
     }
+    #subjectDetail{
+        margin-left: 120px;
+    }
 </style>

@@ -3,7 +3,15 @@
     import Classy from '@/obj/Classy.js'
     const props = defineProps({
         c: Classy,
-        isVisible: Boolean,
+        isVisible: {
+            type: Boolean,
+            default: true
+        },
+        editClass: Boolean,
+        editable: {
+            type: Boolean,
+            default: true
+        },
     })
     function deleteClass(){
         editClass.value = false;
@@ -26,7 +34,7 @@
                         sequence: <input type='number' v-model = c.sequence />
 
                     </td>
-                    <td><b-button @click='editClass = !editClass'>{{ editClass?"Save":"Edit" }}</b-button></td>
+                    <td v-if = "editable"><b-button @click='editClass = !editClass'>{{ editClass?"Save":"Edit" }}</b-button></td>
                     <td v-if='editClass'>
                         <b-button @click='emit("deleteClass")'>Delete</b-button>
                     </td>

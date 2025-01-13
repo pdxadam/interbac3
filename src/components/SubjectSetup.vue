@@ -35,7 +35,7 @@
              
              </b-field>
         </div> -->
-        <ClassesVue :classes = program.classes @classSelected = "(c) => { addClass(c); }" :program = props.program />
+        <ClassesVue :omitList = "subject.classSequence" :classes = program.classes @classSelected = "(c) => { addClass(c); }" :program = program />
 
         
     </div>

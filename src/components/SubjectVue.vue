@@ -3,6 +3,7 @@
     import Subject from '@/obj/Subject.js';
     import Program from '@/obj/Program.js';
     import SubjectSetup from '@/components/SubjectSetup.vue';
+    import ClassVue from '@/components/ClassVue.vue';
     const emit = defineEmits(['deleteSubject']);
     const props = defineProps({
         subject: Subject,
@@ -13,6 +14,9 @@
     function deleteSubject(){
         editMode.value = false;
         emit('deleteSubject');
+    }
+    function removeClass(i){
+        props.subject.classSequence.splice(i,1);
     }
 </script>
 <template>
@@ -26,7 +30,10 @@
     <h2>Classes in this subject</h2>
     <ul>
         <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
-        <li v-for = "c in subject.classSequence"><ClassVue :class = program.getClassById(c)  /> </li>
+        <li v-for = "c,index in subject.classSequence">
+            <ClassVue :c = program.getClassById(c) :editable=false />
+            <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
+        </li>
     </ul>
     <hr>
     <div>
@@ -37,5 +44,16 @@
 
 </template>
 <style scoped>
+    li{
+        position: relative;
+        width: 450px;
+
+    }
+    .cmdRemove{
+        position: absolute;
+        top: 2px;
+        right: 2px;
+
+    }
 
 </style>

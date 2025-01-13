@@ -7,6 +7,11 @@
     const props = defineProps({
         classes: [Classy],
         program: Program,
+        editable: {
+            type: Boolean,
+            default: true
+        },
+        omitList: [Number],
 
     });
     const departments = ref([]);
@@ -18,16 +23,18 @@
 
     }
     getDepartments();
-    function shouldShow(deptName){
+    function shouldShow(thisClass){
+        var shouldShow = false;
         if (chosenDepartment.value == "Show All"){
-            return true;
+            shouldShow = true;
         }
-        else if (chosenDepartment.value == deptName){
-            return true;
+        else if (chosenDepartment.value == thisClass.department){
+            shouldShow = true;
         }
-        else{
-            return false;
+        if (typeof(props.omitList) != 'undefined' && props.omitList.includes(thisClass.classID)){
+            shouldShow = false;
         }
+        return shouldShow;
     }
     watch(props.classes, getDepartments, {deep: true});
     function getDepartments(){
@@ -78,7 +85,7 @@
 
     <tbody>
         <tr v-for="c, index in classes" >
-            <ClassVue :isVisible = "shouldShow(c.department)" :class = 'c == selectedClass?"selected":""' @deleteClass = deleteClass(index) :editClass = false :c = c @click = "selectMe(c)"/>
+            <ClassVue :isVisible = "shouldShow(c)" :class = 'c == selectedClass?"selected":""' @deleteClass = deleteClass(index) :editClass = false :c = c @click = "selectMe(c)"/>
         </tr>
     </tbody>
 </table>
