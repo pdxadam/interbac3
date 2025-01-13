@@ -8,6 +8,7 @@ export default class Program{
     classes = [];
     groups = [];
     teachers = []; //teachers taken from the school when the program is created.
+    //TODO: should I move offerings here? 
     terms = 3;
     periods = 5;
     topTeacherID = 0;

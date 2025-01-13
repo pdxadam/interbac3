@@ -6,6 +6,7 @@
     import GroupsVue from '@/components/GroupsVue.vue';
     import School from '@/obj/School.js';
     import TeacherClassSetup from '@/components/TeacherClassSetup.vue';
+    import ScenarioSetup from '@/views/ScenarioSetup.vue';
     const props = defineProps({
        
         school: School,
@@ -45,6 +46,9 @@
             </b-tab-item>
             <b-tab-item label="Teacher Schedules">
                 <TeacherClassSetup :teachers = selectedProgram.teachers :program = selectedProgram />
+            </b-tab-item>
+            <b-tab-item label="Scenarios">
+                <ScenarioSetup :program = selectedProgram />
             </b-tab-item>
 
         </b-tabs>
