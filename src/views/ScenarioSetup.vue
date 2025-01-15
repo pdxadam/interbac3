@@ -16,7 +16,7 @@
         console.log("checking");
         //loop through all the combintations and process the options
         //this might be recursive: 
-        //rules: no fewer than three HL, no more than 4
+        //rules: no fewer than three HL, no more thanp 4
 
         var allOptions = [];
         for (let group of props.program.groups){
@@ -25,10 +25,47 @@
             console.log(allOptions.length + " options are: " + JSON.stringify(allOptions));
 
         }
-        console.log("-----  I checked them all -----");
+        console.log("-----  I collected them all -----");
         console.log(allOptions.length);
         console.log(JSON.stringify(allOptions));
-        console.log("--------------------------------")
+        console.log("--------------------------------");
+        var deletable = [];
+        //now go through the options and check the rules
+        for (var o = 0; o < allOptions.length; o++){
+            //count the high level options
+            let highLevel = 0;
+            let dupTest = {};
+            let valueSoFar = Object.create(null);
+            for (var i = 0; i < allOptions[o].length; i++){
+                //count the high level entries
+                subj = props.program.getSubjectById(option[i]);
+                if (subj.isHighLevel){
+                    highLevel++;
+                }
+                //check for duplicates
+                if (option[i] in valueSoFar){
+                    allOptions[o].deletable = true;
+                    console.log(allOptions[o] + " eliminated because of duplicates");
+                }
+                else{
+                    valueSoFar[option[i]] = true;
+                }
+            }
+            if (highLevel < 3 || highLevel > 4){ //eliminate it if it's high level
+                    console.log(allOptions[o] + " eliminated because high level choices = " + highLevel);
+                    allOptions[o].deletable = true;
+
+            }//end high level check
+
+        }
+        //now it is time to delete the deletables -- go backwards
+        for (var i = allOptions.lenth-1; i>=0; i--){
+            if (allOptions[i].deletable){
+                allOptions.splice(i,1)
+            }
+        }
+        //Now we'll go through the remaining ones again, grab the schedules and verify them.
+
 
     }
     function process(){
