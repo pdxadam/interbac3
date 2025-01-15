@@ -157,7 +157,8 @@
                 </template>
                 <div v-for = "subject in group.subjects">
             
-                <b-dropdown-item :value = subject>{{ program.getSubjectById(subject).name }}</b-dropdown-item>
+                <b-dropdown-item v-if = "program.getSubjectById(subject) != null":value = subject>{{ program.getSubjectById(subject).name }}</b-dropdown-item>
+                <b-dropdown-item v-else>{{  subject }}</b-dropdown-item>
                 </div>
             </b-dropdown>
             </section>

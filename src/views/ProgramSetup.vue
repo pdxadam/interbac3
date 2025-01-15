@@ -27,6 +27,7 @@
         newProgram.name = "Copy of " + newProgram.name;
         props.school.programs.push(newProgram);
     }
+    
 </script>
 <template>    
     <nav>

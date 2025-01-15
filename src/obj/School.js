@@ -22,6 +22,10 @@ export default class School{
         }
         return newSchool;
     }
+    getBackup(){
+        let jSchool = JSON.stringify(this, null, 2);
+        return jSchool;
+    }
     setTerms(terms){
         if (terms > 0){
             this.terms = terms;
