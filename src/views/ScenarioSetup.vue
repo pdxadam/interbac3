@@ -54,18 +54,28 @@
             if (highLevel < 3 || highLevel > 4){ //eliminate it if it's high level
                     console.log(allOptions[o] + " eliminated because high level choices = " + highLevel);
                     allOptions[o].deletable = true;
-
             }//end high level check
-
         }
         //now it is time to delete the deletables -- go backwards
-        for (var i = allOptions.lenth-1; i>=0; i--){
+        for (var i = allOptions.length-1; i>=0; i--){
             if (allOptions[i].deletable){
                 allOptions.splice(i,1)
             }
         }
         //Now we'll go through the remaining ones again, grab the schedules and verify them.
+        // for (var i = 0; i < allOptions.length; i++){
+        //     let schedule = getSchedule(allOptions[i]);
+        //     let terms = {};
+        //     for (let year in schedule){
+        //         terms[year] = [];
+        //         for (let option in schedule[year]){
 
+        //         }
+        //     }
+        //     //now loop through each year
+        //     //and each term
+        //     // and count the classes in each term
+        // }
 
     }
     function process(){
@@ -95,6 +105,30 @@
         }
         console.log("Schedule");
         console.log(schedule);
+    }
+    function getSchedule(subjects){
+        schedule.value = {"11":[],"12":[]};
+        for (let subject of subjects){
+            //looping through the chosen subjects
+            //sort the classes?
+        
+            console.log("classes:");
+            let currSubject = props.program.getSubjectById(subject);
+            for (let c of currSubject.classSequence){
+                var thisClass = props.program.getClassById(c);           
+                
+                //looping through the classes
+                //now loop through and grab the first offering for every class and add it to selections
+                if (thisClass.offerings.length == 0){
+                    console.log("A class is missing an offering");
+                }
+                else{
+                    schedule.value[thisClass.year].push(thisClass.offerings[0]);
+                }
+            }
+        }
+        return schedule;
+        //take in an array of subject ids, and build the appropriate schedule for that
     }
     // function getLabel(groupname){
     //     console.log(groupname);
