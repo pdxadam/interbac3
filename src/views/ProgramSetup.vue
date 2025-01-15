@@ -36,7 +36,6 @@
         <ul>
             <li v-for="program in school.programs" @click="selectedProgram = program">
                 {{ program.name }}
-
             </li>
         </ul>
     </nav>

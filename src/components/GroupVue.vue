@@ -4,7 +4,7 @@
     import SubjectsVue from '@/components/SubjectsVue.vue';
     import Program from '@/obj/Program.js';
     import SubjectVue from '@/components/SubjectVue.vue';
-    
+    const emit = defineEmits('deleteGroup');
     const props = defineProps({
         group: Group,
         program: Program,
@@ -13,17 +13,13 @@
             default: true,
         },
     });
-    console.log(props.group.subjects);
     function attachSubject(s){
         if (props.group.subjects.includes(s)){
             console.log("That already exists");
         }
         else{
             props.group.subjects.unshift(s);
-        }
-        console.log(s);
-        console.log(props.group.subjects);
-        console.log(props.program.topSubjectID);
+        };
     }   
     function removeSubject(index){
         props.group.subjects.splice(index, 1);
@@ -39,6 +35,7 @@
                     <td v-else><input type="text" v-model = group.name /></td>
                     <td>
                         <b-button @click="editMode = !editMode">{{  editMode?"save":"edit" }}</b-button>
+                        <b-button v-if = "editMode" @click = "emit('deleteGroup')">Delete</b-button>
                     </td>
                 </tr>
             </thead>
