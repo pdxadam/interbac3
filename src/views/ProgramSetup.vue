@@ -7,6 +7,7 @@
     import School from '@/obj/School.js';
     import TeacherClassSetup from '@/components/TeacherClassSetup.vue';
     import ScenarioSetup from '@/views/ScenarioSetup.vue';
+    import SubjectsVue from '@/components/SubjectsVue.vue';
     const props = defineProps({
        
         school: School,
@@ -20,13 +21,22 @@
     function createProgram(){
         props.school.programs.unshift(new Program("New Program", props.school.teachers));
     }
+    function copyProgram(){
+        var jProgram = JSON.stringify(selectedProgram.value);
+        let newProgram = Program.FromJson(JSON.parse(jProgram));
+        newProgram.name = "Copy of " + newProgram.name;
+        props.school.programs.push(newProgram);
+    }
 </script>
 <template>    
     <nav>
         <h1>Programs</h1>
         <b-button @click=createProgram> + </b-button>
         <ul>
-            <li v-for="program in school.programs" @click="selectedProgram = program">{{ program.name }}</li>
+            <li v-for="program in school.programs" @click="selectedProgram = program">
+                {{ program.name }}
+
+            </li>
         </ul>
     </nav>
 
@@ -35,10 +45,14 @@
             <span v-if="!editProgram">{{ selectedProgram.name }}</span>
             <span v-else><input type="text" v-model = selectedProgram.name /></span>
             <b-button @click="editProgram = !editProgram">{{ editProgram?"Save":"Edit" }}</b-button>
+            <b-button @click="copyProgram" v-if="editProgram">Copy</b-button>
         </h1>
         <b-tabs>
             <b-tab-item label="Classes">
                 <ClassesVue :classes = selectedProgram.classes :program = selectedProgram />
+            </b-tab-item>
+            <b-tab-item label="Subjects">
+                <SubjectsVue :subjects = selectedProgram.subjects :program = selectedProgram />
             </b-tab-item>
             <b-tab-item label="Subject Groups">
                 <GroupsVue :groups = selectedProgram.groups :program = selectedProgram />

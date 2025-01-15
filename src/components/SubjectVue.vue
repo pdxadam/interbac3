@@ -8,6 +8,10 @@
     const props = defineProps({
         subject: Subject,
         program: Program,
+        setup: {
+            type: Boolean, 
+            default: true,
+        },
     });
 
     const editMode = ref(false);
@@ -21,24 +25,28 @@
 </script>
 <template>
     <h1>
-    <span v-if="editMode == false">{{ subject.name }}</span>
+    <span v-if="editMode == false">{{ subject.subjectID }}: {{ subject.name }}</span>
     <span v-else><input type='text' v-model = subject.name /></span>
-    <span><b-button @click = "editMode = !editMode">{{ editMode?"Save":"Edit" }}</b-button></span>
+    <span v-if="!editMode"> ( {{ subject.isHighLevel?"High Level":"Standard Level" }} ) </span>
+        <span v-else><b-field><b-checkbox v-model="subject.isHighLevel">High Level?</b-checkbox></b-field></span>
+    <span v-if = "setup"><b-button @click = "editMode = !editMode">{{ editMode?"Save":"Edit" }}</b-button></span>
     <span v-if = "editMode"><b-button @click = deleteSubject>Delete</b-button></span>
-
+    
     </h1>
-    <h2>Classes in this subject</h2>
-    <ul>
-        <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
-        <li v-for = "c,index in subject.classSequence">
-            <ClassVue :c = program.getClassById(c) :editable=false />
-            <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
-        </li>
-    </ul>
-    <hr>
-    <div>
- 
-        <SubjectSetup :subject = subject :program = program />
+    <div v-if = "setup">
+        <h2>Classes in this subject</h2>
+        <ul>
+            <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
+            <li v-for = "c,index in subject.classSequence">
+                <ClassVue :c = program.getClassById(c) :editable=false />
+                <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
+            </li>
+        </ul>
+        <hr>
+        <div>
+    
+            <SubjectSetup :subject = subject :program = program />
+        </div>
     </div>
 
 
@@ -54,6 +62,9 @@
         top: 2px;
         right: 2px;
 
+    }
+    h1{
+        font-family: papyrus;
     }
 
 </style>

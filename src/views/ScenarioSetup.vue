@@ -12,8 +12,27 @@
     console.log(props.program.groups);
     console.log(props.program.classes);
     const selections = ref({});
+    function checkAll(){
+        console.log("checking");
+        //loop through all the combintations and process the options
+        //this might be recursive: 
+        //rules: no fewer than three HL, no more than 4
 
+        var allOptions = [];
+        for (let group of props.program.groups){
+            
+            allOptions = group.generateOptions(allOptions);
+            console.log(allOptions.length + " options are: " + JSON.stringify(allOptions));
+
+        }
+        console.log("-----  I checked them all -----");
+        console.log(allOptions.length);
+        console.log(JSON.stringify(allOptions));
+        console.log("--------------------------------")
+
+    }
     function process(){
+        //TODO: MAKE SURE YOU'RE DOING THIS BY SEQUENCE
         //reset the schedule
         schedule.value = {"11":[],"12":[]};
         console.log(selections.value);
@@ -22,8 +41,8 @@
             //sort the classes?
             console.log("Selection " + selections.value[key]);
             console.log("classes:");
-
-            for (let c of selections.value[key].classSequence){
+            let currSubject = props.program.getSubjectById(selections.value[key]);
+            for (let c of currSubject.classSequence){
                 var thisClass = props.program.getClassById(c);
                
                 
@@ -51,6 +70,7 @@
     // }
 </script>
 <template>
+    <b-button @click = "checkAll()">Check All</b-button>
     <b-button @click = "process()">Process</b-button>
     <div id="groups">
         List all the groups with the subjects as dropdowns
@@ -60,11 +80,14 @@
             <b-dropdown type="is-primary" expanded v-model = selections[group.name] :icon-right = "active?'menu-up':'menu-down'">
                 <template #trigger="{ active }">
                 <b-button
-                    :label = "typeof(selections[group.name]) == 'undefined'?group.name:selections[group.name].name"
+                    :label = "typeof(selections[group.name]) == 'undefined'?group.name:program.getSubjectById(selections[group.name]).name"
                     type="is-primary" expanded
                     :icon-right="active ? 'menu-up' : 'menu-down'" />
                 </template>
-                <b-dropdown-item :value = subject v-for = "subject in group.subjects">{{ subject.name }}</b-dropdown-item>
+                <div v-for = "subject in group.subjects">
+            
+                <b-dropdown-item :value = subject>{{ program.getSubjectById(subject).name }}</b-dropdown-item>
+                </div>
             </b-dropdown>
             </section>
         </div>

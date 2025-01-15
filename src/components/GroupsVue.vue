@@ -34,7 +34,7 @@
         Select a Group from the left
     </div>
     <div v-else>
-        <GroupVue :group = selectedGroup :program = program />
+        <GroupVue :group = selectedGroup :program = program :setup = false />
     </div>
 </template>
 <style scoped>

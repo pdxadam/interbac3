@@ -11,7 +11,7 @@
 
     });
     function addClass(c){
-        console.log("YOu added " + c.title);
+        console.log("Yu added " + c.title);
         if (props.subject.classSequence.includes(c.classID)){
             console.log("it's already there");
 

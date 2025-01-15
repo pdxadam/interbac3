@@ -43,6 +43,9 @@
         selectedTeacher.value = t;
         console.log(t);
     }
+    function deleteOffering(objCourse, index){
+        objCourse.offerings.splice(index, 1);
+    }
     function shouldShowOffering(o, term, period){
         try{
             if (o.teacherID == selectedTeacher.value.id && o.term == term && o.period == period){
@@ -92,8 +95,8 @@
             <td v-for = "term in program.terms" @click="setOffering(term, period)">
                 <!-- loop through the classes, then through the offerings and see fi the term, period, and teacherid match-->
                 <div v-for = "c in program.classes">
-                    <div v-for = "o in c.offerings">
-                        <OfferingVue  v-if = "shouldShowOffering(o, term, period)" :offering = o />
+                    <div v-for = "o, index in c.offerings">
+                        <OfferingVue  v-if = "shouldShowOffering(o, term, period)" :offering = o @click = "deleteOffering(c, index)" />
                     </div>
                 </div>
             </td>

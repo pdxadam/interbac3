@@ -9,7 +9,11 @@
         program: Program,
     })
     function addTeacher(name = "newb", department = "---"){
+        if (chosenDepartment != "Show All"){
+            department = chosenDepartment;
+        }
         props.program.createTeacher(name, department);
+        
     }
     function deleteTeacher(index){
         props.teachers.splice(index,1);
@@ -43,7 +47,7 @@
             departments.value.push(t.department);
             console.log(t.department);
         }
-        console.log(departments.value);
+        console.log("teacher departments:  " + departments.value);
         }
         departments.value.sort();
 
@@ -65,9 +69,13 @@
     </b-dropdown>
     <h1>Teachers <b-button @click = addTeacher(); > + </b-button></h1>
     
-    <section id="teacherSection">
-        <TeacherVue :isVisible = "shouldShow(t.department)" v-for = "t, index in teachers" :teacher = t @deleteTeacher = deleteTeacher(index); @click = "selectMe(t);" />
-    </section>
+    <section id="teacherSection" >
+        <ul>
+            <li v-for = "t, index in teachers">
+                <TeacherVue :isVisible = "shouldShow(t.department)"  :teacher = t @deleteTeacher = deleteTeacher(index); @click = "selectMe(t);" />
+            </li>
+        </ul>
+   </section>
 </template>
 <style scoped>
     #teacherSection{
