@@ -41,7 +41,7 @@
             </thead>
         </table>
         <div>
-            <h1>Subjects in this program</h1>
+            <h1>SL Subjects in this group</h1>
             <ul>
                 <li v-for = "s, index in group.subjects" @click = removeSubject(index)>   
                     

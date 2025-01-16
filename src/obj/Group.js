@@ -9,6 +9,7 @@ export default class Group{
     static FromJson(jGroup){
         let newGroup = new Group(jGroup.name);
         for (let s of jGroup.subjects){
+
             newGroup.subjects.push(s);
         } //now we are expecting just an id
         // for(let s of jGroup.subjects){
@@ -38,13 +39,27 @@ export default class Group{
         }
         if (startList.length == 0){
             for (let s of this.subjects){
-                startList.push([s]);
+                thisSubject = Program.getSubjectById(s);
+                if (thisSubject.offersSL){
+                    startList.push([{"subjID":s, "HL":false}]);
+                }
+                if (thisSubject.offersHL){
+                    startList.push([{"subjID":s, "HL":true}]);
+                }
+                
             }
             return startList;
         }
         for (var i = 0; i < startList.length; i++){
             for (var i2 = 0; i2 < this.subjects.length; i2++){
-                newOptions.push(startList[i].concat(this.subjects[i2]));
+                let s = props.Program.getSubjectById(this.subjects[i2]);
+                if (s.offersSL){
+                    newOptions.push(startList[i].concat({"subjID":this.subjects[i2], "HL":false}));
+                }
+                if (s.offersHL){
+                    newOptions.push(startList[i].concat({"subjID":this.subjects[i2], "HL":true}));
+                }
+                
             }
         }
         return newOptions;

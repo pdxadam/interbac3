@@ -4,12 +4,10 @@ import Teacher from '@/obj/Teacher.js';
 import Subject from '@/obj/Subject.js';
 
 export default class Program{
-//TODO: Add course IDs and a 'createCourse' here on Program-- just like Teacher
     name="IB Program";
     classes = []; //actual class objects
     groups = []; // actual group objects
     teachers = []; //teachers taken from the school when the program is created.
-    //TODO: should I move offerings here? 
     subjects = [];
     terms = 3;
     periods = 5;
@@ -157,4 +155,3 @@ export default class Program{
     }
 
 } //end class
-//TODO: check that the creates also push up the topIDs when we import from JSON. Otherwise we risk duplicates.

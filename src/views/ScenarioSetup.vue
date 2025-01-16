@@ -1,4 +1,5 @@
 <script setup>
+//TODO: Add support for SL/HL as an option instead of a separate subject;
     import { ref } from 'vue';
     import Program from '@/obj/Program.js';
     import Offering from '@/obj/Offering.js';
@@ -12,6 +13,7 @@
     console.log(props.program.groups);
     console.log(props.program.classes);
     const selections = ref({});
+    const viableOptions = ref([]); //holds the possible options after we do checkAll
     function checkAll(){
         //TODO: avoid duplicates with different levels (BIO SL and BIO HL);
         console.log("checking");
@@ -23,12 +25,12 @@
         for (let group of props.program.groups){
             
             allOptions = group.generateOptions(allOptions);
-            console.log(allOptions.length + " options are: " + JSON.stringify(allOptions));
+            console.log(allOptions.length + " options are: " + JSON.stringify(allOptions, null, 2));
 
         }
         console.log("-----  I collected them all -----");
         console.log(allOptions.length);
-        console.log(JSON.stringify(allOptions));
+        console.log(JSON.stringify(allOptions, null, 2));
         console.log("--------------------------------");
         var deletable = [];
         //now go through the options and check the rules
@@ -40,19 +42,19 @@
             for (var i = 0; i < allOptions[o].length; i++){
                 //count the high level entries
                 let option = allOptions[o]
-                let subj = props.program.getSubjectById(option[i]);
-                if (subj.isHighLevel){
+                let subj = props.program.getSubjectById(option[i].subjID);
+                if (option[i].HL){
                     highLevel++;
                 }
                 //check for duplicates
-                if (option[i] in valueSoFar){
+                if (option[i].subjID in valueSoFar){
                     allOptions[o].deletable = true;
                     console.log(allOptions[o] + " eliminated because of duplicates");
                 }
                 else{
-                    valueSoFar[option[i]] = true;
+                    valueSoFar[option[i].subjID] = true;
                 }
-                //need to check for HL/SL duplicates
+                
             }
             if (highLevel < 3 || highLevel > 4){ //eliminate it if it's high level
                     console.log(allOptions[o] + " eliminated because high level choices = " + highLevel);
@@ -69,7 +71,7 @@
         console.log("Options remaining: count = " + allOptions.length);
         for (let option of allOptions){
             for(let subj of option){
-            console.log(props.program.getSubjectById(subj).name);
+            console.log(props.program.getSubjectById(subj.subjID).name);
             }
             console.log("-----");
         } 
@@ -108,63 +110,53 @@
         }
         
         console.log(allOptions.length, " options remain");
-        //output the results
-        const el = document.querySelector("#checkAllResults");  
-        el.innerHTML = "";
-        for (let i = 0; i < allOptions.length; i++){
-            let elOption = document.createElement("ul");
-            elOption.style = "background-color: white; margin: 5px; list-style: disc;";
-            console.log("Subjects: ", allOptions[i]);
-            for (let i2 = 0; i2 < allOptions[i].length; i2++){
-                // console.log(props.program.getSubjectById(subject).name);
-                let thisName = props.program.getSubjectById(allOptions[i][i2]).name
-                console.log(thisName);
-                let elCourse = document.createElement("li");
-                elCourse.innerText = thisName;
-                elOption.appendChild(elCourse);
-            }
-            el.appendChild(elOption);
-        }
+        viableOptions.value = allOptions;
+        
 
     }
 
     function process(){
         //TODO: MAKE SURE YOU'RE DOING THIS BY SEQUENCE
+        //TODO: adjust layout to handle the 'offersSL', 'offersHL' options
         //reset the schedule
-        schedule.value = {"11":[],"12":[]};
-        console.log(selections.value);
-        for (let key in selections.value){
-            //looping through the chosen subjects
-            //sort the classes?
-            console.log("Selection " + selections.value[key]);
-            console.log("classes:");
-            let currSubject = props.program.getSubjectById(selections.value[key]);
-            for (let c of currSubject.classSequence){
-                var thisClass = props.program.getClassById(c);
+        getSchedule(selections.value)
+        // schedule.value = {"11":[],"12":[]};
+        // console.log(selections.value);
+        // for (let key in selections.value){
+        //     //looping through the chosen subjects
+        //     //sort the classes?
+        //     console.log("Selection " + selections.value[key]);
+        //     console.log("classes:");
+        //     let currSubject = props.program.getSubjectById(selections.value[key]);
+        //     for (let c of currSubject.classSequence){
+        //         var thisClass = props.program.getClassById(c);
                
                 
-                //looping through the classes
-                //now loop through and grab the first offering for every class and add it to selections
-                if (thisClass.offerings.length == 0){
-                    console.log("A class is missing an offering");
-                }
-                else{
-                    schedule.value[thisClass.year].push(thisClass.offerings[0]);
-                }
-            }
-        }
+        //         //looping through the classes
+        //         //now loop through and grab the first offering for every class and add it to selections
+        //         if (thisClass.offerings.length == 0){
+        //             console.log("A class is missing an offering");
+        //         }
+        //         else{
+        //             schedule.value[thisClass.year].push(thisClass.offerings[0]);
+        //         }
+        //     }
+        // }
         console.log("Schedule");
-        console.log(schedule);
+        console.log(schedule.value);
     }
     function getSchedule(subjects){
+        //takes subjects as object of {"subjID":int, "HL":boolean}
         schedule.value = {"11":[],"12":[]};
         for (let subject of subjects){
             //looping through the chosen subjects
             //sort the classes?
         
             console.log("classes:");
-            let currSubject = props.program.getSubjectById(subject);
-            for (let c of currSubject.classSequence){
+            let currSubject = props.program.getSubjectById(subject.subjID);
+            let currSequence = subject.HL?currSubject.classSequence:currSubject.HL_classSequence;
+            
+            for (let c of currSequence){
                 var thisClass = props.program.getClassById(c);           
                 
                 //looping through the classes
@@ -199,17 +191,17 @@
         On Selection, fill the classes of the table
         <div v-for = "group in program.groups">
             <section>
-            <b-dropdown type="is-primary" expanded v-model = selections[group.name] :icon-right = "active?'menu-up':'menu-down'">
+            <b-dropdown type="is-primary" expanded v-model = "selections[group.name]" :icon-right = "active?'menu-up':'menu-down'">
                 <template #trigger="{ active }">
                 <b-button
                     :label = "typeof(selections[group.name]) == 'undefined'?group.name:program.getSubjectById(selections[group.name]).name"
                     type="is-primary" expanded
                     :icon-right="active ? 'menu-up' : 'menu-down'" />
                 </template>
-                <div v-for = "subject in group.subjects">
-            
-                <b-dropdown-item v-if = "program.getSubjectById(subject) != null":value = subject>{{ program.getSubjectById(subject).name }}</b-dropdown-item>
-                <b-dropdown-item v-else>{{  subject }}</b-dropdown-item>
+                <div v-for = "subject in group.subjects">            
+                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersSL" :value = '{"subjID": subject, "HL": false}'>{{ program.getSubjectById(subject).name }} SL</b-dropdown-item>
+                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersHL" :value = '{"subjID": subject, "HL": true}'>{{ program.getSubjectById(subject).name }} HL</b-dropdown-item>
+                    <b-dropdown-item v-if = "program.getSubjectById(subject) == null">Error retrieving{{  subject }}</b-dropdown-item>
                 </div>
             </b-dropdown>
             </section>
@@ -240,7 +232,18 @@
         </table>
 
     </div>
-    <div id="checkAllResults">
+    <div id="checkAllResults" v-if = "viableOptions.length > 0">
+        <h1>Viable Options</h1>
+        <ul>
+            <!-- TODO: Test that clicking this option displays the schedule -->
+            <li v-for = "o in viableOptions" @click = "selections = o">
+                <ul>
+                    <li v-for = "s in o">
+                        {{ program.getSubjectById(s.subjID) }} {{ s.HL?"HL":"SL" }}
+                    </li>
+                </ul>                    
+            </li>
+        </ul>
     </div>
 
 

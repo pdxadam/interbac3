@@ -25,23 +25,38 @@
 </script>
 <template>
     <h1>
-    <span v-if="editMode == false">{{ subject.subjectID }}: {{ subject.name }}</span>
-    <span v-else><input type='text' v-model = subject.name /></span>
-    <span v-if="!editMode"> ( {{ subject.isHighLevel?"High Level":"Standard Level" }} ) </span>
-        <span v-else><b-field><b-checkbox v-model="subject.isHighLevel">High Level?</b-checkbox></b-field></span>
+    <span v-if="editMode == false">{{ subject.name }}{{ subject.offersSL?"SL":"__" }}/{{ subject.offersHL?"HL":"__" }}</span>
+    <span v-else>
+        <input type='text' v-model = subject.name />
+        <b-field><b-checkbox v-model="subject.offersSL">Offers SL</b-checkbox></b-field>
+        <b-field><b-checkbox v-model="subject.offersHL">Offers HL</b-checkbox></b-field>
+    </span>    
     <span v-if = "setup"><b-button @click = "editMode = !editMode">{{ editMode?"Save":"Edit" }}</b-button></span>
     <span v-if = "editMode"><b-button @click = deleteSubject>Delete</b-button></span>
     
     </h1>
     <div v-if = "setup">
         <h2>Classes in this subject</h2>
-        <ul>
-            <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
-            <li v-for = "c,index in subject.classSequence">
-                <ClassVue :c = program.getClassById(c) :editable=false />
-                <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
-            </li>
-        </ul>
+        <div v-if = "subject.offersSL">
+            <h3>Standard Level</h3>
+            <ul>
+                <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
+                <li v-for = "c,index in subject.classSequence">
+                    <ClassVue :c = program.getClassById(c) :editable=false />
+                    <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
+                </li>
+            </ul>
+        </div>
+        <div v-if = "subject.offersHL">
+            <h3>High Level</h3>
+            <ul>
+                <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
+                <li v-for = "c,index in subject.HL_ClassSequence">
+                    <ClassVue :c = program.getClassById(c) :editable=false />
+                    <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
+                </li>
+            </ul>
+        </div>
         <hr>
         <div>
     
