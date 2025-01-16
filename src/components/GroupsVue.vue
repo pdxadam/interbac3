@@ -34,7 +34,7 @@
         </thead>
         <tbody>
             <tr v-for="group, index in groups" @click="selectGroup(group, index)">  
-                {{ group.name }}{{  index }}                 
+                {{ group.name }}                
             </tr>
         </tbody>
     </table>

@@ -13,6 +13,7 @@
         school: School,
     });
     const selectedProgram = ref(null);
+    const selectedIndex = ref(null);
     const selectedGroup = ref(null);
     const editProgram = ref(false);
     function addGroup(){
@@ -27,6 +28,15 @@
         newProgram.name = "Copy of " + newProgram.name;
         props.school.programs.push(newProgram);
     }
+    function deleteProgram(){
+        
+        if (confirm("Are you sure you want to delete this program (" + selectedProgram.value.name + ")? (Consider backing up your school first. )")){
+            props.school.programs.splice(selectedIndex.value, 1);
+            selectedProgram.value = null;
+            selectedIndex.value = null;
+            editProgram.value = false;
+        }
+    }
     
 </script>
 <template>    
@@ -34,8 +44,8 @@
         <h1>Programs</h1>
         <b-button @click=createProgram> + </b-button>
         <ul>
-            <li v-for="program in school.programs" @click="selectedProgram = program">
-                {{ program.name }}
+            <li v-for="program, index in school.programs" @click="selectedProgram = program">
+                {{ program.name }} 
             </li>
         </ul>
     </nav>
@@ -46,6 +56,7 @@
             <span v-else><input type="text" v-model = selectedProgram.name /></span>
             <b-button @click="editProgram = !editProgram">{{ editProgram?"Save":"Edit" }}</b-button>
             <b-button @click="copyProgram" v-if="editProgram">Copy</b-button>
+            <b-button @click = "deleteProgram" v-if="editProgram">Delete</b-button>
         </h1>
         <b-tabs>
             <b-tab-item label="Classes">

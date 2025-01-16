@@ -9,7 +9,7 @@ export default class Group{
     static FromJson(jGroup){
         let newGroup = new Group(jGroup.name);
         for (let s of jGroup.subjects){
-            newGroup.subjects.push([s]);
+            newGroup.subjects.push(s);
         } //now we are expecting just an id
         // for(let s of jGroup.subjects){
         //     newGroup.subjects.push(Subject.FromJson(s));
@@ -38,7 +38,7 @@ export default class Group{
         }
         if (startList.length == 0){
             for (let s of this.subjects){
-                startList.push(s);
+                startList.push([s]);
             }
             return startList;
         }
