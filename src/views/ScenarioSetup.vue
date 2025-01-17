@@ -24,7 +24,7 @@
         var allOptions = [];
         for (let group of props.program.groups){
             
-            allOptions = group.generateOptions(allOptions);
+            allOptions = group.generateOptions(allOptions, props.program);
             console.log(allOptions.length + " options are: " + JSON.stringify(allOptions, null, 2));
 
         }
@@ -119,7 +119,17 @@
         //TODO: MAKE SURE YOU'RE DOING THIS BY SEQUENCE
         //TODO: adjust layout to handle the 'offersSL', 'offersHL' options
         //reset the schedule
-        getSchedule(selections.value)
+        //need to strip out the lead
+        alert("process");
+        console.log("processing: ", selections.value);
+        
+        let groupedSelections = [];
+        for (let group in selections.value){
+            console.log("Selection," , selections.value[group]);
+            groupedSelections.push(selections.value[group]);
+
+        }
+        getSchedule(groupedSelections);
         // schedule.value = {"11":[],"12":[]};
         // console.log(selections.value);
         // for (let key in selections.value){
@@ -146,15 +156,17 @@
         console.log(schedule.value);
     }
     function getSchedule(subjects){
-        //takes subjects as object of {"subjID":int, "HL":boolean}
+       
+        //takes subjects as array of objects of {"subjID":int, "HL":boolean}
         schedule.value = {"11":[],"12":[]};
         for (let subject of subjects){
-            //looping through the chosen subjects
-            //sort the classes?
-        
+            console.log("subject1", subject);
+           
             console.log("classes:");
+
             let currSubject = props.program.getSubjectById(subject.subjID);
-            let currSequence = subject.HL?currSubject.classSequence:currSubject.HL_classSequence;
+            console.log("currSubject", currSubject);
+            let currSequence = currSubject.HL?currSubject.classSequence:currSubject.HL_ClassSequence;
             
             for (let c of currSequence){
                 var thisClass = props.program.getClassById(c);           
@@ -194,13 +206,13 @@
             <b-dropdown type="is-primary" expanded v-model = "selections[group.name]" :icon-right = "active?'menu-up':'menu-down'">
                 <template #trigger="{ active }">
                 <b-button
-                    :label = "typeof(selections[group.name]) == 'undefined'?group.name:program.getSubjectById(selections[group.name]).name"
+                    :label = "typeof(selections[group.name]) == 'undefined'?group.name:program.getSubjectById(selections[group.name].subjID).name"
                     type="is-primary" expanded
                     :icon-right="active ? 'menu-up' : 'menu-down'" />
                 </template>
                 <div v-for = "subject in group.subjects">            
-                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersSL" :value = '{"subjID": subject, "HL": false}'>{{ program.getSubjectById(subject).name }} SL</b-dropdown-item>
-                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersHL" :value = '{"subjID": subject, "HL": true}'>{{ program.getSubjectById(subject).name }} HL</b-dropdown-item>
+                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersSL" :value = '{"subjID": subject, "HL": false}'>{{ subject }}: {{ program.getSubjectById(subject).name }} SL</b-dropdown-item>
+                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersHL" :value = '{"subjID": subject, "HL": true}'>{{ subject }}: {{ program.getSubjectById(subject).name }} HL</b-dropdown-item>
                     <b-dropdown-item v-if = "program.getSubjectById(subject) == null">Error retrieving{{  subject }}</b-dropdown-item>
                 </div>
             </b-dropdown>

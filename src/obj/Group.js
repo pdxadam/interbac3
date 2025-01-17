@@ -24,7 +24,7 @@ export default class Group{
             }
         }
     }
-    generateOptions(startList = []){
+    generateOptions(startList = [], program){
         console.log(this.name + " options are " + JSON.stringify(this.subjects));
         var newOptions = [];
         //first we build the array of our elements
@@ -39,7 +39,7 @@ export default class Group{
         }
         if (startList.length == 0){
             for (let s of this.subjects){
-                thisSubject = Program.getSubjectById(s);
+                let thisSubject = program.getSubjectById(s);
                 if (thisSubject.offersSL){
                     startList.push([{"subjID":s, "HL":false}]);
                 }
@@ -52,7 +52,7 @@ export default class Group{
         }
         for (var i = 0; i < startList.length; i++){
             for (var i2 = 0; i2 < this.subjects.length; i2++){
-                let s = props.Program.getSubjectById(this.subjects[i2]);
+                let s = program.getSubjectById(this.subjects[i2]);
                 if (s.offersSL){
                     newOptions.push(startList[i].concat({"subjID":this.subjects[i2], "HL":false}));
                 }

@@ -91,6 +91,8 @@ export default class Program{
         return newSubject;
     }
     getSubjectById(subjectID){
+        console.log("Getting " + subjectID);
+        
         for (let s of this.subjects){
             if (s.subjectID == subjectID){
                 return s;

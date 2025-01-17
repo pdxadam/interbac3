@@ -19,8 +19,10 @@ export default class Subject{
         for(let c of jSubject.classSequence){
             newSubject.classSequence.push(c);
         }
-        for (let c of jSubject.HL_ClassSequence){
-            newSubject.HL_ClassSequence.push(c);
+        if ("HL_ClassSequence" in jSubject){
+            for (let c of jSubject.HL_ClassSequence){
+                newSubject.HL_ClassSequence.push(c);
+            }
         }
         return newSubject;
         
