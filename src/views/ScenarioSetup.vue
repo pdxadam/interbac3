@@ -130,42 +130,15 @@
 
         }
         getSchedule(groupedSelections);
-        // schedule.value = {"11":[],"12":[]};
-        // console.log(selections.value);
-        // for (let key in selections.value){
-        //     //looping through the chosen subjects
-        //     //sort the classes?
-        //     console.log("Selection " + selections.value[key]);
-        //     console.log("classes:");
-        //     let currSubject = props.program.getSubjectById(selections.value[key]);
-        //     for (let c of currSubject.classSequence){
-        //         var thisClass = props.program.getClassById(c);
-               
-                
-        //         //looping through the classes
-        //         //now loop through and grab the first offering for every class and add it to selections
-        //         if (thisClass.offerings.length == 0){
-        //             console.log("A class is missing an offering");
-        //         }
-        //         else{
-        //             schedule.value[thisClass.year].push(thisClass.offerings[0]);
-        //         }
-        //     }
-        // }
-        console.log("Schedule");
-        console.log(schedule.value);
+       
     }
     function getSchedule(subjects){
        
         //takes subjects as array of objects of {"subjID":int, "HL":boolean}
         schedule.value = {"11":[],"12":[]};
-        for (let subject of subjects){
-            console.log("subject1", subject);
-           
-            console.log("classes:");
+        for (let subject of subjects){        
 
             let currSubject = props.program.getSubjectById(subject.subjID);
-            console.log("currSubject", currSubject);
             let currSequence = currSubject.HL?currSubject.classSequence:currSubject.HL_ClassSequence;
             
             for (let c of currSequence){
@@ -174,26 +147,18 @@
                 //looping through the classes
                 //now loop through and grab the first offering for every class and add it to selections
                 if (thisClass.offerings.length == 0){
-                    console.log("A class is missing an offering");
+                    alert("A class is missing an offering: " + thisClass.title);
                 }
                 else{
+                    //we are just taking the first offering
                     schedule.value[thisClass.year].push(thisClass.offerings[0]);
-                    console.log("offering: ", thisClass.offerings[0].courseTitle);
                 }
             }
         }
         return schedule.value;
-        //take in an array of subject ids, and build the appropriate schedule for that
+        
     }
-    // function getLabel(groupname){
-    //     console.log(groupname);
-    //     if (selections.value[groupname] ==  undefined){
-    //         return groupname;
-    //     }
-    //     else{
-    //         return selections.value[groupname];
-    //     }
-    // }
+    
 </script>
 <template>
     <b-button @click = "checkAll()">Check All</b-button>
