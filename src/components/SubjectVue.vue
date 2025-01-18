@@ -19,8 +19,13 @@
         editMode.value = false;
         emit('deleteSubject');
     }
-    function removeClass(i){
-        props.subject.classSequence.splice(i,1);
+    function removeClass(i, hl = false){
+        if (hl){
+            props.subject.HL_ClassSequence.splice(i, 1);
+        }
+        else{
+            props.subject.classSequence.splice(i,1);
+        }
     }
 </script>
 <template>
@@ -43,7 +48,7 @@
                 <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
                 <li v-for = "c,index in subject.classSequence">
                     <ClassVue :c = program.getClassById(c) :editable=false />
-                    <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
+                    <b-button class='cmdRemove' @click = "removeClass(index, false)" >X</b-button>
                 </li>
             </ul>
         </div>
@@ -53,7 +58,7 @@
                 <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
                 <li v-for = "c,index in subject.HL_ClassSequence">
                     <ClassVue :c = program.getClassById(c) :editable=false />
-                    <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
+                    <b-button class='cmdRemove' @click = "removeClass(index, true)" >X</b-button>
                 </li>
             </ul>
         </div>
