@@ -1,5 +1,6 @@
 <script setup>
     import { ref, watch } from 'vue';
+    import json from '@/assets/IBStart.json';
     import School from '../obj/School.js';
     import TeachersVue from '../components/TeachersVue.vue';
     import Teacher from '../obj/Teacher.js';
@@ -73,7 +74,10 @@
 
 function loadStarter2(){
     // let file = new File('./assets/IBStart.json', );
-    handleFile('@/assets/IBStart.json');
+    if (confirm("Are you sure? Current data will be overwritten. Consider backing up first")){
+        const newSchool = School.FromJson(json);
+        school.value = newSchool;
+    }
 }
 function loadStarter(){
     
