@@ -79,26 +79,7 @@ function loadStarter2(){
         school.value = newSchool;
     }
 }
-function loadStarter(){
-    
-    fetch('@/assets/IBStart.json')
-        .then((res) => {
-            
-            if (!res.ok){
-                throw new Error("couldn't read the json");
-            }
-            let n = res.text();
-            console.log(n);
-            return n;
-        })
-        .then(((data) => {
 
-            console.log("DATA:   ", data);
-            // const rawSchool = JSON.parse(data);
-            const newSchool = School.FromJson(data);
-            school.value = newSchool;
-        })).catch((error) => console.log("error", error));
-}
 function handleFile(file){
     var reader = new FileReader();
     reader.readAsText(file.value.files[0], "UTF-8");
@@ -113,10 +94,8 @@ function handleFile(file){
         }
         catch(e){
             alert("error restoring backup");
-            console.log(e);
-            
+            console.log(e);            
         }      
-
     }
 }
 function handleFileUpload(){
@@ -126,24 +105,6 @@ function handleFileUpload(){
     console.log("handling file");
     console.log(file);
     handleFile(file);
-    // var reader = new FileReader();
-    // reader.readAsText(file.value.files[0], "UTF-8");
-    // reader.onload = function(event){
-    //     console.log(event.target.result);
-    //     try{
-    //         const rawSchool = JSON.parse(event.target.result);
-    //         const newSchool = School.FromJson(rawSchool);
-    //         school.value = newSchool;
-            
-    //     alert("backup restored");
-    //     }
-    //     catch(e){
-    //         alert("error restoring backup");
-    //         console.log(e);
-            
-    //     }      
-
-    // }
 
 }
 </script>
