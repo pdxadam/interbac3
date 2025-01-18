@@ -73,6 +73,8 @@
         <TeachersVue :teachers = teachers :program = program @teacherSelected = "(t) => selectTeacher(t)" />
     </nav>
     <div id="classList">
+        <b-button @click = "selectedClass = null">Clear</b-button>
+        <br />
         <ClassesVue :classes = program.classes @classSelected = "(c) => selectClass(c)" />
     </div>
     <div id="selectedTeacher">

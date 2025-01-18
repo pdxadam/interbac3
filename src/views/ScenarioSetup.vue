@@ -14,7 +14,11 @@
     console.log(props.program.classes);
     const selections = ref({});
     const viableOptions = ref([]); //holds the possible options after we do checkAll
+    const badOptions = ref([]);
     function checkAll(){
+        let str = "hello world";
+        str = str[0].toUpperCase() + str.substr(1);
+        alert(str);
         //TODO: avoid duplicates with different levels (BIO SL and BIO HL);
         console.log("checking");
         //loop through all the combintations and process the options
@@ -22,6 +26,7 @@
         //rules: no fewer than three HL, no more thanp 4
 
         var allOptions = [];
+        badOptions.value = [];
         for (let group of props.program.groups){
             
             allOptions = group.generateOptions(allOptions, props.program);
@@ -35,8 +40,10 @@
         var deletable = [];
         //now go through the options and check the rules
         for (var o = 0; o < allOptions.length; o++){
+            
             //count the high level options
             let highLevel = 0;
+            allOptions[o].reason = "";
             let dupTest = {};
             let valueSoFar = Object.create(null);
             for (var i = 0; i < allOptions[o].length; i++){
@@ -50,6 +57,7 @@
                 if (option[i].subjID in valueSoFar){
                     allOptions[o].deletable = true;
                     console.log(allOptions[o] + " eliminated because of duplicates");
+                    allOptions[o].reason += "duplicate choices.  ";
                 }
                 else{
                     valueSoFar[option[i].subjID] = true;
@@ -58,6 +66,7 @@
             }
             if (highLevel < 3 || highLevel > 4){ //eliminate it if it's high level
                     console.log(allOptions[o] + " eliminated because high level choices = " + highLevel);
+                    allOptions[o].reason += " high-level choices = " + highLevel;
                     allOptions[o].deletable = true;
             }//end high level check
         }
@@ -65,6 +74,7 @@
         //now it is time to delete the deletables -- go backwards
         for (var i = allOptions.length-1; i>=0; i--){
             if (allOptions[i].deletable){
+                badOptions.value.push(allOptions[i]);
                 allOptions.splice(i,1)
             }
         }
@@ -94,6 +104,7 @@
                             console.log("Option deleted because too many courses in term ", year, ": ", courseTerm);
                             console.log("Coures Count: ", terms[year][courseTerm]);
                             allOptions[i].deletable = true;
+                            allOptions[i].reason += "too many courses in term year " + year + " term " + courseTerm
                         }
                     }
                     console.log("terms: ", terms);
@@ -105,12 +116,16 @@
         //now it is time to delete the deletables -- go backwards
         for (var i = allOptions.length-1; i>=0; i--){
             if (allOptions[i].deletable){
+                badOptions.value.unshift(allOptions[i]);
                 allOptions.splice(i,1)
             }
         }
         
-        console.log(allOptions.length, " options remain");
+
+        alert(allOptions.length + " options remain");
+        alert(badOptions.value.length + " bad options.");
         viableOptions.value = allOptions;
+
         
 
     }
@@ -129,6 +144,8 @@
             groupedSelections.push(selections.value[group]);
 
         }
+        console.log(groupedSelections);
+        alert("break");
         getSchedule(groupedSelections);
         // schedule.value = {"11":[],"12":[]};
         // console.log(selections.value);
@@ -155,6 +172,16 @@
         console.log("Schedule");
         console.log(schedule.value);
     }
+    function getChoiceTitle(selection){
+        let fullTitle = props.program.getSubjectById(selection.subjID).name;
+        if (selection.HL){
+            fullTitle += " HL";
+        }
+        else{
+            fullTitle += " SL"
+        }
+        return fullTitle;
+    }
     function getSchedule(subjects){
        
         //takes subjects as array of objects of {"subjID":int, "HL":boolean}
@@ -166,7 +193,7 @@
 
             let currSubject = props.program.getSubjectById(subject.subjID);
             console.log("currSubject", currSubject);
-            let currSequence = currSubject.HL?currSubject.classSequence:currSubject.HL_ClassSequence;
+            let currSequence = subject.HL?currSubject.HL_ClassSequence:currSubject.classSequence;
             
             for (let c of currSequence){
                 var thisClass = props.program.getClassById(c);           
@@ -183,6 +210,7 @@
             }
         }
         return schedule.value;
+
         //take in an array of subject ids, and build the appropriate schedule for that
     }
     // function getLabel(groupname){
@@ -206,13 +234,13 @@
             <b-dropdown type="is-primary" expanded v-model = "selections[group.name]" :icon-right = "active?'menu-up':'menu-down'">
                 <template #trigger="{ active }">
                 <b-button
-                    :label = "typeof(selections[group.name]) == 'undefined'?group.name:program.getSubjectById(selections[group.name].subjID).name"
+                    :label = "typeof(selections[group.name]) == 'undefined'?group.name:getChoiceTitle(selections[group.name])"
                     type="is-primary" expanded
                     :icon-right="active ? 'menu-up' : 'menu-down'" />
                 </template>
                 <div v-for = "subject in group.subjects">            
-                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersSL" :value = '{"subjID": subject, "HL": false}'>{{ subject }}: {{ program.getSubjectById(subject).name }} SL</b-dropdown-item>
-                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersHL" :value = '{"subjID": subject, "HL": true}'>{{ subject }}: {{ program.getSubjectById(subject).name }} HL</b-dropdown-item>
+                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersSL" :value = '{"subjID": subject, "HL": false}'>{{ program.getSubjectById(subject).name }} SL</b-dropdown-item>
+                    <b-dropdown-item v-if = "program.getSubjectById(subject) != null && program.getSubjectById(subject).offersHL" :value = '{"subjID": subject, "HL": true}'>{{ program.getSubjectById(subject).name }} HL</b-dropdown-item>
                     <b-dropdown-item v-if = "program.getSubjectById(subject) == null">Error retrieving{{  subject }}</b-dropdown-item>
                 </div>
             </b-dropdown>
@@ -220,38 +248,70 @@
         </div>
     </div>
     <div id="results">
-        
-        <table v-for="(value, key) in schedule">
-            <thead>
-                <tr>
-                    <th :colspan = "program.terms">
-                        Schedule: {{ key }}
-                    </th>
-                </tr>
-                <tr>
-                    <th v-for = "i in program.terms">
-                        Term {{ i }}
-                    </th>
-                </tr>
-            </thead>
+        <table>
             <tbody>
                 <tr>
-                    <td v-for = "i in program.terms">
-                        <p v-for = "c in value"><span v-if = "c.term == i">{{ c.courseTitle }}</span></p>
+                    <td>
+                        <table v-for="(value, key) in schedule">
+                            <thead>
+                                <tr>
+                                    <th :colspan = "program.terms">
+                                        Schedule: {{ key }}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th v-for = "i in program.terms">
+                                        Term {{ i }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td v-for = "i in program.terms">
+                                        <p v-for = "c in value"><span v-if = "c.term == i">{{ c.courseTitle }}</span></p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </td>
-                </tr>
-            </tbody>
-        </table>
+                <td>
+                    <table><!-- show the subject choices -->
+                        <thead>
+                            <tr><th>Subject Choices</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for = 'sel in selections'>
+                                <td>{{ getChoiceTitle(sel) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+</table>
 
     </div>
-    <div id="checkAllResults" v-if = "viableOptions.length > 0">
+    <div id="checkAllResults" v-if = "viableOptions.length > 0 || badOptions.length > 0">
         <h1>Viable Options</h1>
         <ul>
             <!-- TODO: Test that clicking this option displays the schedule -->
             <li v-for = "o in viableOptions" @click = "selections = o">
-                <ul>
-                    <li v-for = "s in o">
-                        {{ program.getSubjectById(s.subjID) }} {{ s.HL?"HL":"SL" }}
+                <ul id=goodOptions>
+                    <li  @click = "getSchedule(o)">
+                       <span v-for = "s in o"> {{ program.getSubjectById(s.subjID).name }} {{ s.HL?"HL":"SL" }} , </span>
+                    </li>
+                </ul>                    
+            </li>
+        </ul>
+        <h1>Bad Options</h1>
+        <ul>
+            <!-- TODO: Test that clicking this option displays the schedule -->
+            <li v-for = "o in badOptions" @click = "selections = o">
+                {{ o.reason }}
+                <ul id=badOptions>
+                    <li @click = "getSchedule(o)">
+                        
+                       <span v-for = "s in o"> {{ program.getSubjectById(s.subjID).name }} {{ s.HL?"HL":"SL" }}, </span>
                     </li>
                 </ul>                    
             </li>
@@ -287,5 +347,11 @@
 
     }
 
+    #goodOptions{
+        background-color: lightgreen;
+    }
+    #badOptions{
+        background-color: #d6a7a8;
+    }
 
 </style>

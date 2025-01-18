@@ -70,12 +70,32 @@
         element.click();
         document.body.removeChild(element);
 }
-function handleFileUpload(){
-    if (!confirm("This will delete current data. Are you sure? (We recommend you download a backup first.)")){
-        return;
-    }
-    console.log("handling file");
-    console.log(file);
+
+function loadStarter2(){
+    // let file = new File('./assets/IBStart.json', );
+    handleFile('@/assets/IBStart.json');
+}
+function loadStarter(){
+    
+    fetch('@/assets/IBStart.json')
+        .then((res) => {
+            
+            if (!res.ok){
+                throw new Error("couldn't read the json");
+            }
+            let n = res.text();
+            console.log(n);
+            return n;
+        })
+        .then(((data) => {
+
+            console.log("DATA:   ", data);
+            // const rawSchool = JSON.parse(data);
+            const newSchool = School.FromJson(data);
+            school.value = newSchool;
+        })).catch((error) => console.log("error", error));
+}
+function handleFile(file){
     var reader = new FileReader();
     reader.readAsText(file.value.files[0], "UTF-8");
     reader.onload = function(event){
@@ -91,16 +111,42 @@ function handleFileUpload(){
             alert("error restoring backup");
             console.log(e);
             
-        }
-        
+        }      
 
     }
+}
+function handleFileUpload(){
+    if (!confirm("This will delete current data. Are you sure? (We recommend you download a backup first.)")){
+        return;
+    }
+    console.log("handling file");
+    console.log(file);
+    handleFile(file);
+    // var reader = new FileReader();
+    // reader.readAsText(file.value.files[0], "UTF-8");
+    // reader.onload = function(event){
+    //     console.log(event.target.result);
+    //     try{
+    //         const rawSchool = JSON.parse(event.target.result);
+    //         const newSchool = School.FromJson(rawSchool);
+    //         school.value = newSchool;
+            
+    //     alert("backup restored");
+    //     }
+    //     catch(e){
+    //         alert("error restoring backup");
+    //         console.log(e);
+            
+    //     }      
+
+    // }
 
 }
 </script>
 <template>
     <h1>{{ school.name }}</h1>
     <nav>
+        <b-button @click="loadStarter2()">Load Starting Point (deletes current data)</b-button>
         <b-button @click="downloadBackup()">Download Backup</b-button>
         <h4>Upload backup: </h4><input type="file" v-on:change="handleFileUpload()" ref="file">
     </nav>
