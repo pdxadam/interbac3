@@ -1,6 +1,6 @@
 <script setup>
-//TODO: Add support for SL/HL as an option instead of a separate subject;
-    import { ref } from 'vue';
+//TODO: Separate the manual processing from the auto checker
+    import { ref, watch } from 'vue';
     import Program from '@/obj/Program.js';
     import Offering from '@/obj/Offering.js';
     import Group from '@/obj/Group.js';
@@ -8,35 +8,42 @@
     const props = defineProps({
         program: Program,
     });
+   
     const schedule = ref({"11": [],"12": []});
     console.log("Groups---");
     console.log(props.program.groups);
     console.log(props.program.classes);
     const selections = ref({});
+    const progressClass = ref("hidden");
     const viableOptions = ref([]); //holds the possible options after we do checkAll
     const badOptions = ref([]);
-    function checkAll(){
-        let str = "hello world";
-        str = str[0].toUpperCase() + str.substr(1);
-        alert(str);
-        //TODO: avoid duplicates with different levels (BIO SL and BIO HL);
-        console.log("checking");
+    //  Pagination Variables 
+    const currentGood = ref(1);
+    const currentBad = ref(1);
+    watch(currentGood, setSelection);
+    watch(currentBad, setBadSelection);
+    function setSelection(){
+        console.log(currentGood.value);
+        console.log(viableOptions.value[0]);
+        getSchedule(viableOptions.value[currentGood.value - 1]);
+    }
+    function setBadSelection(){
+        getSchedule(badOptions.value[currentBad.value-1]);
+    }
+    function checkAll(){       
+        progressClass.value = "processing";
+        
         //loop through all the combintations and process the options
         //this might be recursive: 
         //rules: no fewer than three HL, no more thanp 4
-
         var allOptions = [];
         badOptions.value = [];
         for (let group of props.program.groups){
             
             allOptions = group.generateOptions(allOptions, props.program);
-            console.log(allOptions.length + " options are: " + JSON.stringify(allOptions, null, 2));
-
+            
         }
-        console.log("-----  I collected them all -----");
-        console.log(allOptions.length);
-        console.log(JSON.stringify(allOptions, null, 2));
-        console.log("--------------------------------");
+        
         var deletable = [];
         //now go through the options and check the rules
         for (var o = 0; o < allOptions.length; o++){
@@ -120,16 +127,22 @@
                 allOptions.splice(i,1)
             }
         }
-        
-
-        alert(allOptions.length + " options remain");
-        alert(badOptions.value.length + " bad options.");
+ 
         viableOptions.value = allOptions;
-
+        progressClass.value = "hidden";
+        // pBar.style = "display: none";
         
 
     }
-
+    function startCheckAll(){
+        //TODO: PROGRESS BAR STUFF IS NOT WORKING RIGHT
+        progressClass.value = "processing";
+        
+        checkAll().then(() => {
+            progressClass.value = "hidden";
+        }
+        );
+    }
     function process(){
         //TODO: MAKE SURE YOU'RE DOING THIS BY SEQUENCE
         //TODO: adjust layout to handle the 'offersSL', 'offersHL' options
@@ -194,6 +207,7 @@
 <template>
     <b-button @click = "checkAll()">Check All</b-button>
     <b-button @click = "process()">Process</b-button>
+    <b-progress id="progressBar" :class="progressClass" size="is-small" />
     <div id="groups">
         List all the groups with the subjects as dropdowns
         On Selection, fill the classes of the table
@@ -216,47 +230,114 @@
         </div>
     </div>
     <div id="results">
-        <table>
-            <tbody>
-                <tr>
-                    <td>
-                        <table v-for="(value, key) in schedule">
-                            <thead>
-                                <tr>
-                                    <th :colspan = "program.terms">
-                                        Schedule: {{ key }}
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th v-for = "i in program.terms">
-                                        Term {{ i }}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td v-for = "i in program.terms">
-                                        <p v-for = "c in value"><span v-if = "c.term == i">{{ c.courseTitle }}</span></p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                <td>
-                    <table><!-- show the subject choices -->
-                        <thead>
-                            <tr><th>Subject Choices</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for = 'sel in selections'>
-                                <td>{{ getChoiceTitle(sel) }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-</table>
+        <table><tbody><tr>
+            <td>
+                <table v-for="(value, key) in schedule">
+                    <thead>
+                        <tr>
+                            <th :colspan = "program.terms">
+                                Schedule: {{ key }}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th v-for = "i in program.terms">
+                                Term {{ i }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td v-for = "i in program.terms">
+                                <p v-for = "c in value"><span v-if = "c.term == i" style="padding: 2px; display: block;border: 1px solid black;">{{ c.courseTitle }}</span></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td v-if = "viableOptions.length > 0 || badOptions.length > 0">
+                <h2>Explore Options</h2>
+                <b-tabs>
+                    <b-tab-item label="Viable Options" v-if = "viableOptions.length > 0">
+                                
+                <table><!-- show the subject choices -->
+                    <thead>
+                        <tr><th>Subject Choices</th></tr>
+                        <tr><td>
+                            <!-- Pagination Buttons -->
+                            <b-pagination
+                                :total="viableOptions.length"
+                                v-model="currentGood"
+                                range-before="1"
+                                range-after="2"
+                                order="default"
+                                size="is-small"
+                                simple="true"
+                                rounded="false"
+                                per-page="1"
+                                icon-prev="chevron-left"
+                                icon-next="chevron-right"
+                                aria-next-label="Next page"
+                                aria-previous-label="Previous page"
+                                aria-page-label="Page"
+                                aria-current-label="Current page"
+                                page-input="true"
+                                page-input-position="default"
+                             />
+                        
+
+                        </td></tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for = 'sel in viableOptions[currentGood - 1]'>
+                            <td>{{ getChoiceTitle(sel) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </b-tab-item>
+            <b-tab-item label="Bad Options" v-if = "badOptions.length > 0">
+                <table><!-- show the subject choices -->
+                    <thead>
+                        <tr><th>Subject Choices</th></tr>
+                        <tr><td>
+                            <!-- Pagination Buttons -->
+                            <b-pagination
+                                :total="badOptions.length"
+                                v-model="currentBad"
+                                range-before="1"
+                                range-after="2"
+                                order="default"
+                                size="is-small"
+                                simple="true"
+                                rounded="false"
+                                per-page="1"
+                                icon-prev="chevron-left"
+                                icon-next="chevron-right"
+                                aria-next-label="Next page"
+                                aria-previous-label="Previous page"
+                                aria-page-label="Page"
+                                aria-current-label="Current page"
+                                page-input="true"
+                                page-input-position="default"
+                             />
+                        
+
+                        </td></tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for = 'sel in badOptions[currentBad - 1]'>
+                            <td>{{ getChoiceTitle(sel) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ badOptions[currentBad-1].reason }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </b-tab-item>
+        </b-tabs>
+            </td>
+        </tr></tbody></table>
 
     </div>
     <div id="checkAllResults" v-if = "viableOptions.length > 0 || badOptions.length > 0">
@@ -296,6 +377,9 @@
         border: 1px solid black;
         padding: 2px;
     }
+    table{
+        border-collapse: collapse;
+    }
     #groups{
         width: 200px;
         float: left;
@@ -315,6 +399,13 @@
 
     }
 
+    .hidden{
+        display: none;
+    }
+    .processing{
+        display: block;
+
+    }
     #goodOptions{
         background-color: lightgreen;
     }
