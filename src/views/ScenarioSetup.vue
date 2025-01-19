@@ -1,5 +1,5 @@
 <script setup>
-//TODO: Separate the manual processing from the auto checker
+
     import { ref, watch } from 'vue';
     import Program from '@/obj/Program.js';
     import Offering from '@/obj/Offering.js';
@@ -14,7 +14,7 @@
     console.log(props.program.groups);
     console.log(props.program.classes);
     const selections = ref({});
-    const progressClass = ref("hidden");
+    
     const viableOptions = ref([]); //holds the possible options after we do checkAll
     const badOptions = ref([]);
     //  Pagination Variables 
@@ -31,7 +31,7 @@
         getSchedule(badOptions.value[currentBad.value-1]);
     }
     function checkAll(){       
-        progressClass.value = "processing";
+        
         
         //loop through all the combintations and process the options
         //this might be recursive: 
@@ -129,20 +129,11 @@
         }
  
         viableOptions.value = allOptions;
-        progressClass.value = "hidden";
         // pBar.style = "display: none";
         
 
     }
-    function startCheckAll(){
-        //TODO: PROGRESS BAR STUFF IS NOT WORKING RIGHT
-        progressClass.value = "processing";
-        
-        checkAll().then(() => {
-            progressClass.value = "hidden";
-        }
-        );
-    }
+    
     function process(){
         //TODO: MAKE SURE YOU'RE DOING THIS BY SEQUENCE
         //TODO: adjust layout to handle the 'offersSL', 'offersHL' options
@@ -207,7 +198,6 @@
 <template>
     <b-button @click = "checkAll()">Check All</b-button>
     <b-button @click = "process()">Process</b-button>
-    <b-progress id="progressBar" :class="progressClass" size="is-small" />
     <div id="groups">
         List all the groups with the subjects as dropdowns
         On Selection, fill the classes of the table
