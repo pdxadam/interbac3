@@ -45,17 +45,13 @@
 
     }
     function loadData(){
-        console.log("loading");
         let jsonSchool = localStorage.getItem("school");
-        console.log(jsonSchool);
         if (jsonSchool !== null){
-            school.value = School.FromJson(JSON.parse(jsonSchool));
-            
+            school.value = School.FromJson(JSON.parse(jsonSchool));            
         }
         else{
             school.value = seedSchool();
         }
-
     }
     function downloadBackup(){
         var jSchool = school.value.getBackup();
