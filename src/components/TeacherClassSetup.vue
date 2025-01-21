@@ -115,7 +115,7 @@
         float: left;
     }
     #selectedTeacher{
-        margin-left: 155px;
+        margin-left: 225px;
     }
     #classList{
         float: right;

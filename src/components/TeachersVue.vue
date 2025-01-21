@@ -81,6 +81,10 @@
     #teacherSection{
         display: flex;
         flex-flow: row wrap;
+        width: 200px;
         
+    }
+    #teacherSection li{
+        width: 100%;
     }
 </style>
