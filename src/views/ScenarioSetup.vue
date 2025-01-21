@@ -10,11 +10,8 @@
     });
    
     const schedule = ref({"11": [],"12": []});
-    console.log("Groups---");
-    console.log(props.program.groups);
-    console.log(props.program.classes);
-    const selections = ref({});
-    
+    const selections = ref({}); 
+    const hasCheckedAll = ref(false);   
     const viableOptions = ref([]); //holds the possible options after we do checkAll
     const badOptions = ref([]);
     //  Pagination Variables 
@@ -30,18 +27,14 @@
     function setBadSelection(){
         getSchedule(badOptions.value[currentBad.value-1]);
     }
-    function checkAll(){       
-        
-        
+    function checkAll(){  
         //loop through all the combintations and process the options
         //this might be recursive: 
         //rules: no fewer than three HL, no more thanp 4
         var allOptions = [];
         badOptions.value = [];
-        for (let group of props.program.groups){
-            
-            allOptions = group.generateOptions(allOptions, props.program);
-            
+        for (let group of props.program.groups){            
+            allOptions = group.generateOptions(allOptions, props.program);            
         }
         
         var deletable = [];
@@ -85,40 +78,27 @@
                 allOptions.splice(i,1)
             }
         }
-        console.log("Options remaining: count = " + allOptions.length);
-        for (let option of allOptions){
-            for(let subj of option){
-            console.log(props.program.getSubjectById(subj.subjID).name);
-            }
-            console.log("-----");
-        } 
+        
+     
         // Now we'll go through the remaining ones again, grab the schedules and verify them.
-        for (var i = 0; i < allOptions.length; i++){
+        for (var i = 0; i < allOptions.length; i++)
+        {
             let proposedSchedule = getSchedule(allOptions[i]);
-            let terms = {};
-            console.log("Schedule: ", proposedSchedule);   
-                for (let year in proposedSchedule){   
-                    console.log(year, ": ", proposedSchedule[year]); 
-                    terms[year] = [];                    
-                    for (let offering of proposedSchedule[year]){
-                        let courseTerm = offering.term;
-                        if (terms[year][courseTerm] == null){
-                            terms[year][courseTerm] = 0;
-                        }
-                        terms[year][courseTerm]++;
-                        console.log("There are ", props.program.periods, " periods in the program");
-                        if (terms[year][courseTerm] > props.program.periods){
-                            console.log("Option deleted because too many courses in term ", year, ": ", courseTerm);
-                            console.log("Coures Count: ", terms[year][courseTerm]);
-                            allOptions[i].deletable = true;
-                            allOptions[i].reason += "too many courses in term year " + year + " term " + courseTerm
-                        }
+            let terms = {};  
+            for (let year in proposedSchedule){   
+                terms[year] = [];                    
+                for (let offering of proposedSchedule[year]){
+                    let courseTerm = offering.term;
+                    if (terms[year][courseTerm] == null){
+                        terms[year][courseTerm] = 0;
                     }
-                    console.log("terms: ", terms);
+                    terms[year][courseTerm]++;
+                    if (terms[year][courseTerm] > props.program.periods){
+                        allOptions[i].deletable = true;
+                        allOptions[i].reason += "too many courses in term year " + year + " term " + courseTerm
+                    }
+                }
             }
-            //now loop through each year
-            //and each term
-            // and count the classes in each term
         }
         //now it is time to delete the deletables -- go backwards
         for (var i = allOptions.length-1; i>=0; i--){
@@ -130,27 +110,18 @@
  
         viableOptions.value = allOptions;
         // pBar.style = "display: none";
-        
-
+        hasCheckedAll.value = true;
     }
-    
     function process(){
         //TODO: MAKE SURE YOU'RE DOING THIS BY SEQUENCE
-        alert("process");
-        console.log("processing: ", selections.value);
         
         let groupedSelections = [];
         for (let group in selections.value){
-            console.log("Selection," , selections.value[group]);
             groupedSelections.push(selections.value[group]);
 
         }
-        console.log(groupedSelections);
-        alert("break");
         getSchedule(groupedSelections);
         
-        console.log("Schedule");
-        console.log(schedule.value);
     }
     function getChoiceTitle(selection){
         let fullTitle = props.program.getSubjectById(selection.subjID).name;
@@ -241,8 +212,12 @@
                     </tbody>
                 </table>
             </td>
-            <td v-if = "viableOptions.length > 0 || badOptions.length > 0">
+            <td id = "allResults" v-if = "viableOptions.length > 0 || badOptions.length > 0">
                 <h2>Explore Options</h2>
+                <h3 v-if = "hasCheckedAll">
+                    Good Options: {{  viableOptions.length }}...Bad Options: {{ badOptions.length }}
+
+                </h3>
                 <b-tabs>
                     <b-tab-item label="Viable Options" v-if = "viableOptions.length > 0">
                                 
@@ -396,6 +371,9 @@
     }
     #badOptions{
         background-color: #d6a7a8;
+    }
+    #allResults{
+        width: 25%;
     }
 
 </style>

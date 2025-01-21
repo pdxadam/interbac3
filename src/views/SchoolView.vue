@@ -2,11 +2,9 @@
     import { ref, watch } from 'vue';
     import json from '@/assets/IBStart.json';
     import School from '../obj/School.js';
-    import TeachersVue from '../components/TeachersVue.vue';
     import Teacher from '../obj/Teacher.js';
     import Program from '../obj/Program.js';
     import ProgramSetup from './ProgramSetup.vue'
-    import ClassesVue from '../components/ClassesVue.vue';
     import { onMounted } from 'vue';
     import Group from '../obj/Group.js';
     const school = ref(new School("RHS"));
@@ -47,6 +45,7 @@
     function loadData(){
         let jsonSchool = localStorage.getItem("school");
         if (jsonSchool !== null){
+            console.log(jsonSchool);
             school.value = School.FromJson(JSON.parse(jsonSchool));            
         }
         else{
@@ -69,8 +68,9 @@
 }
 
 function loadStarter2(){
-    // let file = new File('./assets/IBStart.json', );
+   
     if (confirm("Are you sure? Current data will be overwritten. Consider backing up first")){
+        
         const newSchool = School.FromJson(json);
         school.value = newSchool;
     }
@@ -98,8 +98,6 @@ function handleFileUpload(){
     if (!confirm("This will delete current data. Are you sure? (We recommend you download a backup first.)")){
         return;
     }
-    console.log("handling file");
-    console.log(file);
     handleFile(file);
 
 }
@@ -118,4 +116,24 @@ function handleFileUpload(){
             </b-tab-item>
         </b-tabs>
     </section>
+    <footer>
+        Interbac by McLain
+        <span>Data Version {{ parseFloat(school.version).toFixed(2) }}</span>
+    </footer>
 </template>
+<style scoped>
+    footer{
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background: radial-gradient(lightgray,whitesmoke);
+        text-align: center;
+    }
+    footer span{
+        position: absolute;
+        right: 5px;
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+</style>
