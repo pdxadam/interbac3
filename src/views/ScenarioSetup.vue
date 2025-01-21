@@ -136,9 +136,6 @@
     
     function process(){
         //TODO: MAKE SURE YOU'RE DOING THIS BY SEQUENCE
-        //TODO: adjust layout to handle the 'offersSL', 'offersHL' options
-        //reset the schedule
-        //need to strip out the lead
         alert("process");
         console.log("processing: ", selections.value);
         
@@ -333,7 +330,6 @@
     <div id="checkAllResults" v-if = "viableOptions.length > 0 || badOptions.length > 0">
         <h1>Viable Options</h1>
         <ul>
-            <!-- TODO: Test that clicking this option displays the schedule -->
             <li v-for = "o in viableOptions" @click = "selections = o">
                 <ul id=goodOptions>
                     <li  @click = "getSchedule(o)">
@@ -344,7 +340,6 @@
         </ul>
         <h1>Bad Options</h1>
         <ul>
-            <!-- TODO: Test that clicking this option displays the schedule -->
             <li v-for = "o in badOptions" @click = "selections = o">
                 {{ o.reason }}
                 <ul id=badOptions>
