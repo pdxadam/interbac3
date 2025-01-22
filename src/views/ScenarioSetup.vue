@@ -9,7 +9,7 @@
         program: Program,
     });
    
-    const schedule = ref({"11": [],"12": []});
+    const schedule = ref({"9": [], "10": [], "11": [],"12": []});
     const selections = ref({}); 
     const hasCheckedAll = ref(false);   
     const viableOptions = ref([]); //holds the possible options after we do checkAll
@@ -136,7 +136,8 @@
     function getSchedule(subjects){
        
         //takes subjects as array of objects of {"subjID":int, "HL":boolean}
-        schedule.value = {"11":[],"12":[]};
+        schedule.value = {"9":[],"10":[],"11":[],"12":[]};
+        console.log("Subjects: ", subjects);
         for (let subject of subjects){        
 
             let currSubject = props.program.getSubjectById(subject.subjID);

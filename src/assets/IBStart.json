@@ -1,9 +1,1442 @@
 {
   "name": "RHS",
+  "version": 1,
   "programs": [
     {
       "name": "IB Draft",
       "classes": [
+        {
+          "classID": 92,
+          "title": "Study Skills",
+          "term": 0,
+          "period": -1,
+          "year": 11,
+          "sequence": -1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 22,
+              "period": 1,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 1,
+              "teacherID": 22,
+              "period": 2,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 1,
+              "teacherID": 22,
+              "period": 3,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 1,
+              "teacherID": 22,
+              "period": 4,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 2,
+              "teacherID": 22,
+              "period": 1,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 2,
+              "teacherID": 22,
+              "period": 2,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 2,
+              "teacherID": 22,
+              "period": 3,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 2,
+              "teacherID": 22,
+              "period": 4,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 3,
+              "teacherID": 22,
+              "period": 1,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 3,
+              "teacherID": 22,
+              "period": 2,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 3,
+              "teacherID": 22,
+              "period": 3,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            },
+            {
+              "term": 3,
+              "teacherID": 22,
+              "period": 4,
+              "courseTitle": "Study Skills",
+              "courseID": 92
+            }
+          ],
+          "department": "---"
+        },
+        {
+          "classID": 91,
+          "title": "Cybersecurity",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 1,
+              "period": 3,
+              "courseTitle": "Cybersecurity",
+              "courseID": 91
+            }
+          ],
+          "department": "---"
+        },
+        {
+          "classID": 90,
+          "title": "Digital/Studio Arts",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 1,
+              "period": 4,
+              "courseTitle": "Digital/Studio Arts",
+              "courseID": 90
+            }
+          ],
+          "department": "Arts"
+        },
+        {
+          "classID": 89,
+          "title": "Tech Survey",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 1,
+              "period": 1,
+              "courseTitle": "Tech Survey",
+              "courseID": 89
+            },
+            {
+              "term": 2,
+              "teacherID": 1,
+              "period": 3,
+              "courseTitle": "Tech Survey",
+              "courseID": 89
+            },
+            {
+              "term": 2,
+              "teacherID": 1,
+              "period": 4,
+              "courseTitle": "Tech Survey",
+              "courseID": 89
+            }
+          ],
+          "department": "Science"
+        },
+        {
+          "classID": 88,
+          "title": "PE 2",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 19,
+              "period": 2,
+              "courseTitle": "PE 2",
+              "courseID": 88
+            }
+          ],
+          "department": "Other"
+        },
+        {
+          "classID": 87,
+          "title": "PE 1",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 19,
+              "period": 1,
+              "courseTitle": "PE 1",
+              "courseID": 87
+            }
+          ],
+          "department": "Other"
+        },
+        {
+          "classID": 86,
+          "title": "Study Skills",
+          "term": 0,
+          "period": -1,
+          "year": "",
+          "sequence": -1,
+          "teacher": null,
+          "offerings": [],
+          "department": "Other"
+        },
+        {
+          "classID": 85,
+          "title": "MUN",
+          "term": 0,
+          "period": -1,
+          "year": "",
+          "sequence": -1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 21,
+              "period": 1,
+              "courseTitle": "MUN",
+              "courseID": 85
+            }
+          ],
+          "department": "Other"
+        },
+        {
+          "classID": 84,
+          "title": "Health A",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 19,
+              "period": 1,
+              "courseTitle": "Health A",
+              "courseID": 84
+            },
+            {
+              "term": 2,
+              "teacherID": 19,
+              "period": 2,
+              "courseTitle": "Health A",
+              "courseID": 84
+            }
+          ],
+          "department": "Other"
+        },
+        {
+          "classID": 82,
+          "title": "Health B",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 19,
+              "period": 1,
+              "courseTitle": "Health B",
+              "courseID": 82
+            },
+            {
+              "term": 1,
+              "teacherID": 19,
+              "period": 2,
+              "courseTitle": "Health B",
+              "courseID": 82
+            }
+          ],
+          "department": "Other"
+        },
+        {
+          "classID": 81,
+          "title": "French 2B",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 14,
+              "period": 2,
+              "courseTitle": "French 2B",
+              "courseID": 81
+            }
+          ],
+          "department": "Foreign Language"
+        },
+        {
+          "classID": 80,
+          "title": "French 2A",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 14,
+              "period": 3,
+              "courseTitle": "French 2A",
+              "courseID": 80
+            }
+          ],
+          "department": "Foreign Language"
+        },
+        {
+          "classID": 79,
+          "title": "French 1B",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 14,
+              "period": 1,
+              "courseTitle": "French 1B",
+              "courseID": 79
+            }
+          ],
+          "department": "Foreign Language"
+        },
+        {
+          "classID": 78,
+          "title": "French 1A",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 14,
+              "period": 3,
+              "courseTitle": "French 1A",
+              "courseID": 78
+            }
+          ],
+          "department": "Foreign Language"
+        },
+        {
+          "classID": 77,
+          "title": "Spanish 2B",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 13,
+              "period": 3,
+              "courseTitle": "Spanish 2B",
+              "courseID": 77
+            },
+            {
+              "term": 3,
+              "teacherID": 13,
+              "period": 4,
+              "courseTitle": "Spanish 2B",
+              "courseID": 77
+            }
+          ],
+          "department": "Foreign Language"
+        },
+        {
+          "classID": 76,
+          "title": "Spanish 2A",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 13,
+              "period": 3,
+              "courseTitle": "Spanish 2A",
+              "courseID": 76
+            },
+            {
+              "term": 2,
+              "teacherID": 13,
+              "period": 4,
+              "courseTitle": "Spanish 2A",
+              "courseID": 76
+            }
+          ],
+          "department": "Foreign Language"
+        },
+        {
+          "classID": 75,
+          "title": "Spanish 1B",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 13,
+              "period": 1,
+              "courseTitle": "Spanish 1B",
+              "courseID": 75
+            },
+            {
+              "term": 3,
+              "teacherID": 13,
+              "period": 2,
+              "courseTitle": "Spanish 1B",
+              "courseID": 75
+            }
+          ],
+          "department": "Foreign Language"
+        },
+        {
+          "classID": 74,
+          "title": "Spanish 1A",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 13,
+              "period": 3,
+              "courseTitle": "Spanish 1A",
+              "courseID": 74
+            },
+            {
+              "term": 1,
+              "teacherID": 13,
+              "period": 4,
+              "courseTitle": "Spanish 1A",
+              "courseID": 74
+            }
+          ],
+          "department": "Foreign Language"
+        },
+        {
+          "classID": 73,
+          "title": "XV",
+          "term": 0,
+          "period": -1,
+          "year": "",
+          "sequence": -1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 1,
+              "period": 2,
+              "courseTitle": "XV",
+              "courseID": 73
+            }
+          ],
+          "department": "Science"
+        },
+        {
+          "classID": 72,
+          "title": "Art Survey",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 2,
+              "period": 2,
+              "courseTitle": "Art Survey",
+              "courseID": 72
+            },
+            {
+              "term": 3,
+              "teacherID": 2,
+              "period": 4,
+              "courseTitle": "Art Survey",
+              "courseID": 72
+            },
+            {
+              "term": 3,
+              "teacherID": 2,
+              "period": 3,
+              "courseTitle": "Art Survey",
+              "courseID": 72
+            }
+          ],
+          "department": "Arts"
+        },
+        {
+          "classID": 71,
+          "title": "Freshman Academy",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 1,
+              "period": 3,
+              "courseTitle": "Freshman Academy",
+              "courseID": 71
+            },
+            {
+              "term": 1,
+              "teacherID": 21,
+              "period": 3,
+              "courseTitle": "Freshman Academy",
+              "courseID": 71
+            }
+          ],
+          "department": "Arts"
+        },
+        {
+          "classID": 70,
+          "title": "Science 9B",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 3,
+              "period": 3,
+              "courseTitle": "Science 9B",
+              "courseID": 70
+            },
+            {
+              "term": 3,
+              "teacherID": 3,
+              "period": 4,
+              "courseTitle": "Science 9B",
+              "courseID": 70
+            },
+            {
+              "term": 3,
+              "teacherID": 12,
+              "period": 4,
+              "courseTitle": "Science 9B",
+              "courseID": 70
+            }
+          ],
+          "department": "Science"
+        },
+        {
+          "classID": 69,
+          "title": "Science 9A",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 12,
+              "period": 2,
+              "courseTitle": "Science 9A",
+              "courseID": 69
+            },
+            {
+              "term": 1,
+              "teacherID": 12,
+              "period": 3,
+              "courseTitle": "Science 9A",
+              "courseID": 69
+            },
+            {
+              "term": 1,
+              "teacherID": 12,
+              "period": 4,
+              "courseTitle": "Science 9A",
+              "courseID": 69
+            }
+          ],
+          "department": "Science"
+        },
+        {
+          "classID": 68,
+          "title": "Chemistry 10A",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 11,
+              "period": 2,
+              "courseTitle": "Chemistry 10A",
+              "courseID": 68
+            },
+            {
+              "term": 1,
+              "teacherID": 11,
+              "period": 3,
+              "courseTitle": "Chemistry 10A",
+              "courseID": 68
+            },
+            {
+              "term": 1,
+              "teacherID": 11,
+              "period": 4,
+              "courseTitle": "Chemistry 10A",
+              "courseID": 68
+            }
+          ],
+          "department": "Science"
+        },
+        {
+          "classID": 67,
+          "title": "Algebra 2B",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 10,
+              "period": 1,
+              "courseTitle": "Algebra 2B",
+              "courseID": 67
+            },
+            {
+              "term": 3,
+              "teacherID": 10,
+              "period": 2,
+              "courseTitle": "Algebra 2B",
+              "courseID": 67
+            },
+            {
+              "term": 3,
+              "teacherID": 10,
+              "period": 3,
+              "courseTitle": "Algebra 2B",
+              "courseID": 67
+            }
+          ],
+          "department": "Math"
+        },
+        {
+          "classID": 66,
+          "title": "Probs and Stats",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 3,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 20,
+              "period": 1,
+              "courseTitle": "Probs and Stats",
+              "courseID": 66
+            },
+            {
+              "term": 3,
+              "teacherID": 20,
+              "period": 2,
+              "courseTitle": "Probs and Stats",
+              "courseID": 66
+            }
+          ],
+          "department": "Math"
+        },
+        {
+          "classID": 65,
+          "title": "Chemistry 10B",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 3,
+              "period": 1,
+              "courseTitle": "Chemistry 10B",
+              "courseID": 65
+            },
+            {
+              "term": 2,
+              "teacherID": 3,
+              "period": 2,
+              "courseTitle": "Chemistry 10B",
+              "courseID": 65
+            },
+            {
+              "term": 2,
+              "teacherID": 3,
+              "period": 3,
+              "courseTitle": "Chemistry 10B",
+              "courseID": 65
+            }
+          ],
+          "department": "Science"
+        },
+        {
+          "classID": 64,
+          "title": "Geometry 2",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 10,
+              "period": 3,
+              "courseTitle": "Geometry 2",
+              "courseID": 64
+            },
+            {
+              "term": 2,
+              "teacherID": 10,
+              "period": 4,
+              "courseTitle": "Geometry 2",
+              "courseID": 64
+            }
+          ],
+          "department": "Math"
+        },
+        {
+          "classID": 63,
+          "title": "Algebra 1B",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 20,
+              "period": 1,
+              "courseTitle": "Algebra 1B",
+              "courseID": 63
+            }
+          ],
+          "department": "Math"
+        },
+        {
+          "classID": 62,
+          "title": "Geometry 1",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 10,
+              "period": 3,
+              "courseTitle": "Geometry 1",
+              "courseID": 62
+            },
+            {
+              "term": 1,
+              "teacherID": 10,
+              "period": 4,
+              "courseTitle": "Geometry 1",
+              "courseID": 62
+            }
+          ],
+          "department": "Math"
+        },
+        {
+          "classID": 61,
+          "title": "Algebra 2A",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 20,
+              "period": 2,
+              "courseTitle": "Algebra 2A",
+              "courseID": 61
+            },
+            {
+              "term": 1,
+              "teacherID": 20,
+              "period": 3,
+              "courseTitle": "Algebra 2A",
+              "courseID": 61
+            },
+            {
+              "term": 1,
+              "teacherID": 20,
+              "period": 4,
+              "courseTitle": "Algebra 2A",
+              "courseID": 61
+            }
+          ],
+          "department": "Math"
+        },
+        {
+          "classID": 60,
+          "title": "Algebra 1A",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 20,
+              "period": 1,
+              "courseTitle": "Algebra 1A",
+              "courseID": 60
+            }
+          ],
+          "department": "Math"
+        },
+        {
+          "classID": 59,
+          "title": "English 10B",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 8,
+              "period": 1,
+              "courseTitle": "English 10B",
+              "courseID": 59
+            },
+            {
+              "term": 3,
+              "teacherID": 8,
+              "period": 2,
+              "courseTitle": "English 10B",
+              "courseID": 59
+            },
+            {
+              "term": 3,
+              "teacherID": 8,
+              "period": 3,
+              "courseTitle": "English 10B",
+              "courseID": 59
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 58,
+          "title": "US History 10B",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 7,
+              "period": 1,
+              "courseTitle": "US History 10B",
+              "courseID": 58
+            },
+            {
+              "term": 3,
+              "teacherID": 7,
+              "period": 2,
+              "courseTitle": "US History 10B",
+              "courseID": 58
+            },
+            {
+              "term": 3,
+              "teacherID": 7,
+              "period": 3,
+              "courseTitle": "US History 10B",
+              "courseID": 58
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 57,
+          "title": "US History 10A",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 9,
+              "period": 2,
+              "courseTitle": "US History 10A",
+              "courseID": 57
+            },
+            {
+              "term": 2,
+              "teacherID": 9,
+              "period": 3,
+              "courseTitle": "US History 10A",
+              "courseID": 57
+            },
+            {
+              "term": 2,
+              "teacherID": 9,
+              "period": 4,
+              "courseTitle": "US History 10A",
+              "courseID": 57
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 56,
+          "title": "Global Issues",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 7,
+              "period": 2,
+              "courseTitle": "Global Issues",
+              "courseID": 56
+            },
+            {
+              "term": 2,
+              "teacherID": 7,
+              "period": 3,
+              "courseTitle": "Global Issues",
+              "courseID": 56
+            },
+            {
+              "term": 2,
+              "teacherID": 7,
+              "period": 4,
+              "courseTitle": "Global Issues",
+              "courseID": 56
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 55,
+          "title": "Mock Trial",
+          "term": 0,
+          "period": -1,
+          "year": "",
+          "sequence": -1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 6,
+              "period": 4,
+              "courseTitle": "Mock Trial",
+              "courseID": 55
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 54,
+          "title": "English 9b",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 2,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 2,
+              "teacherID": 4,
+              "period": 1,
+              "courseTitle": "English 9b",
+              "courseID": 54
+            },
+            {
+              "term": 2,
+              "teacherID": 4,
+              "period": 2,
+              "courseTitle": "English 9b",
+              "courseID": 54
+            },
+            {
+              "term": 2,
+              "teacherID": 4,
+              "period": 3,
+              "courseTitle": "English 9b",
+              "courseID": 54
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 53,
+          "title": "English 9a",
+          "term": 0,
+          "period": -1,
+          "year": 9,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 9,
+              "period": 2,
+              "courseTitle": "English 9a",
+              "courseID": 53
+            },
+            {
+              "term": 1,
+              "teacherID": 9,
+              "period": 3,
+              "courseTitle": "English 9a",
+              "courseID": 53
+            },
+            {
+              "term": 1,
+              "teacherID": 9,
+              "period": 4,
+              "courseTitle": "English 9a",
+              "courseID": 53
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 52,
+          "title": "Global City",
+          "term": 0,
+          "period": -1,
+          "year": 12,
+          "sequence": -1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 9,
+              "period": 1,
+              "courseTitle": "Global City",
+              "courseID": 52
+            },
+            {
+              "term": 2,
+              "teacherID": 9,
+              "period": 1,
+              "courseTitle": "Global City",
+              "courseID": 52
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 51,
+          "title": "Writing 121",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": -1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 8,
+              "period": 4,
+              "courseTitle": "Writing 121",
+              "courseID": 51
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 50,
+          "title": "English 10a",
+          "term": 0,
+          "period": -1,
+          "year": 10,
+          "sequence": 1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 1,
+              "teacherID": 8,
+              "period": 1,
+              "courseTitle": "English 10a",
+              "courseID": 50
+            },
+            {
+              "term": 1,
+              "teacherID": 8,
+              "period": 2,
+              "courseTitle": "English 10a",
+              "courseID": 50
+            },
+            {
+              "term": 1,
+              "teacherID": 8,
+              "period": 3,
+              "courseTitle": "English 10a",
+              "courseID": 50
+            }
+          ],
+          "department": "Humanities"
+        },
+        {
+          "classID": 49,
+          "title": "Elective",
+          "term": 0,
+          "period": -1,
+          "year": "",
+          "sequence": -1,
+          "teacher": null,
+          "offerings": [
+            {
+              "term": 3,
+              "teacherID": 1,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 1,
+              "teacherID": 2,
+              "period": 3,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 1,
+              "teacherID": 2,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 2,
+              "period": 3,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 2,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 6,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 1,
+              "teacherID": 7,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 7,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 8,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 10,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 11,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 11,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 12,
+              "period": 3,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 12,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 1,
+              "teacherID": 15,
+              "period": 1,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 1,
+              "teacherID": 15,
+              "period": 2,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 15,
+              "period": 1,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 15,
+              "period": 2,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 15,
+              "period": 1,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 15,
+              "period": 2,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 1,
+              "teacherID": 19,
+              "period": 3,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 1,
+              "teacherID": 19,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 19,
+              "period": 3,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 19,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 19,
+              "period": 3,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 19,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 20,
+              "period": 2,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 20,
+              "period": 3,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 20,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 20,
+              "period": 3,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 20,
+              "period": 4,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 21,
+              "period": 1,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 1,
+              "teacherID": 18,
+              "period": 1,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 1,
+              "teacherID": 18,
+              "period": 2,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 18,
+              "period": 1,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 2,
+              "teacherID": 18,
+              "period": 2,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 18,
+              "period": 1,
+              "courseTitle": "Elective",
+              "courseID": 49
+            },
+            {
+              "term": 3,
+              "teacherID": 18,
+              "period": 2,
+              "courseTitle": "Elective",
+              "courseID": 49
+            }
+          ],
+          "department": "---"
+        },
         {
           "classID": 46,
           "title": "Senior Ex / Extended Essay ",
@@ -1090,6 +2523,18 @@
           "subjects": [
             22
           ]
+        },
+        {
+          "name": "9th Grade",
+          "subjects": [
+            23
+          ]
+        },
+        {
+          "name": "10th grade",
+          "subjects": [
+            24
+          ]
         }
       ],
       "teachers": [
@@ -1157,9 +2602,77 @@
           "name": "Christenson (ib french classes taught simultaneously)",
           "id": 14,
           "department": "Foreign Language"
+        },
+        {
+          "name": "A. Brown",
+          "id": 18,
+          "department": "Other"
+        },
+        {
+          "name": "Pridemore",
+          "id": 19,
+          "department": "Other"
+        },
+        {
+          "name": "Thompson",
+          "id": 20,
+          "department": "Math"
+        },
+        {
+          "name": "S. Hansen",
+          "id": 21,
+          "department": "Other"
+        },
+        {
+          "name": "Harp",
+          "id": 22,
+          "department": "Other"
         }
       ],
       "subjects": [
+        {
+          "subjectID": 24,
+          "name": "10th Core",
+          "classSequence": [
+            62,
+            64,
+            50,
+            59,
+            57,
+            58,
+            88,
+            82,
+            80,
+            81,
+            68,
+            65
+          ],
+          "HL_ClassSequence": [],
+          "offersHL": false,
+          "offersSL": true
+        },
+        {
+          "subjectID": 23,
+          "name": "9th Core",
+          "classSequence": [
+            90,
+            89,
+            87,
+            84,
+            78,
+            79,
+            72,
+            71,
+            69,
+            70,
+            60,
+            63,
+            56
+          ],
+          "HL_ClassSequence": [],
+          "offersHL": false,
+          "offersSL": true
+        },
         {
           "subjectID": 22,
           "name": "IB Core",
@@ -1329,9 +2842,9 @@
       ],
       "terms": 3,
       "periods": 5,
-      "topTeacherID": 14,
-      "topCourseID": 48,
-      "topSubjectID": 22
+      "topTeacherID": 22,
+      "topCourseID": 92,
+      "topSubjectID": 24
     }
   ],
   "teachers": [

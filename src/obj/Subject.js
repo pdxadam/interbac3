@@ -34,5 +34,8 @@ export default class Subject{
             }
         }
     }
+    getFullTitle(){
+        return this
+    }
     
 }
