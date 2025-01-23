@@ -10,7 +10,9 @@
 <template>
     <table v-for = "n in program.terms">
         <thead>
-            <th :colspan = "program.teachers.length">Term {{ n }}</th>
+            <tr>
+                <th :colspan = "program.teachers.length">Term {{ n }}</th>
+            </tr>
             <tr>
                 <th v-for = "teacher in program.teachers">{{ teacher.name }}</th>
             </tr>
