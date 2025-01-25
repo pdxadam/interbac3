@@ -44,6 +44,7 @@
         border: 3px outset grey;
         border-collapse: collapse;
         margin: 5px;
+        width: 100%;
 
     }
     th{

@@ -2,18 +2,22 @@ import Program from '@/obj/Program.js';
 import Teacher from '@/obj/Teacher.js';
 
 export default class School{
-    name = "Riverdale High School"
+    name = "Riverdale High School";
+    version = 1.0;
     programs = [];
     teachers = [];
     terms = 3;
     periods = 5;
-    constructor(name, terms = 3, periods = 5){
+    constructor(name, terms = 3, periods = 5, version){
         this.name = name;
         this.setTerms(terms);
         this.periods = periods;
+        this.version = version;
     }
     static FromJson(jSchool){
-        let newSchool = new School(jSchool.name, jSchool.terms, jSchool.periods);
+        School.CheckVersion(jSchool);
+        let newSchool = new School(jSchool.name, jSchool.terms, jSchool.periods, jSchool.version);
+        
         for (let program of jSchool.programs){
             newSchool.programs.push(Program.FromJson(program));
         }
@@ -21,6 +25,21 @@ export default class School{
             newSchool.teachers.push(Teacher.FromJson(teacher));
         }
         return newSchool;
+    }
+    static CheckVersion(jSchool){
+        //takes a parsed json object, checks the data version, and transforms it if necessary.
+        
+        //step 1: does the data have a version?
+        if (!('version' in jSchool)){
+            alert("updating data version");
+            jSchool.version = 1.0;
+        }
+        //as data versions change, I'll write transformations below.
+
+    }
+    getBackup(){
+        let jSchool = JSON.stringify(this, null, 2);
+        return jSchool;
     }
     setTerms(terms){
         if (terms > 0){

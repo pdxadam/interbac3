@@ -35,4 +35,11 @@ export default class Classy{
         this.offerings.push(o);
         return o;
     }
+    removeOfferingByTeacher(teacherID){
+        for (let i = 0; i < this.offerings.length; i++){
+            if (this.offerings[i].teacherID = teacherID){
+                this.offerings.splice(i,1);
+            }
+        }
+    }
 }

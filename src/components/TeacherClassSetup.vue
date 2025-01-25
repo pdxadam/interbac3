@@ -16,10 +16,7 @@
     const selectedClass = ref(null);
     function setOffering(term, period){
         if (selectedClass.value != null && selectedTeacher.value != null){
-            console.log("Creating offering for teacher:" + selectedTeacher.value.name);
-            console.log("class: " + selectedClass.value.title);
-            console.log("term:" + term );
-            console.log("period: " + period);
+
             let newOffering = selectedClass.value.createOffering(selectedTeacher.value.id, term, period);
             console.log(newOffering);
         }
@@ -43,6 +40,9 @@
         selectedTeacher.value = t;
         console.log(t);
     }
+    function deleteOffering(objCourse, index){
+        objCourse.offerings.splice(index, 1);
+    }
     function shouldShowOffering(o, term, period){
         try{
             if (o.teacherID == selectedTeacher.value.id && o.term == term && o.period == period){
@@ -55,6 +55,15 @@
         catch{
             return false;
         }
+    }
+    function pickOffering(c){
+        selectedClass.value = c;
+    }
+    function swap(c,o, index){
+        //puts the selected class in the current location and takes what's there as the new selectedClass
+        deleteOffering(c, index);
+        setOffering(o.term, o.period);
+        selectedClass.value = c;
     }
 </script>
 <template>
@@ -70,11 +79,19 @@
         <TeachersVue :teachers = teachers :program = program @teacherSelected = "(t) => selectTeacher(t)" />
     </nav>
     <div id="classList">
+        <b-button @click = "selectedClass = null">Clear</b-button>
+        Selected Class: {{ selectedClass==null?"[none]":selectedClass.title }}
+        <br />
         <ClassesVue :classes = program.classes @classSelected = "(c) => selectClass(c)" />
     </div>
     <div id="selectedTeacher">
         <table v-if = "selectedTeacher != null">
         <thead>
+            <tr>
+                <td colspan="2">
+                Key: Click to place the selected class.  Right-click to grab the class.  Alt+click to place and pick (swap)
+                </td>
+            </tr>
             <tr>
                 <th v-if = "editTeacher"><input type='text' v-model = selectedTeacher.name /></th>
                 <th v-else>{{ selectedTeacher.name }}</th>   
@@ -92,8 +109,8 @@
             <td v-for = "term in program.terms" @click="setOffering(term, period)">
                 <!-- loop through the classes, then through the offerings and see fi the term, period, and teacherid match-->
                 <div v-for = "c in program.classes">
-                    <div v-for = "o in c.offerings">
-                        <OfferingVue  v-if = "shouldShowOffering(o, term, period)" :offering = o />
+                    <div v-for = "o, index in c.offerings">
+                        <OfferingVue  v-if = "shouldShowOffering(o, term, period)" :offering = o @click.exact = "deleteOffering(c, index)" @click.alt.stop.prevent ="swap(c, o, index)" @click.right.prevent = "pickOffering(c);"/>
                     </div>
                 </div>
             </td>
@@ -110,7 +127,7 @@
         float: left;
     }
     #selectedTeacher{
-        margin-left: 155px;
+        margin-left: 225px;
     }
     #classList{
         float: right;

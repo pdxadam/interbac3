@@ -45,6 +45,7 @@
             departments.value.push(c.department);
             console.log(c.department);
         }
+        console.log("Class Departments");
         console.log(departments.value);
         }
         departments.value.sort();
@@ -58,8 +59,9 @@
         }
 
     }
-    function deleteClass(index){
-        props.classes.splice(index,1);    
+    function deleteClass(courseID){
+        console.log("Delete " + courseID);
+        props.program.deleteClass(courseID);
     }
 </script>
 <template>
@@ -85,7 +87,7 @@
 
     <tbody>
         <tr v-for="c, index in classes" >
-            <ClassVue :isVisible = "shouldShow(c)" :class = 'c == selectedClass?"selected":""' @deleteClass = deleteClass(index) :editClass = false :c = c @click = "selectMe(c)"/>
+            <ClassVue :isVisible = "shouldShow(c)" :class = 'c == selectedClass?"selected":""' @deleteClass = deleteClass(c.courseID) :editClass = false :c = c @click = "selectMe(c)"/>
         </tr>
     </tbody>
 </table>
