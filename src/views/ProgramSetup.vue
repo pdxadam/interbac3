@@ -36,6 +36,8 @@
             <span v-else><input type="text" v-model = selectedProgram.name /></span>
             <b-button @click="editProgram = !editProgram">{{ editProgram?"Save":"Edit" }}</b-button>
         </h1>
+        <h2>Notes:</h2>
+        <b-input type="textarea" v-model="selectedProgram.notes"></b-input>
         <b-tabs>
             <b-tab-item label="Classes">
                 <ClassesVue :classes = selectedProgram.classes :program = selectedProgram />
@@ -89,4 +91,16 @@ section{
 tbody tr:nth-child(even){
     background-color: rgb(227, 234, 250);
 }
+h1{
+    font-size: 1.2em;
+    color: navy;
+    font-weight: bold;
+
+}
+h2{
+    font-size: 1.1em;
+    color: black;
+    font-weight: bold;
+}
+
 </style>
