@@ -5,6 +5,7 @@ export default class Classy{
     term = 0;
     period = -1;
     year = 11;
+    //use these as defaults
     sequence = -1;
     teacher = null;
     offerings = [];

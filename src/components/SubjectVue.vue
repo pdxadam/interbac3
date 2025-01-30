@@ -32,6 +32,8 @@
         <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
         <li v-for = "c,index in subject.classSequence">
             <ClassVue :c = program.getClassById(c) :editable=false />
+            {{ program.getClassById(c.classID) }} Year: {{ c.year }} Sequence: c.sequence
+            <b-button class="cmdRemove" @click = editClass(index)>&#x720e;</b-button>
             <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
         </li>
     </ul>

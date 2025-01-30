@@ -11,18 +11,14 @@
 
     });
     function addClass(c){
-        console.log("YOu added " + c.title);
+        console.log("You added " + c.title);
         if (props.subject.classSequence.includes(c.classID)){
             console.log("it's already there");
-
             return;
-
         }
         else{
-            props.subject.classSequence.push(c.classID);
-            
+            props.subject.classSequence.push({classID: c.classID, year: c.year, sequence: c.sequence }); // changed to handle a year/sequence
         }
-        console.log(props.subject.classSequence);
     }
 </script>
 <template>
