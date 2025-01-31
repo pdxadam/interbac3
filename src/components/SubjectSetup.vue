@@ -1,7 +1,7 @@
 <script setup>
     // import { ref } from 'vue';
-    import Class from '@/obj/Classy.js';
-    import ClassesVue from '@/components/ClassesVue.vue';
+    import Course from '@/obj/Course.js';
+    import CoursesVue from '@/components/CoursesVue.vue';
     import Subject from '@/obj/Subject.js';
     import Program from '@/obj/Program.js';
 
@@ -10,20 +10,20 @@
         subject: Subject,
 
     });
-    function addClass(c){
+    function addCourse(c){
         console.log("You added " + c.title);
-        if (props.subject.classSequence.includes(c.classID)){
+        if (props.subject.courseSequence.includes(c.courseID)){
             console.log("it's already there");
             return;
         }
         else{
-            props.subject.classSequence.push({classID: c.classID, year: c.year, sequence: c.sequence }); // changed to handle a year/sequence
+            props.subject.courseSequence.push({courseID: c.courseID, year: c.year, sequence: c.sequence }); // changed to handle a year/sequence
         }
     }
 </script>
 <template>
     <div>
-        <h2>Select classes in this group</h2>
+        <h2>Select courses in this group</h2>
         <!-- <div id='classList'>
             <b-field>
            
@@ -31,7 +31,7 @@
              
              </b-field>
         </div> -->
-        <ClassesVue :omitList = "subject.classSequence" :classes = program.classes @classSelected = "(c) => { addClass(c); }" :program = program />
+        <CoursesVue :omitList = "subject.courseSequence" :courses = program.courses @courseSelected = "(c) => { addCourse(c); }" :program = program />
 
         
     </div>

@@ -2,10 +2,10 @@
     import { ref } from 'vue';
     import Program from '../obj/Program.js';
     import Group from '../obj/Group.js';
-    import ClassesVue from '@/components/ClassesVue.vue';
+    import CoursesVue from '@/components/CoursesVue.vue';
     import GroupsVue from '@/components/GroupsVue.vue';
     import School from '@/obj/School.js';
-    import TeacherClassSetup from '@/components/TeacherClassSetup.vue';
+    import TeacherCourseSetup from '@/components/TeacherScheduleSetup.vue';
     import ScenarioSetup from '@/views/ScenarioSetup.vue';
     const props = defineProps({
        
@@ -39,15 +39,15 @@
         <h2>Notes:</h2>
         <b-input type="textarea" v-model="selectedProgram.notes"></b-input>
         <b-tabs>
-            <b-tab-item label="Classes">
-                <ClassesVue :classes = selectedProgram.classes :program = selectedProgram />
+            <b-tab-item label="Courses">
+                <CoursesVue :courses = selectedProgram.courses :program = selectedProgram />
             </b-tab-item>
             <b-tab-item label="Subject Groups">
                 <GroupsVue :groups = selectedProgram.groups :program = selectedProgram />
 
             </b-tab-item>
             <b-tab-item label="Teacher Schedules">
-                <TeacherClassSetup :teachers = selectedProgram.teachers :program = selectedProgram />
+                <TeacherCourseSetup :teachers = selectedProgram.teachers :program = selectedProgram />
             </b-tab-item>
             <b-tab-item label="Scenarios">
                 <ScenarioSetup :program = selectedProgram />

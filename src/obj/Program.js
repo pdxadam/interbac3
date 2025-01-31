@@ -1,11 +1,11 @@
-import Classy from '@/obj/Classy.js';
+import Course from '@/obj/Course.js';
 import Group from '@/obj/Group.js';
 import Teacher from '@/obj/Teacher.js';
 
 export default class Program{
 //TODO: Add course IDs and a 'createCourse' here on Program-- just like Teacher
     name="IB Program";
-    classes = [];
+    courses = [];
     groups = [];
     teachers = []; //teachers taken from the school when the program is created.
     //TODO: should I move offerings here? 
@@ -27,8 +27,8 @@ export default class Program{
         newProgram.topTeacherID = jProgram.topTeacherID;
         newProgram.topCourseID = jProgram.topCourseID;
 
-        for (let c of jProgram.classes){
-            newProgram.classes.push(Classy.FromJson(c));
+        for (let c of jProgram.courses){
+            newProgram.courses.push(Course.FromJson(c));
         }
         for (let group of jProgram.groups){
             newProgram.groups.push(Group.FromJson(group));
@@ -48,15 +48,15 @@ export default class Program{
         return newTeacher;
 
     }
-    createClass(title, department = "---"){
+    createCourse(title, department = "---"){
         this.topCourseID++;
-        let newClass = new Classy(title, this.topCourseID, department);
-        this.classes.unshift(newClass);
-        return newClass;
+        let newCourse = new Course(title, this.topCourseID, department);
+        this.courses.unshift(newCourse);
+        return newCourse;
     }
-    getClassById(classID){
-        for (let c of this.classes){
-            if (c.classID == classID){
+    getCourseById(courseID){
+        for (let c of this.courses){
+            if (c.courseID == courseID){
                 return c;
             }
         }

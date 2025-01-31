@@ -6,21 +6,21 @@
     import OfferingVue from '@/components/OfferingVue.vue';
     import Offering from '@/obj/Offering.js';
     
-    import ClassesVue from '@/components/ClassesVue.vue';
+    import CoursesVue from '@/components/CoursesVue.vue';
     const props = defineProps({
         program: Program,
         teachers: [Teacher],
     });
     const selectedTeacher = ref(null);
     const editTeacher = ref(false);
-    const selectedClass = ref(null);
+    const selectedCourse = ref(null);
     function setOffering(term, period){
-        if (selectedClass.value != null && selectedTeacher.value != null){
+        if (selectedCourse.value != null && selectedTeacher.value != null){
             console.log("Creating offering for teacher:" + selectedTeacher.value.name);
-            console.log("class: " + selectedClass.value.title);
+            console.log("course: " + selectedCourse.value.title);
             console.log("term:" + term );
             console.log("period: " + period);
-            let newOffering = selectedClass.value.createOffering(selectedTeacher.value.id, term, period);
+            let newOffering = selectedCourse.value.createOffering(selectedTeacher.value.id, term, period);
             console.log(newOffering);
         }
     }
@@ -34,8 +34,8 @@
         }
         props.teachers.unshift(new Teacher("--new--",terms, periods));
     }
-    function selectClass(c){
-        selectedClass.value = c;
+    function selectCourse(c){
+        selectedCourse.value = c;
         console.log(typeof c);
 
     }
@@ -69,8 +69,8 @@
         Teachers
         <TeachersVue :teachers = teachers :program = program @teacherSelected = "(t) => selectTeacher(t)" />
     </nav>
-    <div id="classList">
-        <ClassesVue :classes = program.classes @classSelected = "(c) => selectClass(c)" />
+    <div id="courseList">
+        <Courses :courses = program.courses @courseSelected = "(c) => selectCourse(c)" />
     </div>
     <div id="selectedTeacher">
         <table v-if = "selectedTeacher != null">
@@ -88,10 +88,10 @@
         </thead>
         <tbody>
         <tr v-for = "period in program.periods">
-            <th>class {{ period }}</th>
+            <th>Course {{ period }}</th>
             <td v-for = "term in program.terms" @click="setOffering(term, period)">
                 <!-- loop through the classes, then through the offerings and see fi the term, period, and teacherid match-->
-                <div v-for = "c in program.classes">
+                <div v-for = "c in program.courses">
                     <div v-for = "o in c.offerings">
                         <OfferingVue  v-if = "shouldShowOffering(o, term, period)" :offering = o />
                     </div>
@@ -112,7 +112,7 @@
     #selectedTeacher{
         margin-left: 155px;
     }
-    #classList{
+    #courseList{
         float: right;
     }
     td{

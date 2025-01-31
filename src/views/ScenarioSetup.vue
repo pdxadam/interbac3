@@ -3,14 +3,14 @@
     import Program from '@/obj/Program.js';
     import Offering from '@/obj/Offering.js';
     import Group from '@/obj/Group.js';
-    import Classy from '@/obj/Classy.js';
+    import Course from '@/obj/Course.js';
     const props = defineProps({
         program: Program,
     });
     const schedule = ref({"11": [],"12": []});
     console.log("Groups---");
     console.log(props.program.groups);
-    console.log(props.program.classes);
+    console.log(props.program.courses);
     const selections = ref({});
 
     function process(){
@@ -19,21 +19,21 @@
         console.log(selections.value);
         for (let key in selections.value){
             //looping through the chosen subjects
-            //sort the classes?
+            
             console.log("Selection " + selections.value[key]);
-            console.log("classes:");
+            console.log("courses:");
 
-            for (let c of selections.value[key].classSequence){
-                var thisClass = props.program.getClassById(c);
+            for (let c of selections.value[key].courseSequence){
+                var thisCourse = props.program.getCourseById(c);
                
                 
                 //looping through the classes
                 //now loop through and grab the first offering for every class and add it to selections
-                if (thisClass.offerings.length == 0){
-                    console.log("A class is missing an offering");
+                if (thisCourse.offerings.length == 0){
+                    console.log("A course is missing an offering");
                 }
                 else{
-                    schedule.value[thisClass.year].push(thisClass.offerings[0]);
+                    schedule.value[thisCourse.year].push(thisCourse.offerings[0]);
                 }
             }
         }
@@ -54,7 +54,7 @@
     <b-button @click = "process()">Process</b-button>
     <div id="groups">
         List all the groups with the subjects as dropdowns
-        On Selection, fill the classes of the table
+        On Selection, fill the courses of the table
         <div v-for = "group in program.groups">
             <section>
             <b-dropdown type="is-primary" expanded v-model = selections[group.name] :icon-right = "active?'menu-up':'menu-down'">

@@ -1,11 +1,11 @@
 <script setup>
-    import Classy from '@/obj/Classy.js'
-    import ClassVue from '@/components/ClassVue.vue';
+    import Course from '@/obj/Course.js'
+    import CourseVue from '@/components/CourseVue.vue';
     import Program from '@/obj/Program.js';
     import { ref, watch } from 'vue';
-    const emit = defineEmits('classSelected');
+    const emit = defineEmits('courseSelected');
     const props = defineProps({
-        classes: [Classy],
+        courses: [Course],
         program: Program,
         editable: {
             type: Boolean,
@@ -16,31 +16,31 @@
     });
     const departments = ref([]);
     const chosenDepartment = ref("Show All");
-    const selectedClass = ref(null);
+    const selectedCourse = ref(null);
     function selectMe(c){
-        selectedClass.value = c;
-        emit("classSelected",c);
+        selectedCourse.value = c;
+        emit("courseSelected",c);
 
     }
     getDepartments();
-    function shouldShow(thisClass){
+    function shouldShow(thisCourse){
         var shouldShow = false;
         if (chosenDepartment.value == "Show All"){
             shouldShow = true;
         }
-        else if (chosenDepartment.value == thisClass.department){
+        else if (chosenDepartment.value == thisCourse.department){
             shouldShow = true;
         }
-        if (typeof(props.omitList) != 'undefined' && props.omitList.includes(thisClass.classID)){
+        if (typeof(props.omitList) != 'undefined' && props.omitList.includes(thisCourse.courseID)){
             shouldShow = false;
         }
         return shouldShow;
     }
-    watch(props.classes, getDepartments, {deep: true});
+    watch(props.courses, getDepartments, {deep: true});
     function getDepartments(){
         console.log("getting");
         departments.value = [];
-        for (let c of props.classes){
+        for (let c of props.courses){
         if (!(departments.value.includes(c.department))){
             departments.value.push(c.department);
             console.log(c.department);
@@ -50,16 +50,16 @@
         departments.value.sort();
 
     }
-    function newClass(){
-        let newClass = props.program.createClass("__ New Class __");
+    function newCourse(){
+        let newCourse = props.program.createCourse("__ New Course __");
 
         if (chosenDepartment.value != "Show All"){
-            newClass.department = chosenDepartment.value;
+            newCourse.department = chosenDepartment.value;
         }
 
     }
-    function deleteClass(index){
-        props.classes.splice(index,1);    
+    function deleteCourse(index){
+        props.courses.splice(index,1);    
     }
 </script>
 <template>
@@ -78,14 +78,14 @@
     <table>
         <thead>
         <tr>
-            <th>Classes</th>
-            <td><b-button @click=newClass> + </b-button></td>
+            <th>Courses</th>
+            <td><b-button @click=newCourse> + </b-button></td>
         </tr>
     </thead>
 
     <tbody>
-        <tr v-for="c, index in classes" >
-            <ClassVue :isVisible = "shouldShow(c)" :class = 'c == selectedClass?"selected":""' @deleteClass = deleteClass(index) :editClass = false :c = c @click = "selectMe(c)"/>
+        <tr v-for="c, index in courses" >
+            <CourseVue :isVisible = "shouldShow(c)" :course = 'c == selectedCourse?"selected":""' @deleteCourse = deleteCourse(index) :editCourse = false :c = c @click = "selectMe(c)"/>
         </tr>
     </tbody>
 </table>

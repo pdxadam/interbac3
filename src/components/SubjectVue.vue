@@ -3,7 +3,7 @@
     import Subject from '@/obj/Subject.js';
     import Program from '@/obj/Program.js';
     import SubjectSetup from '@/components/SubjectSetup.vue';
-    import ClassVue from '@/components/ClassVue.vue';
+    import CourseVue from '@/components/CourseVue.vue';
     const emit = defineEmits(['deleteSubject']);
     const props = defineProps({
         subject: Subject,
@@ -15,8 +15,8 @@
         editMode.value = false;
         emit('deleteSubject');
     }
-    function removeClass(i){
-        props.subject.classSequence.splice(i,1);
+    function removeCourse(i){
+        props.subject.courseSequence.splice(i,1);
     }
 </script>
 <template>
@@ -27,14 +27,14 @@
     <span v-if = "editMode"><b-button @click = deleteSubject>Delete</b-button></span>
 
     </h1>
-    <h2>Classes in this subject</h2>
+    <h2>Courses in this subject</h2>
     <ul>
         <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
-        <li v-for = "c,index in subject.classSequence">
-            <ClassVue :c = program.getClassById(c) :editable=false />
-            {{ program.getClassById(c.classID) }} Year: {{ c.year }} Sequence: c.sequence
-            <b-button class="cmdRemove" @click = editClass(index)>&#x720e;</b-button>
-            <b-button class='cmdRemove' @click = removeClass(index)>X</b-button>
+        <li v-for = "c,index in subject.courseSequence">
+            <CourseVue :c = program.getCourseById(c) :editable=false />
+            {{ program.getCourseById(c.CourseID) }} Year: {{ c.year }} Sequence: c.sequence
+            <b-button class="cmdRemove" @click = editCourse(index)>&#x720e;</b-button>
+            <b-button class='cmdRemove' @click = removeCourse(index)>X</b-button>
         </li>
     </ul>
     <hr>

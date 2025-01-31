@@ -5,7 +5,7 @@
     import Teacher from '../obj/Teacher.js';
     import Program from '../obj/Program.js';
     import ProgramSetup from './ProgramSetup.vue'
-    import ClassesVue from '../components/ClassesVue.vue';
+    import ClassesVue from '../components/CoursesVue.vue';
     import { onMounted } from 'vue';
     import Group from '../obj/Group.js';
     const school = ref(new School("RHS"));
