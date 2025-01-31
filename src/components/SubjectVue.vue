@@ -3,7 +3,7 @@
     import Subject from '@/obj/Subject.js';
     import Program from '@/obj/Program.js';
     import SubjectSetup from '@/components/SubjectSetup.vue';
-    import ClassVue from '@/components/ClassVue.vue';
+    import CourseVue from '@/components/CourseVue.vue';
     const emit = defineEmits(['deleteSubject']);
     const props = defineProps({
         subject: Subject,
@@ -19,12 +19,12 @@
         editMode.value = false;
         emit('deleteSubject');
     }
-    function removeClass(i, hl = false){
+    function removeCourse(i, hl = false){
         if (hl){
-            props.subject.HL_ClassSequence.splice(i, 1);
+            props.subject.HL_CourseSequence.splice(i, 1);
         }
         else{
-            props.subject.classSequence.splice(i,1);
+            props.subject.courseSequence.splice(i,1);
         }
     }
 </script>
@@ -41,24 +41,22 @@
     
     </h1>
     <div v-if = "setup">
-        <h2>Classes in this subject</h2>
+        <h2>Courses in this subject</h2>
         <div v-if = "subject.offersSL">
             <h3>Standard Level</h3>
             <ul>
-                <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
-                <li v-for = "c,index in subject.classSequence">
-                    <ClassVue :c = program.getClassById(c) :editable=false />
-                    <b-button class='cmdRemove' @click = "removeClass(index, false)" >X</b-button>
+               <li v-for = "c,index in subject.courseSequence">
+                    <CourseVue :c = program.getCourseByID(c) :editable=false />
+                    <b-button class='cmdRemove' @click = "removeCourse(index, false)" >X</b-button>
                 </li>
             </ul>
         </div>
         <div v-if = "subject.offersHL">
             <h3>High Level</h3>
             <ul>
-                <!-- <li v-for = "c in subject.classSequence">{{ program.getClassById(c).title }}</li> -->
-                <li v-for = "c,index in subject.HL_ClassSequence">
-                    <ClassVue :c = program.getClassById(c) :editable=false />
-                    <b-button class='cmdRemove' @click = "removeClass(index, true)" >X</b-button>
+               <li v-for = "c,index in subject.HL_CourseSequence">
+                    <CourseVue :c = program.getCourseByID(c) :editable=false />
+                    <b-button class='cmdRemove' @click = "removeCourse(index, true)" >X</b-button>
                 </li>
             </ul>
         </div>

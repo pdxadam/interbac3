@@ -21,7 +21,7 @@ export default class Course{
         newCourse.year = jCourse.year;
         newCourse.sequence = jCourse.sequence;
         newCourse.department = jCourse.department;
-        newCourse.classID = jCourse.classID;
+        newCourse.courseID = jCourse.courseID;
         for (let o of jCourse.offerings){
             newCourse.offerings.push(Offering.fromJSON(o, newCourse));
         }

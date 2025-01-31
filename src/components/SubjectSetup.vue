@@ -1,7 +1,7 @@
 <script setup>
     // import { ref } from 'vue';
-    import Class from '@/obj/Course.js';
-    import ClassesVue from '@/components/ClassesVue.vue';
+    import Course from '@/obj/Course.js';
+    import CoursesVue from '@/components/CoursesVue.vue';
     import Subject from '@/obj/Subject.js';
     import Program from '@/obj/Program.js';
 
@@ -10,49 +10,36 @@
         subject: Subject,
 
     });
-    function addClass(c, seq){
+    function addCourse(c, seq){
         console.log("Yu added " + c.title);
-        if (seq.includes(c.classID)){
+        if (seq.includes(c.courseID)){
             console.log("it's already there");
 
             return;
 
         }
         else{
-            seq.push(c.classID);
+            seq.push(c.courseID);
             
         }
-        console.log(seq.classSequence);
+        console.log(seq.courseSequence);
     }
 </script>
 <template>
     <b-tabs>
         <b-tab-item label="Standard Level" v-if = "subject.offersSL">
             <div>
-                <h2>Select classes in this group</h2>
-                <!-- <div id='classList'>
-                    <b-field>
-                
-                        <b-checkbox-button @click = "console.log(subject.classSequence);" v-for = "c in program.classes" v-model = "subject.classSequence" type="is-success" :native-value = c>{{ c.title }}</b-checkbox-button>
-                    
-                    </b-field>
-                </div> -->
-                <ClassesVue :omitList = "subject.classSequence" :classes = program.classes @classSelected = "(c) => { addClass(c, subject.classSequence); }" :program = program />
+                <h2>Select courses in this group</h2>
+               
+                <CoursesVue :omitList = "subject.courseSequence" :courses = program.courses @courseSelected = "(c) => { addCourse(c, subject.courseSequence); }" :program = program />
 
                 
             </div>
         </b-tab-item>
         <b-tab-item label="Higher Level" v-if = "subject.offersHL">
             <div>
-                <h2>Select classes in this group</h2>
-                <!-- <div id='classList'>
-                    <b-field>
-                
-                        <b-checkbox-button @click = "console.log(subject.classSequence);" v-for = "c in program.classes" v-model = "subject.classSequence" type="is-success" :native-value = c>{{ c.title }}</b-checkbox-button>
-                    
-                    </b-field>
-                </div> -->
-                <ClassesVue :omitList = "subject.HL_ClassSequence" :classes = program.classes @classSelected = "(c) => { addClass(c, subject.HL_ClassSequence); }" :program = program />
+                <h2>Select courses in this group</h2>
+                <CoursesVue :omitList = "subject.HL_CourseSequence" :courses = program.courses @courseSelected = "(c) => { addCourse(c, subject.HL_CourseSequence); }" :program = program />
 
                 
             </div>
@@ -62,8 +49,5 @@
 
 </template>
 <style scoped>
-    #classList{
-        width: 200px;
-        float: right;
-    }
+    
 </style>

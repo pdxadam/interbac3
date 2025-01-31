@@ -1,4 +1,4 @@
-import Classy from '@/obj/Classy.js';
+import Course from '@/obj/Course.js';
 
 export default class Teacher{
     name = "mud";

@@ -13,8 +13,8 @@ export default class Offering{
         this.courseID = courseID;
     }
 
-    static fromJSON(jOffering, classy){
-        let o = new Offering(jOffering.term, jOffering.teacherID, jOffering.period, classy.title, jOffering.courseID);
+    static fromJSON(jOffering, course){
+        let o = new Offering(jOffering.term, jOffering.teacherID, jOffering.period, course.title, jOffering.courseID);
         return o;
     }
     getTitle(){

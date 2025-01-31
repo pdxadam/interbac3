@@ -1,10 +1,10 @@
-import Classy from '@/obj/Classy.js';
+import Course from '@/obj/Course.js';
 
 export default class Subject{
     subjectID = -1;
     name = "_Subject Name_";
-    classSequence = []; // now it should hold courseIDs
-    HL_ClassSequence = [];
+    courseSequence = []; // now it should hold courseIDs
+    HL_CourseSequence = [];
     offersHL = true;
     offersSL = true;
     constructor(name){
@@ -16,21 +16,21 @@ export default class Subject{
         newSubject.offersHL = jSubject.offersHL;
         newSubject.offersSL = jSubject.offersSL;
 
-        for(let c of jSubject.classSequence){
-            newSubject.classSequence.push(c);
+        for(let c of jSubject.courseSequence){
+            newSubject.courseSequence.push(c);
         }
-        if ("HL_ClassSequence" in jSubject){
-            for (let c of jSubject.HL_ClassSequence){
-                newSubject.HL_ClassSequence.push(c);
+        if ("HL_CourseSequence" in jSubject){
+            for (let c of jSubject.HL_CourseSequence){
+                newSubject.HL_CourseSequence.push(c);
             }
         }
         return newSubject;
         
     }
-    removeClass(courseID){
-        for (let i = 0; i < this.classSequence.length; i++){
-            if (this.classSequence[i] == courseID){
-                this.classSequence.splice(i, 1);
+    removeCourse(courseID){
+        for (let i = 0; i < this.courseSequence.length; i++){
+            if (this.courseSequence[i] == courseID){
+                this.courseSequence.splice(i, 1);
             }
         }
     }
