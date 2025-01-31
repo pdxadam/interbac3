@@ -35,6 +35,10 @@ export default class School{
             jSchool.version = 1.0;
         }
         //as data versions change, I'll write transformations below.
+        if (jSchool.version == 1.0){
+            //convert to 1.1: change all 'class' elements to course
+            
+        }
 
     }
     getBackup(){

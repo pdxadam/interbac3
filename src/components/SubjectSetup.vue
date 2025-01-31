@@ -1,6 +1,6 @@
 <script setup>
     // import { ref } from 'vue';
-    import Class from '@/obj/Classy.js';
+    import Class from '@/obj/Course.js';
     import ClassesVue from '@/components/ClassesVue.vue';
     import Subject from '@/obj/Subject.js';
     import Program from '@/obj/Program.js';

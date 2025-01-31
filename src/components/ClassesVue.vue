@@ -1,5 +1,5 @@
 <script setup>
-    import Classy from '@/obj/Classy.js'
+    import Classy from '@/obj/Course.js'
     import ClassVue from '@/components/ClassVue.vue';
     import Program from '@/obj/Program.js';
     import { ref, watch } from 'vue';
