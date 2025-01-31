@@ -1,27 +1,42 @@
 import Course from '@/obj/Course.js';
 
 export default class Subject{
+    subjectID = -1;
     name = "_Subject Name_";
-    courseSequence = []; // now it should hold {courseID: __, year: __, seq: __}
-    //TODO: handle the sequence of courses. 
+    classSequence = []; // now it should hold courseIDs
+    HL_ClassSequence = [];
+    offersHL = true;
+    offersSL = true;
     constructor(name){
         this.name = name;
     }
     
     static FromJson(jSubject){
         let newSubject = new Subject(jSubject.name);
-        for(let c of jSubject.courseSequence){
-            newSubject.courseSequence.push(c); // we want to change this to handle the idea that it should be an object with a potential override year and sequence
+        newSubject.subjectID = jSubject.subjectID;
+        newSubject.offersHL = jSubject.offersHL;
+        newSubject.offersSL = jSubject.offersSL;
+
+        for(let c of jSubject.classSequence){
+            newSubject.classSequence.push(c);
         }
-        return newSubject;
-    }
-    hasCourse(courseID){
-        for(let c of courseSequence){
-            if (c.courseID == courseID){
-                return true;
+        if ("HL_ClassSequence" in jSubject){
+            for (let c of jSubject.HL_ClassSequence){
+                newSubject.HL_ClassSequence.push(c);
             }
         }
-        return false;
+        return newSubject;
+        
     }
-    //TODO: refactor all terms 'class' to 'course'.  courseID, courseSequence....class Course...
+    removeClass(courseID){
+        for (let i = 0; i < this.classSequence.length; i++){
+            if (this.classSequence[i] == courseID){
+                this.classSequence.splice(i, 1);
+            }
+        }
+    }
+    getFullTitle(){
+        return this
+    }
+    
 }

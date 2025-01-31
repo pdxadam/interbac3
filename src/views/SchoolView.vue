@@ -1,14 +1,14 @@
 <script setup>
     import { ref, watch } from 'vue';
+    import json from '@/assets/IBStart.json';
     import School from '../obj/School.js';
-    import TeachersVue from '../components/TeachersVue.vue';
     import Teacher from '../obj/Teacher.js';
     import Program from '../obj/Program.js';
     import ProgramSetup from './ProgramSetup.vue'
-    import ClassesVue from '../components/CoursesVue.vue';
     import { onMounted } from 'vue';
     import Group from '../obj/Group.js';
     const school = ref(new School("RHS"));
+    const file = ref(null);
     //add Teachers
     function seedSchool(){
         let s = new School("RHS");
@@ -43,27 +43,97 @@
 
     }
     function loadData(){
-        console.log("loading");
         let jsonSchool = localStorage.getItem("school");
-        console.log(jsonSchool);
         if (jsonSchool !== null){
-            school.value = School.FromJson(JSON.parse(jsonSchool));
-            
+            console.log(jsonSchool);
+            school.value = School.FromJson(JSON.parse(jsonSchool));            
         }
         else{
             school.value = seedSchool();
         }
-
     }
+    function downloadBackup(){
+        var jSchool = school.value.getBackup();
+        downloadFile(jSchool, "ibschool_backup.json");
+    }
+    function downloadFile(txt, filename) {
+        
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+}
+
+function loadStarter2(){
+   
+    if (confirm("Are you sure? Current data will be overwritten. Consider backing up first")){
+        
+        const newSchool = School.FromJson(json);
+        school.value = newSchool;
+    }
+}
+
+function handleFile(file){
+    var reader = new FileReader();
+    reader.readAsText(file.value.files[0], "UTF-8");
+    reader.onload = function(event){
+        console.log(event.target.result);
+        try{
+            const rawSchool = JSON.parse(event.target.result);
+            const newSchool = School.FromJson(rawSchool);
+            school.value = newSchool;
+            
+        alert("backup restored");
+        }
+        catch(e){
+            alert("error restoring backup");
+            console.log(e);            
+        }      
+    }
+}
+function handleFileUpload(){
+    if (!confirm("This will delete current data. Are you sure? (We recommend you download a backup first.)")){
+        return;
+    }
+    handleFile(file);
+
+}
 </script>
 <template>
     <h1>{{ school.name }}</h1>
+    <nav>
+        <b-button @click="loadStarter2()">Load Starting Point (deletes current data)</b-button>
+        <b-button @click="downloadBackup()">Download Backup</b-button>
+        <h4>Upload backup: </h4><input type="file" v-on:change="handleFileUpload()" ref="file">
+    </nav>
     <section>
-        <b-tabs position="is-centered" class="block">
-                  
+        <b-tabs position="is-centered" class="block">                  
             <b-tab-item label="Programs">
                 <ProgramSetup :school = school />
             </b-tab-item>
         </b-tabs>
     </section>
+    <footer>
+        Interbac by McLain
+        <span>Data Version {{ parseFloat(school.version).toFixed(2) }}</span>
+    </footer>
 </template>
+<style scoped>
+    footer{
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background: radial-gradient(lightgray,whitesmoke);
+        text-align: center;
+    }
+    footer span{
+        position: absolute;
+        right: 5px;
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+</style>

@@ -8,12 +8,20 @@
         program: Program,
     })
     const selectedGroup = ref(null);
+    const selectedIndex = ref(null);
     const editMode = ref(false);
-    function selectGroup(g){
+    function selectGroup(g, i){
         selectedGroup.value = g;
+        selectedIndex.value = i;
     }
     function addGroup(){
         props.groups.push(new Group("_New Group_"));
+    }
+    function deleteGroup(){
+        props.groups.splice(selectedIndex.value, 1);
+        selectedGroup.value = null;
+        selectedIndex.value = null;
+
     }
 </script>
 <template>
@@ -25,8 +33,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="group in groups" @click="selectGroup(group)">  
-                {{ group.name }}                 
+            <tr v-for="group, index in groups" @click="selectGroup(group, index)">  
+                {{ group.name }}                
             </tr>
         </tbody>
     </table>
@@ -34,7 +42,7 @@
         Select a Group from the left
     </div>
     <div v-else>
-        <GroupVue :group = selectedGroup :program = program />
+        <GroupVue :group = selectedGroup :program = program :setup = false @deleteGroup = "deleteGroup();" />
     </div>
 </template>
 <style scoped>
