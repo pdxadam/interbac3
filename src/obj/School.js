@@ -41,7 +41,7 @@ export default class School{
         if (pSchool.version == 1.0){
             console.log("Updated 1.0 to 1.1");
             pSchool.version = 1.1;
-            //TODO: convert to 1.1: change all 'class' elements to course
+            
             for (let p = 0; p < pSchool.programs.length; p++){
                 //loop through the programs
                 let program = pSchool.programs[p];
@@ -72,10 +72,50 @@ export default class School{
                     delete subject.HL_ClassSequence;
                 }
             }//end loop through programs
-            
+        
         }//end check for version 1.0;
-        //TODO: Version 1.1 will convert data from subject courses just being ids to them being ojbects
-
+        if (pSchool.version == 1.10){
+            console.log("translating version 1.0 - 1.1: subject courses as objects");
+            //loop through all the programs
+            for (let p = 0; p < pSchool.programs.length; p++){                
+                let program = pSchool.programs[p];
+                //loop through all the subjects
+                for (let s = 0; s < program.subjects.length; s++){
+                    let subject = program.subjects[s];                    
+                    //loop through courseSeq and translate ints to objects
+                    let tempSeq = [];
+                    for (let c = 0; c < subject.courseSequence.length; c++){
+                        let courseID = subject.courseSequence[c];
+                         for (let course of program.courses){
+                            if (course.courseID == courseID){
+                                tempSeq.push({
+                                    courseID: courseID,
+                                    year: course.year,
+                                    sequence: course.sequence
+                                });
+                            }
+                        }
+                    }
+                    subject.courseSequence = tempSeq;
+                    let hlTempSeq = [];
+                    for (let c = 0; c < subject.HL_CourseSequence.length; c++){
+                        let courseID = subject.HL_CourseSequence[c];
+                        for (let course of program.courses){
+                            if (course.courseID == courseID){
+                                hlTempSeq.push({
+                                    courseID: courseID,
+                                    year: course.year,
+                                    sequence: course.sequence
+                                });
+                            }
+                        }
+                    }
+                    subject.HL_CourseSequence = hlTempSeq;
+                }
+            }
+            pSchool.version = 1.11;
+            //loop through HL_Course_Sequence and translate ints to objects
+        }//end convert to 1.11
         return pSchool;
     }//end checkVersion function
     getBackup(){

@@ -13,7 +13,8 @@
             default: true,
         },
     });
-
+    const editClass = ref(-1);
+    const editHLClass = ref(-1);
     const editMode = ref(false);
     function deleteSubject(){
         editMode.value = false;
@@ -46,8 +47,20 @@
             <h3>Standard Level</h3>
             <ul>
                <li v-for = "c,index in subject.courseSequence">
-                    <CourseVue :c = program.getCourseByID(c) :editable=false />
-                    <b-button class='cmdRemove' @click = "removeCourse(index, false)" >X</b-button>
+                    <!-- <CourseVue :c = program.getCourseByID(c) :editable=false /> -->
+                     <div v-if = "editClass == index">
+                        {{ program.getCourseByID(c.courseID).title }}
+                        <b-field label="Year: "><b-input v-model = c.year /></b-field>
+                        <b-field label="sequence: "><b-input v-model = c.sequence /></b-field>
+                        <b-button @click="editClass = -1"><b-icon icon="content-save" /></b-button>
+                    </div>
+                    <div v-else>
+                        {{ program.getCourseByID(c.courseID).title }}
+                        Year: {{ c.year }} Sequence: {{ c.sequence }}
+                        <!-- TODO: clean up editing the year and sequence -->
+                        <b-button @click = "editClass = index"><b-icon icon="pencil-outline" size="is-small" /></b-button>
+                        <b-button class='cmdRemove' @click = "removeCourse(index, false)" >X</b-button>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -55,8 +68,19 @@
             <h3>High Level</h3>
             <ul>
                <li v-for = "c,index in subject.HL_CourseSequence">
-                    <CourseVue :c = program.getCourseByID(c) :editable=false />
-                    <b-button class='cmdRemove' @click = "removeCourse(index, true)" >X</b-button>
+                    <div v-if = "editHLClass == index">
+                        {{ program.getCourseByID(c.courseID).title }}
+                        <b-field label="Year: "><b-input v-model = c.year /></b-field>
+                        <b-field label="sequence: "><b-input v-model = c.sequence /></b-field>
+                        <b-button @click="editHLClass = -1"><b-icon icon="content-save" /></b-button>
+                   
+                    </div>
+                    <div v-else>
+                        {{ program.getCourseByID(c.courseID).title }}
+                        Year: {{ c.year }} Sequence: {{ c.sequence }}
+                        <b-button @click = "editHLClass = index"><b-icon icon="pencil-outline" size="is-small" /></b-button>
+                        <b-button class='cmdRemove' @click = "removeCourse(index, true)" >X</b-button>
+                     </div>
                 </li>
             </ul>
         </div>

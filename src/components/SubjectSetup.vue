@@ -1,6 +1,5 @@
 <script setup>
     // import { ref } from 'vue';
-    import Course from '@/obj/Course.js';
     import CoursesVue from '@/components/CoursesVue.vue';
     import Subject from '@/obj/Subject.js';
     import Program from '@/obj/Program.js';
@@ -10,19 +9,15 @@
         subject: Subject,
 
     });
-    function addCourse(c, seq){
-        console.log("Yu added " + c.title);
-        if (seq.includes(c.courseID)){
-            console.log("it's already there");
-
-            return;
-
+    function omitList(isHL = false){
+        let tempList = isHL?props.subject.HL_CourseSequence:props.subject.courseSequence;
+        let omitList = [];
+        for(let s of tempList){
+            omitList.push(s.courseID);
         }
-        else{
-            seq.push(c.courseID);
-            
-        }
-        console.log(seq.courseSequence);
+       
+        return omitList;
+
     }
 </script>
 <template>
@@ -31,7 +26,7 @@
             <div>
                 <h2>Select courses in this group</h2>
                
-                <CoursesVue :omitList = "subject.courseSequence" :courses = program.courses @courseSelected = "(c) => { addCourse(c, subject.courseSequence); }" :program = program />
+                <CoursesVue :omitList = "omitList(false)" :courses = program.courses @courseSelected = "(c) => { subject.addCourse(c.courseID, c.year, c.sequence, false); }" :program = program />
 
                 
             </div>
@@ -39,10 +34,8 @@
         <b-tab-item label="Higher Level" v-if = "subject.offersHL">
             <div>
                 <h2>Select courses in this group</h2>
-                <CoursesVue :omitList = "subject.HL_CourseSequence" :courses = program.courses @courseSelected = "(c) => { addCourse(c, subject.HL_CourseSequence); }" :program = program />
-
-                
-            </div>
+                <CoursesVue :omitList = "omitList(true)" :courses = program.courses @courseSelected = "(c) => { subject.addCourse(c.courseID, c.year, c.sequence, true); }" :program = program />
+             </div>
         </b-tab-item>
     </b-tabs>
 

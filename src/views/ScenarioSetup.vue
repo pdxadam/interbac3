@@ -109,11 +109,10 @@
         }
  
         viableOptions.value = allOptions;
-        // pBar.style = "display: none";
         hasCheckedAll.value = true;
     }
     function process(){
-        //TODO: MAKE SURE YOU'RE DOING THIS BY SEQUENCE
+        
         
         let groupedSelections = [];
         for (let group in selections.value){
@@ -134,7 +133,7 @@
         return fullTitle;
     }
     function getSchedule(subjects){
-       
+        //TODO: Adjust this to schedule by sequence.
         //takes subjects as array of objects of {"subjID":int, "HL":boolean}
         schedule.value = {"9":[],"10":[],"11":[],"12":[]};
         console.log("Subjects: ", subjects);
@@ -154,7 +153,11 @@
                 }
                 else{
                     //we are just taking the first offering
-                    schedule.value[thisCourse.year].push(thisCourse.offerings[0]);
+                    //we have to be teaching all required courses every year, so this is not unreasonable
+                    //but we should be going through the sequence and making sure we get the righ thting in the right order...I think
+                    //could leave the year out and just walk through the terms to find the first one, then go to the next termadn find the next one and so on.
+
+                    schedule.value[c.year].push(thisCourse.offerings[0]);
                 }
             }
         }
