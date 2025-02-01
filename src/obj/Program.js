@@ -56,7 +56,9 @@ export default class Program{
 
             }
         }
+        console.log("done with subjects");
         if ('teachers' in jProgram){
+            console.log("in teachers");
             for (let teacher of jProgram.teachers){
                 let newTeacher = Teacher.FromJson(teacher);
                 if (newTeacher.teacherID > newProgram.topTeacherID){

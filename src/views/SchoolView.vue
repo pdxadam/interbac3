@@ -36,7 +36,11 @@
     onMounted(() => 
         loadData()
     );
-    watch(school, saveData, { deep: true});
+    var unwatch = startWatch();
+    function startWatch(){
+        const unwatch = watch(school, saveData, { deep: true});
+        return unwatch;
+    }
     function saveData(){
         let jsonSchool = JSON.stringify(school.value);
         localStorage.setItem("school", jsonSchool);
@@ -71,8 +75,13 @@ function loadStarter2(){
    
     if (confirm("Are you sure? Current data will be overwritten. Consider backing up first")){
         
-        const newSchool = School.FromJson(json);
+        let pSchool = School.CheckVersion(json);
+        //TODO: I think we're getting here, but it doesn't seem to be updating. 
+        console.log("checkversioncomplete");
+        const newSchool = School.FromJson(pSchool);
+        console.log("new school complete");
         school.value = newSchool;
+
     }
 }
 

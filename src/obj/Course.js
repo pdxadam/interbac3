@@ -6,7 +6,7 @@ export default class Course{
     period = -1;
     year = 11;
     sequence = -1;
-    teacher = null;
+    teacher = null;//TODO: I think we don't need this teacher
     offerings = [];
     department = null; 
     constructor(title, courseID = -1, department = "---"){
