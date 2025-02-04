@@ -144,7 +144,7 @@
             let currSequence = subject.HL?currSubject.HL_CourseSequence:currSubject.courseSequence;
             
             for (let c of currSequence){
-                var thisCourse = props.program.getCourseByID(c);           
+                var thisCourse = props.program.getCourseByID(c.courseID);           
                 
                 //looping through the courses
                 //now loop through and grab the first offering for every course and add it to selections

@@ -86,7 +86,8 @@ function handleFile(file){
     reader.onload = function(event){
         console.log(event.target.result);
         try{
-            const rawSchool = JSON.parse(event.target.result);
+            let rawSchool = JSON.parse(event.target.result);
+            rawSchool = School.CheckVersion(rawSchool)
             const newSchool = School.FromJson(rawSchool);
             school.value = newSchool;
             

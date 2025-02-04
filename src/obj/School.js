@@ -46,7 +46,7 @@ export default class School{
                 //loop through the programs
                 let program = pSchool.programs[p];
                 //loop through the courses
-                program.courses = program.classes;
+                program.courses = JSON.parse(JSON.stringify(program.classes));
                 delete program.classes; // does this work? or are we killing both?
                 program.topCourseID = program.topClassID;
                 delete program.topClassID;
