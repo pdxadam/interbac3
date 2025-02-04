@@ -33,14 +33,14 @@
         return s;
     }
     
-    onMounted(() => 
-        loadData()
-    );
-    watch(school, saveData, { deep: true});
+    onMounted(() => {
+        loadData();
+        const unwatch = watch(school, saveData, { deep: true});
+    });
+    
     function saveData(){
         let jsonSchool = JSON.stringify(school.value);
         localStorage.setItem("school", jsonSchool);
-
     }
     function loadData(){
         let jsonSchool = localStorage.getItem("school");
@@ -71,8 +71,12 @@ function loadStarter2(){
    
     if (confirm("Are you sure? Current data will be overwritten. Consider backing up first")){
         
-        const newSchool = School.FromJson(json);
+        let pSchool = School.CheckVersion(json);
+        console.log("checkversioncomplete");
+        const newSchool = School.FromJson(pSchool);
+        console.log("new school complete");
         school.value = newSchool;
+
     }
 }
 
@@ -82,7 +86,8 @@ function handleFile(file){
     reader.onload = function(event){
         console.log(event.target.result);
         try{
-            const rawSchool = JSON.parse(event.target.result);
+            let rawSchool = JSON.parse(event.target.result);
+            rawSchool = School.CheckVersion(rawSchool)
             const newSchool = School.FromJson(rawSchool);
             school.value = newSchool;
             

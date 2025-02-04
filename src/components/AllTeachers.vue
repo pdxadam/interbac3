@@ -28,7 +28,7 @@
             }
             return false;
         }
-    function getClass(teacher){
+    function getCourse(teacher){
         if (shouldShow(teacher)){
             return "visible";
         }
@@ -57,7 +57,7 @@
                 <th :colspan = "program.teachers.length">Term {{ n }}</th>
             </tr>
             <tr>
-                <th v-for = "teacher in program.teachers" :class="getClass(teacher)">
+                <th v-for = "teacher in program.teachers" :course="getCourse(teacher)">
                     <template v-if="shouldShow(teacher)">
                         {{ teacher.name }}
                     </template>
@@ -66,9 +66,9 @@
         </thead>
         <tbody>
             <tr v-for = "period in program.periods">
-                <td v-for = "teacher in program.teachers" :class="getClass(teacher)">
+                <td v-for = "teacher in program.teachers" :course="getCourse(teacher)">
                     <template v-if = "shouldShow(teacher)">
-                        <span v-for = "c in program.classes">
+                        <span v-for = "c in program.courses">
                             <span v-for = "o in c.offerings">
                                 <span v-if = "o.teacherID == teacher.id && o.term == n && o.period == period">
                                     {{ c.title }}

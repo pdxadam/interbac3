@@ -1,11 +1,11 @@
-import Classy from '@/obj/Classy.js';
+import Course from '@/obj/Course';
 import Group from '@/obj/Group.js';
 import Teacher from '@/obj/Teacher.js';
 import Subject from '@/obj/Subject.js';
 
 export default class Program{
     name="IB Program";
-    classes = []; //actual class objects
+    courses = []; //actual class objects
     groups = []; // actual group objects
     teachers = []; //teachers taken from the school when the program is created.
     subjects = [];
@@ -28,13 +28,13 @@ export default class Program{
         newProgram.topTeacherID = jProgram.topTeacherID;
         newProgram.topCourseID = jProgram.topCourseID;
         newProgram.topSubjectID = jProgram.topSubjectID;
-        if ('classes' in jProgram){
-            for (let c of jProgram.classes){
-                let newClass = Classy.FromJson(c);
-                if (newClass.courseID > this.topCourseID){
-                    this.topCourseID = newClass.courseID;
+        if ('courses' in jProgram){
+            for (let c of jProgram.courses){
+                let newCourse = Course.FromJson(c);
+                if (newCourse.courseID > this.topCourseID){
+                    this.topCourseID = newCourse.courseID;
                 }
-                newProgram.classes.push(newClass);
+                newProgram.courses.push(newCourse);
             }
         }
         if ('groups' in jProgram){
@@ -56,7 +56,9 @@ export default class Program{
 
             }
         }
+        console.log("done with subjects");
         if ('teachers' in jProgram){
+            console.log("in teachers");
             for (let teacher of jProgram.teachers){
                 let newTeacher = Teacher.FromJson(teacher);
                 if (newTeacher.teacherID > newProgram.topTeacherID){
@@ -76,12 +78,12 @@ export default class Program{
         return newTeacher;
 
     }
-    createClass(title, department = "---"){
+    createCourse(title, department = "---"){
         this.topCourseID++;
-        let newClass = new Classy(title, this.topCourseID, department);
-        newClass.courseID = this.topCourseID;
-        this.classes.unshift(newClass);
-        return newClass;
+        let newCourse = new Course(title, this.topCourseID, department);
+        newCourse.courseID = this.topCourseID;
+        this.courses.unshift(newCourse);
+        return newCourse;
     }
     createSubject(name){
         this.topSubjectID++;
@@ -100,9 +102,9 @@ export default class Program{
         }
         return null;
     }
-    getClassById(classID){
-        for (let c of this.classes){
-            if (c.classID == classID){
+    getCourseByID(courseID){
+        for (let c of this.courses){
+            if (c.courseID == courseID){
                 return c;
             }
         }
@@ -134,7 +136,7 @@ export default class Program{
     }
     deleteTeacher(teacherID){
         //delete the course offerings based on this teacher
-        for (let c of this.classes){
+        for (let c of this.courses){
             c.removeOfferingByTeacher(teacherID);         
         }
         //delete the actual teacher
@@ -144,14 +146,14 @@ export default class Program{
             }
         }
     }
-    deleteClass(courseID){
+    deleteCourse(courseID){
         //remove the class from subjects
         for (let s of this.subjects){
-            s.removeClass(courseID);
+            s.removeCourse(courseID);
         }
-        for (let i = 0; i < this.classes.length; i++){
-            if (this.classes[i].courseID == courseID){
-                this.classes.splice(i, 1);
+        for (let i = 0; i < this.courses.length; i++){
+            if (this.courses[i].courseID == courseID){
+                this.courses.splice(i, 1);
             }
         }
     }

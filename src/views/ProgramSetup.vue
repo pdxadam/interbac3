@@ -2,10 +2,10 @@
     import { ref } from 'vue';
     import Program from '../obj/Program.js';
     import Group from '../obj/Group.js';
-    import ClassesVue from '@/components/ClassesVue.vue';
+    import CoursesVue from '@/components/CoursesVue.vue';
     import GroupsVue from '@/components/GroupsVue.vue';
     import School from '@/obj/School.js';
-    import TeacherClassSetup from '@/components/TeacherClassSetup.vue';
+    import TeacherCourseSetup from '@/components/TeacherCourseSetup.vue';
     import ScenarioSetup from '@/views/ScenarioSetup.vue';
     import SubjectsVue from '@/components/SubjectsVue.vue';
     import AllTeachers from '@/components/AllTeachers.vue';
@@ -60,8 +60,8 @@
             <b-button @click = "deleteProgram" v-if="editProgram">Delete</b-button>
         </h1>
         <b-tabs>
-            <b-tab-item label="Classes">
-                <ClassesVue :classes = selectedProgram.classes :program = selectedProgram />
+            <b-tab-item label="Courses">
+                <CoursesVue :courses = selectedProgram.courses :program = selectedProgram />
             </b-tab-item>
             <b-tab-item label="Subjects">
                 <SubjectsVue :subjects = selectedProgram.subjects :program = selectedProgram />
@@ -71,7 +71,7 @@
 
             </b-tab-item>
             <b-tab-item label="Teacher Schedules">
-                <TeacherClassSetup :teachers = selectedProgram.teachers :program = selectedProgram />
+                <TeacherCourseSetup :teachers = selectedProgram.teachers :program = selectedProgram />
             </b-tab-item>
             <b-tab-item label = "Complete Schedule">
                 <AllTeachers :program = selectedProgram />

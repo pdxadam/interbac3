@@ -6,18 +6,18 @@
     import OfferingVue from '@/components/OfferingVue.vue';
     import Offering from '@/obj/Offering.js';
     
-    import ClassesVue from '@/components/ClassesVue.vue';
+    import CoursesVue from '@/components/CoursesVue.vue';
     const props = defineProps({
         program: Program,
         teachers: [Teacher],
     });
     const selectedTeacher = ref(null);
     const editTeacher = ref(false);
-    const selectedClass = ref(null);
+    const selectedCourse = ref(null);
     function setOffering(term, period){
-        if (selectedClass.value != null && selectedTeacher.value != null){
+        if (selectedCourse.value != null && selectedTeacher.value != null){
 
-            let newOffering = selectedClass.value.createOffering(selectedTeacher.value.id, term, period);
+            let newOffering = selectedCourse.value.createOffering(selectedTeacher.value.id, term, period);
             console.log(newOffering);
         }
     }
@@ -31,8 +31,8 @@
         }
         props.teachers.unshift(new Teacher("--new--",terms, periods));
     }
-    function selectClass(c){
-        selectedClass.value = c;
+    function selectCourse(c){
+        selectedCourse.value = c;
         console.log(typeof c);
 
     }
@@ -57,13 +57,13 @@
         }
     }
     function pickOffering(c){
-        selectedClass.value = c;
+        selectedCourse.value = c;
     }
     function swap(c,o, index){
         //puts the selected class in the current location and takes what's there as the new selectedClass
         deleteOffering(c, index);
         setOffering(o.term, o.period);
-        selectedClass.value = c;
+        selectedCourse.value = c;
     }
 </script>
 <template>
@@ -78,18 +78,18 @@
         Teachers
         <TeachersVue :teachers = teachers :program = program @teacherSelected = "(t) => selectTeacher(t)" />
     </nav>
-    <div id="classList">
-        <b-button @click = "selectedClass = null">Clear</b-button>
-        Selected Class: {{ selectedClass==null?"[none]":selectedClass.title }}
+    <div id="courseList">
+        <b-button @click = "selectedCourse = null">Clear</b-button>
+        Selected Course: {{ selectedCourse==null?"[none]":selectedCourse.title }}
         <br />
-        <ClassesVue :classes = program.classes @classSelected = "(c) => selectClass(c)" />
+        <CoursesVue :courses = program.courses @courseSelected = "(c) => selectCourse(c)" />
     </div>
     <div id="selectedTeacher">
         <table v-if = "selectedTeacher != null">
         <thead>
             <tr>
                 <td colspan="2">
-                Key: Click to place the selected class.  Right-click to grab the class.  Alt+click to place and pick (swap)
+                Key: Click to place the selected course.  Right-click to grab the course.  Alt+click to place and pick (swap)
                 </td>
             </tr>
             <tr>
@@ -105,10 +105,10 @@
         </thead>
         <tbody>
         <tr v-for = "period in program.periods">
-            <th>class {{ period }}</th>
+            <th>Course {{ period }}</th>
             <td v-for = "term in program.terms" @click="setOffering(term, period)">
                 <!-- loop through the classes, then through the offerings and see fi the term, period, and teacherid match-->
-                <div v-for = "c in program.classes">
+                <div v-for = "c in program.courses">
                     <div v-for = "o, index in c.offerings">
                         <OfferingVue  v-if = "shouldShowOffering(o, term, period)" :offering = o @click.exact = "deleteOffering(c, index)" @click.alt.stop.prevent ="swap(c, o, index)" @click.right.prevent = "pickOffering(c);"/>
                     </div>
@@ -129,7 +129,7 @@
     #selectedTeacher{
         margin-left: 225px;
     }
-    #classList{
+    #courseList{
         float: right;
     }
     td{

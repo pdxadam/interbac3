@@ -4,7 +4,7 @@
     import Program from '@/obj/Program.js';
     import Offering from '@/obj/Offering.js';
     import Group from '@/obj/Group.js';
-    import Classy from '@/obj/Classy.js';
+    import Course from '@/obj/Course.js';
     const props = defineProps({
         program: Program,
     });
@@ -109,11 +109,10 @@
         }
  
         viableOptions.value = allOptions;
-        // pBar.style = "display: none";
         hasCheckedAll.value = true;
     }
     function process(){
-        //TODO: MAKE SURE YOU'RE DOING THIS BY SEQUENCE
+        
         
         let groupedSelections = [];
         for (let group in selections.value){
@@ -134,7 +133,7 @@
         return fullTitle;
     }
     function getSchedule(subjects){
-       
+        //TODO: Adjust this to schedule by sequence.
         //takes subjects as array of objects of {"subjID":int, "HL":boolean}
         schedule.value = {"9":[],"10":[],"11":[],"12":[]};
         console.log("Subjects: ", subjects);
@@ -142,19 +141,23 @@
 
             let currSubject = props.program.getSubjectById(subject.subjID);
             console.log("currSubject", currSubject);
-            let currSequence = subject.HL?currSubject.HL_ClassSequence:currSubject.classSequence;
+            let currSequence = subject.HL?currSubject.HL_CourseSequence:currSubject.courseSequence;
             
             for (let c of currSequence){
-                var thisClass = props.program.getClassById(c);           
+                var thisCourse = props.program.getCourseByID(c.courseID);           
                 
-                //looping through the classes
-                //now loop through and grab the first offering for every class and add it to selections
-                if (thisClass.offerings.length == 0){
-                    alert("A class is missing an offering: " + thisClass.title);
+                //looping through the courses
+                //now loop through and grab the first offering for every course and add it to selections
+                if (thisCourse.offerings.length == 0){
+                    alert("A course is missing an offering: " + thisCourse.title);
                 }
                 else{
                     //we are just taking the first offering
-                    schedule.value[thisClass.year].push(thisClass.offerings[0]);
+                    //we have to be teaching all required courses every year, so this is not unreasonable
+                    //but we should be going through the sequence and making sure we get the righ thting in the right order...I think
+                    //could leave the year out and just walk through the terms to find the first one, then go to the next termadn find the next one and so on.
+
+                    schedule.value[c.year].push(thisCourse.offerings[0]);
                 }
             }
         }
@@ -169,7 +172,7 @@
     <b-button @click = "process()">Process</b-button>
     <div id="groups">
         List all the groups with the subjects as dropdowns
-        On Selection, fill the classes of the table
+        On Selection, fill the courses of the table
         <div v-for = "group in program.groups">
             <section>
             <b-dropdown type="is-primary" expanded v-model = "selections[group.name]" :icon-right = "active?'menu-up':'menu-down'">
