@@ -31,10 +31,12 @@ export default class Program{
         if ('courses' in jProgram){
             for (let c of jProgram.courses){
                 let newCourse = Course.FromJson(c);
-                if (newCourse.courseID > this.topCourseID){
-                    this.topCourseID = newCourse.courseID;
+                if (newCourse.courseID > newProgram.topCourseID){
+                    newProgram.topCourseID = newCourse.courseID;
+                
                 }
                 newProgram.courses.push(newCourse);
+                console.log("The new top course ID is: ", newProgram.topCourseID);
             }
         }
         if ('groups' in jProgram){
@@ -78,7 +80,9 @@ export default class Program{
         return newTeacher;
 
     }
+
     createCourse(title, department = "---"){
+        console.log("Creating Course ", this.topCourseID);
         this.topCourseID++;
         let newCourse = new Course(title, this.topCourseID, department);
         newCourse.courseID = this.topCourseID;
@@ -118,7 +122,7 @@ export default class Program{
         }
         return null;
     }
-    deleteSubject(subjectID){
+        deleteSubject(subjectID){
         for (var i = 0; i < this.subjects.length; i++){
             //delete from each group
 
@@ -128,7 +132,7 @@ export default class Program{
                 console.log(group.subjects);
             } 
             //then from the program
-            if (this.subjects[i].subjectID = subjectID){
+            if (this.subjects[i].subjectID == subjectID){
                 this.subjects.splice(i, 1);
             }
                   
@@ -149,7 +153,8 @@ export default class Program{
     deleteCourse(courseID){
         //remove the class from subjects
         for (let s of this.subjects){
-            s.removeCourse(courseID);
+            s.removeCourse(courseID, true);
+            s.removeCourse(courseID, false);
         }
         for (let i = 0; i < this.courses.length; i++){
             if (this.courses[i].courseID == courseID){

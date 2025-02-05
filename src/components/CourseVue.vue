@@ -36,7 +36,7 @@
                     </td>
                     <td v-if = "editable"><b-button @click='editCourse = !editCourse'>{{ editCourse?"Save":"Edit" }}</b-button></td>
                     <td v-if='editCourse'>
-                        <b-button @click='emit("deleteCourse")'>Delete</b-button>
+                        <b-button @click='deleteCourse()'>Delete</b-button>
                     </td>
                 </tr>
             </thead>

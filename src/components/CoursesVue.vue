@@ -38,15 +38,11 @@
     }
     watch(props.courses, getDepartments, {deep: true});
     function getDepartments(){
-        console.log("getting");
         departments.value = [];
         for (let c of props.courses){
         if (!(departments.value.includes(c.department))){
             departments.value.push(c.department);
-            console.log(c.department);
         }
-        console.log("Course Departments");
-        console.log(departments.value);
         }
         departments.value.sort();
 

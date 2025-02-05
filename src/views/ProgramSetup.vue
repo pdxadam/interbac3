@@ -29,6 +29,10 @@
         newProgram.name = "Copy of " + newProgram.name;
         props.school.programs.push(newProgram);
     }
+    function selectProgram(program, index){
+        selectedIndex.value = index;
+        selectedProgram.value = program;
+    }
     function deleteProgram(){
         
         if (confirm("Are you sure you want to delete this program (" + selectedProgram.value.name + ")? (Consider backing up your school first. )")){
@@ -45,7 +49,7 @@
         <h1>Programs</h1>
         <b-button @click=createProgram> + </b-button>
         <ul>
-            <li v-for="program, index in school.programs" @click="selectedProgram = program">
+            <li v-for="program, index in school.programs" @click="selectProgram(program, index);">
                 {{ program.name }} 
             </li>
         </ul>

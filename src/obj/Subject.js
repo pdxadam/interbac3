@@ -29,13 +29,16 @@ export default class Subject{
         
     }
     removeCourse(courseID, isHL = false){
+        //need to adjust to check both sequences
+        
         let targetSequence = this.courseSequence;
+    
         if (isHL){
             targetSequence = this.HL_CourseSequence;
         }
-        for (let i = 0; i < this.targetSequence.length; i++){
-            if (this.targetSequence[i] == courseID){
-                this.targgetSequence.splice(i, 1);
+        for (let i = 0; i < targetSequence.length; i++){
+            if (targetSequence[i] == courseID){
+                targetSequence.splice(i, 1);
             }
         }
     }
