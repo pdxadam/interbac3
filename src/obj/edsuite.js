@@ -15,7 +15,7 @@ export default class edsuite{
         return edsuite.instance;
     }
     
-    sendPost(objData){
+    async sendPost(objData){
 
         console.log(objData);
         let params = new URLSearchParams();
@@ -24,7 +24,9 @@ export default class edsuite{
         }
 
         axios.post("https://mclainonline.com/EdSuite/service.php",params)
-         .then((response) => console.log(response.data));
+         .then((response) => {
+            return response.data;
+         });
         
     }
 }
