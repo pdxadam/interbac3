@@ -7,6 +7,7 @@
     import ProgramSetup from './ProgramSetup.vue'
     import { onMounted } from 'vue';
     import Group from '../obj/Group.js';
+    import LoginStatus from '@/components/ServerConnect.vue';
     const school = ref(new School("RHS"));
     const file = ref(null);
     //add Teachers
@@ -108,8 +109,12 @@ function handleFileUpload(){
 }
 </script>
 <template>
+    
     <h1>{{ school.name }}</h1>
-    <nav>
+    <section>
+        <LoginStatus />
+    </section>
+        <nav>
         <b-button @click="loadStarter2()">Load Starting Point (deletes current data)</b-button>
         <b-button @click="downloadBackup()">Download Backup</b-button>
         <h4>Upload backup: </h4><input type="file" v-on:change="handleFileUpload()" ref="file">

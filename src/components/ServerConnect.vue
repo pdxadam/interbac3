@@ -1,6 +1,7 @@
 <script setup>
     import edsuite from '@/obj/edsuite';
     import { ref } from 'vue';
+    import LoginForm from '@/components/loginForm.vue';
     const appID = 2;
     const ed = edsuite.GetAxios();
     const loggedIn = ref(false);
@@ -27,16 +28,14 @@
             <b-button @click="logout()">Log out</b-button>
         </span>
         <span id="login" v-else>
-            <b-button @click="login()">Login</b-button>
-            <b-button @click="register()">Register</b-button>
+            <b-button @click="openLoginForm()">Login</b-button>
+            <b-button @click="openRegisterForm()">Register</b-button>
 
         </span>
     </nav>
     <!-- Need a modal login page here -->
-     <b-modal v-model = "registerFormActive" has-modal-card trap-focus :destroy-on-hide = "false">
-        <template>
-            
-        </template>
+     <b-modal v-model = "loginFormActive" has-modal-card trap-focus :destroy-on-hide = "false">
+        <LoginForm @close = "loginFormActive = false" />
 
      </b-modal>
     <!-- Need a modal create account page here -->
@@ -45,11 +44,7 @@
 </template>
 <style scoped>
     nav{
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        height: 10px;
+        z-index: 100;
         background: rgba(0,0,0,0.7);
         color: white;
     }

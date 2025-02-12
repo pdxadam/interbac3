@@ -1,18 +1,19 @@
 <script setup>
-    import { ref, emit } from 'vue';
-    import edsuite from 'edsuite';
+    import { ref } from 'vue';
+    import edsuite from '@/obj/edsuite.js';
     const ed = edsuite.GetAxios();
 
     const isLoginSuccessful = ref(false);
     const loginMessage = ref("");
     const username = ref("");
     const password = ref("");
-    const emits = defineEmits(["close"]);
-    function login(){
-        ed.sendPost({"rq": 10, 
+    const emit = defineEmits(["close"]);
+    async function login(){
+        const response = await ed.sendPost({"rq": 10, 
         "u": username.value, 
         "p": password.value, 
         "app": 2});
+        alert(response);
     }
     function close(){
         username.value = "";
@@ -34,7 +35,7 @@
                         <b-field label="Email">
                             <b-input
                                 type="text"
-                                :value="username"
+                                v-model="username"
                                 placeholder="Your username"
                                 required>
                             </b-input>
@@ -43,7 +44,7 @@
                         <b-field label="Password">
                             <b-input
                                 type="password"
-                                :value="password"
+                                v-model="password"
                                 password-reveal
                                 placeholder="Your password"
                                 required>

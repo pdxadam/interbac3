@@ -17,14 +17,15 @@ export default class edsuite{
     
     async sendPost(objData){
 
-        console.log(objData);
         let params = new URLSearchParams();
         for (let key in objData){
             params.append(key, objData[key]);
         }
 
-        axios.post("https://mclainonline.com/EdSuite/service.php",params)
+        const response = axios.post("https://mclainonline.com/EdSuite/service.php",params)
          .then((response) => {
+            
+            console.log("in edsuite:" + response.data);
             return response.data;
          });
         
