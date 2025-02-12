@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from 'vue';
+    import { onMounted, ref } from 'vue';
     import Program from '../obj/Program.js';
     import Group from '../obj/Group.js';
     import CoursesVue from '@/components/CoursesVue.vue';
@@ -9,14 +9,22 @@
     import ScenarioSetup from '@/views/ScenarioSetup.vue';
     import SubjectsVue from '@/components/SubjectsVue.vue';
     import AllTeachers from '@/components/AllTeachers.vue';
+    import StudentsList from '@/components/StudentsList.vue';
+    import edsuite from '@/obj/edsuite.js';
     const props = defineProps({
        
         school: School,
     });
+    const myedsuite = edsuite.GetAxios();
     const selectedProgram = ref(null);
     const selectedIndex = ref(null);
     const selectedGroup = ref(null);
     const editProgram = ref(false);
+    function testEdSuite(){
+        // myedsuite.sendPost({"rq": 50, "username": "mclain", "password": "test", "email": "amclain@riverdale.k12.or.us"}); //create user
+        // myedsuite.sendPost({"rq": 10, "u": "mclain", "p": "test", "app": 2}); //login
+        myedsuite.sendPost({"rq": 6}); //check session
+    }
     function addGroup(){
         selectedProgram.value.groups.unshift(new Group("New Group"));
     }
@@ -47,6 +55,7 @@
 <template>    
     <nav>
         <h1>Programs</h1>
+        <b-button @click="testEdSuite()">Test</b-button>
         <b-button @click=createProgram> + </b-button>
         <ul>
             <li v-for="program, index in school.programs" @click="selectProgram(program, index);">
@@ -64,6 +73,9 @@
             <b-button @click = "deleteProgram" v-if="editProgram">Delete</b-button>
         </h1>
         <b-tabs>
+            <b-tab-item label="Students">
+                <StudentsList :program = selectedProgram />
+            </b-tab-item>
             <b-tab-item label="Courses">
                 <CoursesVue :courses = selectedProgram.courses :program = selectedProgram />
             </b-tab-item>
