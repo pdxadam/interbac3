@@ -14,12 +14,12 @@
         "p": password.value, 
         "app": 2});
         if (response == "Success."){
-            emit("loginUpdate", true);
+            emit("loginUpdate", true, username.value);
             loginMessage.value = "Logged in.";
             close();
         }
         else{
-            emit("loginUpdate", false);
+            emit("loginUpdate", false, "");
             loginMessage.value = response;
         }
     }

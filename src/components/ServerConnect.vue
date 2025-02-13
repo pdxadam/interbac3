@@ -14,7 +14,6 @@
     const loggedIn = ref(false);
     const loginFormActive = ref(false);
     const registerFormActive = ref(false);
-    
     const username = ref("dunno");
     function openLoginForm(){
         loginFormActive.value = true;
@@ -23,8 +22,10 @@
     function openRegisterForm(){
         registerFormActive.value = true;
     }
-    function updateLogin(value){
+    function updateLogin(value, u){
+        
         if (value === true){
+            username.value = u;
             toast.open({duration: 3000, type: "is-success", message: "Login Successful"});
         }
         else{
@@ -72,23 +73,22 @@
 </script>
 <template>
     <nav>
-        <span id="label">Server Status</span>
-        {{ loggedIn }}
+           
         <span id="serverTools" v-if = loggedIn>
-            {{ username }}
-            <b-button @click = "fetchData()">Get Data</b-button>
-            <b-button @click="saveToServer()">Save</b-button>
-            <b-button @click="logout()">Log out</b-button>
+            <span id="username">{{ username }}</span>
+            <b-button size="is-small" @click = "fetchData()">Get Data</b-button>
+            <b-button size="is-small" @click="saveToServer()">Save</b-button>
+            <b-button size="is-small" @click="logout()">Log out</b-button>
         </span>
         <span id="login" v-else>
-            <b-button @click="openLoginForm()">Login</b-button>
-            <b-button @click="openRegisterForm()">Register</b-button>
+            <b-button size="is-small" @click="openLoginForm()">Login</b-button>
+            <b-button size="is-small" @click="openRegisterForm()">Register</b-button>
 
         </span>
     </nav>
     <!-- Need a modal login page here -->
      <b-modal v-model = "loginFormActive" has-modal-card trap-focus :destroy-on-hide = "false">
-        <LoginForm @loginUpdate = "(v) => updateLogin(v)" @close = "loginFormActive = false" />
+        <LoginForm @loginUpdate = "(v, u) => updateLogin(v, u)" @close = "loginFormActive = false" />
 
      </b-modal>
     <!-- Need a modal create account page here -->
@@ -97,8 +97,17 @@
 </template>
 <style scoped>
     nav{
-        z-index: 100;
         background: rgba(0,0,0,0.7);
         color: white;
+        position: relative;
+        text-align: right;
     }
+    nav *{
+        margin: 3px;
+    }
+    #username{
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+
 </style>
