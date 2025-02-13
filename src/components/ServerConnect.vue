@@ -1,17 +1,34 @@
 <script setup>
     import edsuite from '@/obj/edsuite';
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
     import { ToastProgrammatic as Toast } from 'buefy'
     import LoginForm from '@/components/loginForm.vue';
     import School from '@/obj/School.js';
     const props = defineProps({
         school: School,
+        hasChanged: Boolean,
     });
+    const emit = defineEmits(["saved"]);
+    onMounted(() => {
+        var ticker = setInterval(saveCheck, 30000);
+        //every 30 seconds, call autoSave
+    });
+    function saveCheck(){
+        //chgeck if I shoiudl save to the server automatically, and do so.
+        console.log(loggedIn.value)
+        if (loggedIn.value == true && autoSave.value == true && props.hasChanged == true){
+            
+            console.log("saved");
+            saveToServer();
+            props.hasChanged = false;
+        }
+    }
     const toast = new Toast();
 
     const appID = 2;
     const ed = edsuite.GetAxios();
     const loggedIn = ref(false);
+    const autoSave = ref(false);
     const loginFormActive = ref(false);
     const registerFormActive = ref(false);
     const username = ref("dunno");
@@ -54,6 +71,7 @@
     async function saveToServer(){
         const jsonSchool = JSON.stringify(props.school);
         const res = await(ed.sendPost({ rq:40, d: jsonSchool }));
+        emit("saved");
         toast.open(res);
         //TODO: verify these results as the kind of json we want.--there is some ugliness here.
         
@@ -77,7 +95,12 @@
         <span id="serverTools" v-if = loggedIn>
             <span id="username">{{ username }}</span>
             <b-button size="is-small" @click = "fetchData()">Get Data</b-button>
-            <b-button size="is-small" @click="saveToServer()">Save</b-button>
+            <b-switch v-model="autoSave" size="is-small" left-label="true"
+            type="is-info">
+                AutoSave {{ hasChanged?"*":"" }}
+            </b-switch>
+            <b-button size="is-small" @click="saveToServer()">Save {{ hasChanged?"*":"" }}</b-button>
+            
             <b-button size="is-small" @click="logout()">Log out</b-button>
         </span>
         <span id="login" v-else>

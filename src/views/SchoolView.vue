@@ -10,6 +10,7 @@
     import LoginStatus from '@/components/ServerConnect.vue';
     const school = ref(new School("RHS"));
     const file = ref(null);
+    const hasChanged = ref(false);
     //add Teachers
     function seedSchool(){
         let s = new School("RHS");
@@ -40,6 +41,7 @@
     });
     
     function saveData(){
+        hasChanged.value = true;
         let jsonSchool = JSON.stringify(school.value);
         localStorage.setItem("school", jsonSchool);
     }
@@ -112,7 +114,7 @@ function handleFileUpload(){
     
     <h1>{{ school.name }}</h1>
     <section>
-        <LoginStatus :school = school />
+        <LoginStatus @saved = "hasChanged = false":hasChanged = "hasChanged" :school = school />
     </section>
         <nav>
         <b-button @click="loadStarter2()">Load Starting Point (deletes current data)</b-button>
