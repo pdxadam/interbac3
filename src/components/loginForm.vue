@@ -1,19 +1,27 @@
 <script setup>
     import { ref } from 'vue';
     import edsuite from '@/obj/edsuite.js';
+
     const ed = edsuite.GetAxios();
 
-    const isLoginSuccessful = ref(false);
     const loginMessage = ref("");
     const username = ref("");
     const password = ref("");
-    const emit = defineEmits(["close"]);
+    const emit = defineEmits(["close", "loginUpdate"]);
     async function login(){
         const response = await ed.sendPost({"rq": 10, 
         "u": username.value, 
         "p": password.value, 
         "app": 2});
-        alert(response);
+        if (response == "Success."){
+            emit("loginUpdate", true);
+            loginMessage.value = "Logged in.";
+            close();
+        }
+        else{
+            emit("loginUpdate", false);
+            loginMessage.value = response;
+        }
     }
     function close(){
         username.value = "";
@@ -52,6 +60,7 @@
                         </b-field>
 
                         <b-checkbox>Remember me</b-checkbox>
+                        <div>{{ loginMessage }}</div>
                     </section>
                     <footer class="modal-card-foot">
                         <b-button

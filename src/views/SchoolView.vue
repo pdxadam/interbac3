@@ -112,7 +112,7 @@ function handleFileUpload(){
     
     <h1>{{ school.name }}</h1>
     <section>
-        <LoginStatus />
+        <LoginStatus :school = school />
     </section>
         <nav>
         <b-button @click="loadStarter2()">Load Starting Point (deletes current data)</b-button>

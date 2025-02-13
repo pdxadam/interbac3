@@ -22,12 +22,9 @@ export default class edsuite{
             params.append(key, objData[key]);
         }
 
-        const response = axios.post("https://mclainonline.com/EdSuite/service.php",params)
-         .then((response) => {
-            
-            console.log("in edsuite:" + response.data);
-            return response.data;
-         });
+        const response = await axios.post("https://mclainonline.com/EdSuite/service.php",params);
+        console.log(response);
+        return response.data;
         
     }
 }
