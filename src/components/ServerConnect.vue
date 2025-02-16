@@ -46,7 +46,7 @@
             toast.open({duration: 3000, type: "is-success", message: "Login Successful"});
         }
         else{
-            toast.open({duration: 3000, type: "is-danger", message: "Login Failed"});
+            toast.open({duration: 3000, type: "is-danger", message: u});
         }
         loggedIn.value = value;
     }
@@ -71,7 +71,14 @@
     async function saveToServer(){
         const jsonSchool = JSON.stringify(props.school);
         const res = await(ed.sendPost({ rq:40, d: jsonSchool }));
-        emit("saved");
+        if (typeof(res) == "string" && res.startsWith("Error 3")){
+            loggedIn.value = false;
+
+        }
+        else{
+
+            emit("saved");
+        }
         toast.open(res);
         //TODO: verify these results as the kind of json we want.--there is some ugliness here.
         

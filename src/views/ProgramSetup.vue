@@ -11,8 +11,7 @@
     import AllTeachers from '@/components/AllTeachers.vue';
     import StudentsList from '@/components/StudentsList.vue';
     import edsuite from '@/obj/edsuite.js';
-    const props = defineProps({
-       
+    const props = defineProps({       
         school: School,
     });
     const myedsuite = edsuite.GetAxios();
@@ -20,11 +19,7 @@
     const selectedIndex = ref(null);
     const selectedGroup = ref(null);
     const editProgram = ref(false);
-    function testEdSuite(){
-        // myedsuite.sendPost({"rq": 50, "username": "mclain", "password": "test", "email": "amclain@riverdale.k12.or.us"}); //create user
-        // myedsuite.sendPost({"rq": 10, "u": "mclain", "p": "test", "app": 2}); //login
-        myedsuite.sendPost({"rq": 6}); //check session
-    }
+    
     function addGroup(){
         selectedProgram.value.groups.unshift(new Group("New Group"));
     }
@@ -55,7 +50,6 @@
 <template>    
     <nav>
         <h1>Programs</h1>
-        <b-button @click="testEdSuite()">Test</b-button>
         <b-button @click=createProgram> + </b-button>
         <ul>
             <li v-for="program, index in school.programs" @click="selectProgram(program, index);">

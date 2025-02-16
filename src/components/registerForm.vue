@@ -1,5 +1,6 @@
 <script setup>
-    import { ref } from 'vue';
+    //TODO: I just copied this from the login form. I need to customize it to registration.
+   import { ref } from 'vue';
     import edsuite from '@/obj/edsuite.js';
 
     const ed = edsuite.GetAxios();

@@ -72,7 +72,7 @@
 
 function loadStarter2(){
    
-    if (confirm("Are you sure? Current data will be overwritten. Consider backing up first")){
+    if (confirm("Are you sure? Current data will be overwritten. Consider backing up first -- and turn off autosave")){
         
         let pSchool = School.CheckVersion(json);
         console.log("checkversioncomplete");
