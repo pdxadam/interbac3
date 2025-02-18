@@ -10,7 +10,7 @@
     import SubjectsVue from '@/components/SubjectsVue.vue';
     import AllTeachers from '@/components/AllTeachers.vue';
     import StudentsList from '@/components/StudentsList.vue';
-    import edsuite from '@/obj/edsuite.js';
+    import edsuite from '@/EdSuite/edsuite.js';
     const props = defineProps({       
         school: School,
     });

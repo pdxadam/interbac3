@@ -7,7 +7,7 @@
     import ProgramSetup from './ProgramSetup.vue'
     import { onMounted } from 'vue';
     import Group from '../obj/Group.js';
-    import LoginStatus from '@/components/ServerConnect.vue';
+    import LoginStatus from '@/EdSuite/ServerConnect.vue';
     const school = ref(new School("RHS"));
     const file = ref(null);
     const hasChanged = ref(false);
@@ -114,7 +114,11 @@ function handleFileUpload(){
     
     <h1>{{ school.name }}</h1>
     <section>
-        <LoginStatus @saved = "hasChanged = false":hasChanged = "hasChanged" :school = school />
+        <LoginStatus @saved = "hasChanged = false" 
+            @fetched = "(val) => Object.assign(school, School.FromJson(val))"
+            :hasChanged = "hasChanged" 
+            :appNumber = "2" 
+            :obj = school />
     </section>
         <nav>
         <b-button @click="loadStarter2()">Load Starting Point (deletes current data)</b-button>

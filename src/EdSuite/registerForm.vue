@@ -1,29 +1,31 @@
 <script setup>
-    import { ref } from 'vue';
-    import edsuite from '@/obj/edsuite.js';
+   import { ref } from 'vue';
+    import edsuite from '@/EdSuite/edsuite.js';
 
     const ed = edsuite.GetAxios();
 
     const loginMessage = ref("");
     const username = ref("");
+    const email = ref("");
     const password = ref("");
-    const emit = defineEmits(["close", "loginUpdate"]);
-    async function login(){
+    const emit = defineEmits(["close", "registerUpdate"]);
+    async function register(){
         try{
-            const response = await ed.sendPost({"rq": 10, 
-            "u": username.value, 
-            "p": password.value, 
-            "app": 2});
-            if (response == "Success."){
-                emit("loginUpdate", true, username.value);
-                loginMessage.value = "Logged in.";
+            const response = await ed.sendPost({"rq": 5, 
+                "u": username.value, 
+                "e": email.value,
+                "p": password.value,
+            });
+            if (response == "Success"){
+                emit("registerUpdate", true, username.value);
+                loginMessage.value = "Registration Succeeded. Please Login";
                 close();
             }
             else{
-                emit("loginUpdate", false, "Invalid Username or Password");
+                emit("registerUpdate", false, response);
                 loginMessage.value = response;
-                alert("failure");
             }
+            //TODO: the messaging on the response is not working right. 
         }
         catch(e){
             emit("loginUpdate", false, "Server error: " + e.message);
@@ -33,6 +35,7 @@
     function close(){
         username.value = "";
         password.value = "";
+        email.value = "";
         emit("close");
     }
 </script>
@@ -40,19 +43,27 @@
     <form action="">
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Login</p>
+                        <p class="modal-card-title">Register Account</p>
                         <button
                             type="button"
                             class="delete"
                             @click="$emit('close')"/>
                     </header>
                     <section class="modal-card-body">
-                        <b-field label="Email">
-                            <b-input
-                                type="text"
+                        <b-field>
+                            <b-input placeholder="Name"
                                 v-model="username"
-                                placeholder="Your username"
-                                required>
+                                type = "text">
+                            </b-input>
+                        </b-field>
+                        <b-field>
+                            <b-input placeholder="Email"
+                                v-model="email"
+                                type="email"
+                                icon="email"
+                                icon-right="close-circle"
+                                icon-right-clickable
+                                @icon-right-click="clearIconClick">
                             </b-input>
                         </b-field>
 
@@ -66,7 +77,6 @@
                             </b-input>
                         </b-field>
 
-                        <b-checkbox>Remember me</b-checkbox>
                         <div>{{ loginMessage }}</div>
                     </section>
                     <footer class="modal-card-foot">
@@ -74,9 +84,9 @@
                             label="Close"
                             @click="close()" />
                         <b-button
-                            label="Login"
+                            label="Register"
                             type="is-primary" 
-                            @click = "login()"/>
+                            @click = "register()"/>
                     </footer>
                 </div>
             </form>
