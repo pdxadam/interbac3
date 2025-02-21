@@ -191,5 +191,12 @@ export default class Program{
             }
         }
     }
+    getStudentByID(id){
+        for (let student in this.students){
+            if (id == student.studentID){
+                return student;
+            }
+        }
+    }
 
 } //end class

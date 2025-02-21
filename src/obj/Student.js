@@ -2,6 +2,8 @@ export default class Student{
     studentID = -1;
     name = "student";
     grade = -1;
+    requirements = [];  //list of course IDs this student needs to get scheduled for
+
     constructor(name, grade){
         this.name = name;
         this.grade = grade;

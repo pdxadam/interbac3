@@ -24,6 +24,7 @@ export default class School{
         for (let teacher of pSchool.teachers){
             newSchool.teachers.push(Teacher.FromJson(teacher));
         }
+        
         return newSchool;
     }
     static CheckVersion(pSchool){
@@ -116,6 +117,10 @@ export default class School{
             pSchool.version = 1.11;
             //loop through HL_Course_Sequence and translate ints to objects
         }//end convert to 1.11
+        if (pSchool.version == 1.11){
+            //switch to 1.12 adds students
+            //TODO: complete the addition of students to the data model
+        }
         return pSchool;
     }//end checkVersion function
     getBackup(){

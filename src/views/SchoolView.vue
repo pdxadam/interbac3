@@ -36,14 +36,14 @@
     }
     
     onMounted(() => {
-        loadData();
+        //loadData();
         const unwatch = watch(school, saveData, { deep: true});
     });
     
     function saveData(){
         hasChanged.value = true;
-        let jsonSchool = JSON.stringify(school.value);
-        localStorage.setItem("school", jsonSchool);
+        // let jsonSchool = JSON.stringify(school.value);
+        // localStorage.setItem("school", jsonSchool);
     }
     function loadData(){
         let jsonSchool = localStorage.getItem("school");
