@@ -177,7 +177,7 @@ export default class Program{
     }
     createStudent(name, grade){
         //TODO: put barriers on grade
-        let newStudent = new Student(name, grade);
+        let newStudent = new Student(name, grade, this.terms, this.periods);
         this.topStudentID++;
         newStudent.studentID = this.topStudentID;
         this.students.push(newStudent);
@@ -188,6 +188,13 @@ export default class Program{
         for (let i = 0; i < this.students.length; i++){
             if (this.students[i].studentID == student.studentID){
                 this.students.splice(i, 1);
+            }
+        }
+    }
+    getStudentByID(id){
+        for (let student in this.students){
+            if (id == student.studentID){
+                return student;
             }
         }
     }

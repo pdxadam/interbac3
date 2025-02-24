@@ -11,6 +11,7 @@
     import AllTeachers from '@/components/AllTeachers.vue';
     import StudentsList from '@/components/StudentsList.vue';
     import edsuite from '@/EdSuite/edsuite.js';
+    import StudentScheduler from '@/views/StudentScheduler.vue';
     const props = defineProps({       
         school: School,
     });
@@ -88,6 +89,9 @@
             </b-tab-item>
             <b-tab-item label="Scenarios">
                 <ScenarioSetup :program = selectedProgram />
+            </b-tab-item>
+            <b-tab-item label="Student Scheduler">
+                <StudentScheduler :program = selectedProgram />
             </b-tab-item>
 
         </b-tabs>
