@@ -94,7 +94,7 @@
         </span>
         <ul id="studentList">
             <li v-for = "student, index in program.students">
-                <StudentVue @click = "emit('selectStudent', index)" :student = student @delete = deleteStudent(index) />
+                <StudentVue @click = "emit('selectStudent', index)" :program = program :student = student @delete = deleteStudent(index) />
             </li>
         </ul>
     </section>
@@ -108,6 +108,10 @@
    }
     #studentList{
         padding: 10px 20px;
+        background-color: whitesmoke;
+    }
+    #studentList li{
+        margin: 5px;
     }
     .studentCount{
         background-color: lightgray;

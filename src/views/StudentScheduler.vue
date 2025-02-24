@@ -41,23 +41,43 @@
                 let courseID = courseSequence[req].courseID
                 let targetGrade = courseSequence[req].year;
                 //loop through the students to assign to
-                for (let studentIndex in selectedStudents.value){
+                for (let studentIndex of selectedStudents.value){
+                    console.log("studentindex: ", studentIndex);
                     let student = props.program.students[studentIndex];
                     if (student.grade == targetGrade){
                         console.log("Assigning ", courseID, "to ", student.name);
-                        student.requirements.push(courseID);
+                        student.assignCourse(courseID);
                     }   
                 }
             }
         }
         //checking our work
         console.log(selectedStudents.value);
-        for (let studentIndex in selectedStudents.value){
+        for (let studentIndex of selectedStudents.value){
             let student = props.program.students[studentIndex];
         }
         
         alert("I need to assign " + selectedOptions.value + " to " + selectedStudents.value);
     }
+    // function makeSchedule(){
+
+    // }
+    /*---Now it is time to schedule.  For now I'm going to just do this one:
+    so a student needs a schedule (program.terms x program.periods)
+    each slot holds an offering (subjectID, Offering slot). This gets REALLY hard to clean up later.
+    for each student
+    for each required subject
+        get the offerings from the subject in order of students (fewest to most)
+        check if the offering fits a spot in the students' schedule
+        if so, assign it and fill that spot in the student's schedule
+        if not, then try the next one until there are no more
+        
+    ----OR: 
+    --Create all combinations -- like we did with the basic scenario builder
+    --discard the ones with conflicts (two classes in the same period
+    --discard the ones with overflow in the classes
+    */
+
 </script>
 
 <template>

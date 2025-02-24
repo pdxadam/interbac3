@@ -177,7 +177,7 @@ export default class Program{
     }
     createStudent(name, grade){
         //TODO: put barriers on grade
-        let newStudent = new Student(name, grade);
+        let newStudent = new Student(name, grade, this.terms, this.periods);
         this.topStudentID++;
         newStudent.studentID = this.topStudentID;
         this.students.push(newStudent);
