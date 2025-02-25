@@ -113,6 +113,9 @@
     #studentList li{
         margin: 5px;
     }
+    #studentList li:nth-child(even){
+        background-color: whitesmoke;
+    }
     .studentCount{
         background-color: lightgray;
         margin: 2px;

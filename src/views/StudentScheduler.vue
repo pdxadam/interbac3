@@ -15,6 +15,11 @@
         selectedStudent.value = index;
 
     }
+    function selectAll(){
+        for (let i = 0; i < props.program.students.length; i++){
+            selectedStudents.value.push(i);
+        }
+    }
     function getChoiceTitle(selection){
         let fullTitle = props.program.getSubjectById(selection.subjID).name;
         if (selection.HL){
@@ -53,15 +58,66 @@
         }
         //checking our work
         console.log(selectedStudents.value);
+
+        
+   }
+
+
+
+    function makeSchedule(){
+        let success = 0;
+        let failure = 0;
+        
         for (let studentIndex of selectedStudents.value){
             let student = props.program.students[studentIndex];
-        }
-        
-        alert("I need to assign " + selectedOptions.value + " to " + selectedStudents.value);
-    }
-    // function makeSchedule(){
+            let tries = 0;
+            let foundSchedule = false;
+            student.schedulingLog = [];
+            while(!foundSchedule && tries < 20 ){
+                //scramble the requirements order
+                student.randomizeRequirements();
+                student.clearSchedule(props.program.terms, props.program.periods);
+                let logEntry = {'requirements': JSON.parse(JSON.stringify(student.requirements)), schedule: [], reason: ""};
+                tries++;
+                foundSchedule = true;
+                for (let courseID of student.requirements){
+                    let course = props.program.getCourseByID(courseID);
+                    let r = course.findAvailableOffering(student);
+                    if (!r){
+                        console.log("failed at ", course.title);
+                        logEntry.schedule = JSON.parse(JSON.stringify(student.tempSchedule));
+                        logEntry.reason = courseID;
+                        student.schedulingLog.push(logEntry);
+                        foundSchedule = false;
+                        break;
+                    }
+                                                          
+                }               
+            }
+            if (!foundSchedule){
+                console.log("I couldn't find a complete schedule for ", student.name);
+            }
+            else{
+                student.adoptTempSchedule(props.program);
+            }
 
-    // }
+        }
+        alert("Failures: " + failure + " and Success: " + success);
+        
+                
+    }
+    function clearSchedules(){
+        for (let studentIndex of selectedStudents.value){
+            let student = props.program.students[studentIndex];
+            student.clearSchedule(props.program.terms, props.program.periods, false);
+        }
+        console.log(props.program);
+        for (let course of props.program.courses){
+            console.log("Course: ", course);
+            course.clearStudents ();
+        }
+        alert("Schedules cleared");
+    }
     /*---Now it is time to schedule.  For now I'm going to just do this one:
     so a student needs a schedule (program.terms x program.periods)
     each slot holds an offering (subjectID, Offering slot). This gets REALLY hard to clean up later.
@@ -83,8 +139,9 @@
 <template>
     <div id="flexContainer">
         <div id="studentlist">
+            <b-button @click="selectAll()" >Select all </b-button>
         <h1>Select Students</h1>
-        {{ selectedStudents }}
+        
         <b-select multiple v-model = "selectedStudents" native-size="10">
                 <option v-for = "(student, index) in program.students" :value = "index">{{ student.name }} ({{ student.grade }})</option>
             </b-select>
@@ -136,7 +193,11 @@
             </table>
            
         </div>
-        <b-button @click="assign()">Assign</b-button>
+        <b-button @click="assign()">Assign..</b-button>
+        <b-button @click="makeSchedule()">Make Schedule</b-button>
+        <b-button @click="clearSchedules()">clear Schedule</b-button>
+        
+
     </div>
     
 </template>

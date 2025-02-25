@@ -1,5 +1,6 @@
 import Offering from '@/obj/Offering.js';
 export default class Course{
+    
     courseID = -1;
     title = "asdf";
     term = 0;
@@ -45,35 +46,54 @@ export default class Course{
     }
     findAvailableOffering(student){
         if (this.offerings.length == 0){
+            console.log("No course offerings");
             return false; //there are no offerings to elicit
         }
-        let offerSlot = this.lastAssignedOffering + 1;
+        this.offerings.sort((a,b) => a.studentCount - b.studentCount);
         //wait, I don't want to do it by the last assigned offering. I want to sort it by the number of students
         //check if there is room in that offering
         let foundOffering = false;
         let tryCount = 0;
-        while (!foundOffering && tryCount <= this.offerings.length){
+        let offerSlot = 0;
+        while (!foundOffering && offerSlot < this.offerings.length){
             //that is, while I haven't foujnd an offering, and I haven't tried them all
-            if (offerSlot >= this.offerings.length){ //time to go back to the start
-                offerSlot = 0;
-            }
+            
             if (this.offerings[offerSlot].studentCount < this.maxStudentCount){
                 //this one works. Check it out from the student side
-                if(student.isOfferingVacant(offerings[offerSlot.studentCount])){
+                
+                if(student.isOfferingVacant(this.offerings[offerSlot])){
                     foundOffering = true;
-                    //so assign them bothways
-                    offerings[offerSlot].assignStudent(student.studentID);
-                    student.assignOffering(offerings[offerSlot]);
+                    //so assign them bothways--no--we'll assign the student when we adopt the schedule
+                    
+                    student.assignOffering(this.offerings[offerSlot]);
+                    return true;
                 }
                 // if that works, assign the student to the offering and the offering to the student
-                
+                //todo: figure out what to do if there is a conflict. 
             }
             tryCount++;
+            offerSlot++;
 
 
         }
-        
+       
+        return foundOffering;
         
 
+    }
+    assignStudent(term, period, studentID){
+        for (let offering of this.offerings){
+            if (offering.term == term && offering.period == period){
+                offering.assignStudent(studentID);
+                return true;
+            }
+        }
+        console.log("Major issue: that offering doesn't exist for this course: ", this);
+        return false;
+    }
+    clearStudents(){
+        for (let offering of this.offerings){
+            offering.students = [];
+        }
     }
 }

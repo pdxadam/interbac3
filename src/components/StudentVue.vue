@@ -7,6 +7,9 @@
         program: Program,
 
     });
+    const hideScheduled = ref(false);
+    const hideUnscheduled = ref(false);
+    const cardOpen = ref(false);
     const emit = defineEmits(["delete"]);
     const editMode = ref(false);
     function getTitle(c){
@@ -17,17 +20,24 @@
             props.student.requirements = [];
         }
     }
+    function isScheduled(courseID, sched){
+        for (let term of sched){
+            if (term.includes(courseID))return true;
+        }
+        return false;
+    }
 </script>
 <template>
     <section>
-    <b-collapse
-      class="card">
+    <b-collapse :model-value = "cardOpen"
+      class="card" animation = "slide" :aria-expanded=props.open>
         <template #trigger = props>
             <div class="card-header elStudent" role="button">
                 <p class="card-header-title">
-                    <span class="name"> {{ student.name }}</span>
+                    <span :class="student.hasSchedule?'scheduled':'unscheduled'"> {{ student.name }}</span>
                     <span class="grade"> g{{ student.grade }}</span>
                 </p>
+
                 <div class="hoverControls">
                     <b-button type="is-danger is-light" size="is-small" @click="emit('delete')">
                         <b-icon icon="delete"></b-icon>
@@ -54,8 +64,64 @@
                 <b-button @click="editMode = false"><b-icon icon="content-save" /></b-button>
                 
             </div>
-            <span v-for = "c in student.requirements">{{ getTitle(c) }}, </span>
+            <span v-for = "c in student.requirements" :class="isScheduled(c, student.schedule)?'scheduled':''">{{ getTitle(c) }}, </span>
             <b-button @click="clearClasses()">Clear Class Assignments</b-button>    
+            Table:
+            <table>
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td v-for = "term of student.schedule.length">T{{ term }}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for = "period in student.schedule[0].length">
+                        <td>p{{ period }}</td>
+                        <td v-for = "term in student.schedule.length">
+                            <span v-if = "student.schedule[term - 1][period - 1] != null">{{ getTitle(student.schedule[term - 1][period - 1]) }}</span>
+                            <span v-else>---</span>
+                        </td>
+                    </tr>
+                </tbody>
+                   
+            </table>
+            <h1>Scheduling Log</h1>
+            <div id="log">
+                
+                <table v-for = "entry in student.schedulingLog">      
+
+                    <tbody>
+                        <tr>
+                            <th>Requirements:</th>
+                            <td>
+                                <span v-for = "c in entry.requirements" :class = "isScheduled(c, entry.schedule)?'scheduled':''">
+                                   {{ getTitle(c) }}
+                                , </span>
+                            </td>
+
+                        </tr>
+                        <tr v-for = "term, index of entry.schedule">
+                            <th>Term {{ index + 1 }}</th>
+                            <td>
+                                <span v-for = "c of term">{{ c==null?"--":getTitle(c) }}, </span>
+                            </td> 
+
+                        </tr>
+                        <tr>
+                            <th>Reason ID: </th>
+                            <td>{{ entry.reason }}</td>
+                        </tr>
+                        <tr>
+                            <th>Reason Title: </th>
+                            <td>{{ getTitle(entry.reason) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Reason offerings: </th>
+                            <td>{{ program.getCourseByID(entry.reason).offerings }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         </div>
         
@@ -63,6 +129,9 @@
     </section>
 </template>
 <style scoped>
+    .scheduled{
+        font-weight: bold;
+    }
     .name{
         
         font-weight: bold;
@@ -90,6 +159,12 @@
         margin: 2px 5px;
 
     }
+    .scheduled{
+        background-color:rgb(172, 236, 168);
+    }
+    .unscheduled{
+        background-color: #f7b19e;
+    }
     .hoverControls{
         opacity: 0;
         pointer-events: none;
@@ -104,6 +179,13 @@
     }
     .elStudent:hover .name{
         color: rgb(47, 180, 206);
+    }
+    #log{
+        max-height: 450px;
+        overflow-y: scroll;
+    }
+    #log table{
+        border: 3px outset lightgrey;
     }
 
 </style>
