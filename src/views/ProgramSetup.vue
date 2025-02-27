@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from 'vue';
+    import { onMounted, ref } from 'vue';
     import Program from '../obj/Program.js';
     import Group from '../obj/Group.js';
     import CoursesVue from '@/components/CoursesVue.vue';
@@ -9,14 +9,18 @@
     import ScenarioSetup from '@/views/ScenarioSetup.vue';
     import SubjectsVue from '@/components/SubjectsVue.vue';
     import AllTeachers from '@/components/AllTeachers.vue';
-    const props = defineProps({
-       
+    import StudentsList from '@/components/StudentsList.vue';
+    import edsuite from '@/EdSuite/edsuite.js';
+    import StudentScheduler from '@/views/StudentScheduler.vue';
+    const props = defineProps({       
         school: School,
     });
+    const myedsuite = edsuite.GetAxios();
     const selectedProgram = ref(null);
     const selectedIndex = ref(null);
     const selectedGroup = ref(null);
     const editProgram = ref(false);
+    
     function addGroup(){
         selectedProgram.value.groups.unshift(new Group("New Group"));
     }
@@ -64,6 +68,9 @@
             <b-button @click = "deleteProgram" v-if="editProgram">Delete</b-button>
         </h1>
         <b-tabs>
+            <b-tab-item label="Students">
+                <StudentsList :program = selectedProgram />
+            </b-tab-item>
             <b-tab-item label="Courses">
                 <CoursesVue :courses = selectedProgram.courses :program = selectedProgram />
             </b-tab-item>
@@ -82,6 +89,9 @@
             </b-tab-item>
             <b-tab-item label="Scenarios">
                 <ScenarioSetup :program = selectedProgram />
+            </b-tab-item>
+            <b-tab-item label="Student Scheduler">
+                <StudentScheduler :program = selectedProgram />
             </b-tab-item>
 
         </b-tabs>

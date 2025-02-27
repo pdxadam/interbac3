@@ -2,6 +2,7 @@ import Course from '@/obj/Course';
 import Group from '@/obj/Group.js';
 import Teacher from '@/obj/Teacher.js';
 import Subject from '@/obj/Subject.js';
+import Student from '@/obj/Student.js';
 
 export default class Program{
     name="IB Program";
@@ -9,11 +10,14 @@ export default class Program{
     groups = []; // actual group objects
     teachers = []; //teachers taken from the school when the program is created.
     subjects = [];
+    students = []; //array of student objects
+    schedulingNotes = [];
     terms = 3;
     periods = 5;
     topTeacherID = 0;
     topCourseID = 0;
     topSubjectID = 0;
+    topStudentID = 0;
     constructor(name, teachers = [], terms = 3, periods = 5){
         this.name = name;
         this.terms = terms;
@@ -51,12 +55,25 @@ export default class Program{
                 let newSubject = Subject.FromJson(subject);
                 console.log(newSubject.subjectID);
                 if (newSubject.subjectID > newProgram.topSubjectID){
-                    this.topSubjectID = newSubject.subjectID;
+                    newProgram.topSubjectID = newSubject.subjectID;
                 }
                 
                 newProgram.subjects.push(newSubject);
 
             }
+        }
+        if ('students' in jProgram){
+            console.log("--- handling students ---");
+            for (let student of jProgram.students){
+                let newStudent = Student.FromJson(student);
+                if (newStudent.studentID > newProgram.topStudentID){
+                    newProgram.topStudentID = newStudent.studentID;
+                }
+                newProgram.students.push(newStudent);
+            }
+        }
+        if ('schedulingNotes' in jProgram){
+            newProgram.schedulingNotes = jProgram.schedulingNotes;
         }
         console.log("done with subjects");
         if ('teachers' in jProgram){
@@ -160,6 +177,34 @@ export default class Program{
             if (this.courses[i].courseID == courseID){
                 this.courses.splice(i, 1);
             }
+        }
+    }
+    createStudent(name, grade){
+        //TODO: put barriers on grade
+        let newStudent = new Student(name, grade, this.terms, this.periods);
+        this.topStudentID++;
+        newStudent.studentID = this.topStudentID;
+        this.students.push(newStudent);
+        return newStudent;
+    }
+    deleteStudent(student){
+        //loop through students and remove this one.
+        for (let i = 0; i < this.students.length; i++){
+            if (this.students[i].studentID == student.studentID){
+                this.students.splice(i, 1);
+            }
+        }
+    }
+    getStudentByID(id){
+        for (let student in this.students){
+            if (id == student.studentID){
+                return student;
+            }
+        }
+    }
+    addSchedulingNote(newNote){
+        if (!this.schedulingNotes.includes(newNote)){        
+            this.schedulingNotes.push(newNote);
         }
     }
 

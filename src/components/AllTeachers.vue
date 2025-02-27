@@ -71,7 +71,7 @@
                         <span v-for = "c in program.courses">
                             <span v-for = "o in c.offerings">
                                 <span v-if = "o.teacherID == teacher.id && o.term == n && o.period == period">
-                                    {{ c.title }}
+                                    {{ c.title }} <br />({{ o.studentCount }})
                                 </span>
                             </span>
                         </span>

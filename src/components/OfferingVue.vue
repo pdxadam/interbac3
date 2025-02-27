@@ -6,7 +6,8 @@
 </script>
 <template>
     <div>
-        <h1>{{ offering.getTitle() }}</h1>
+        <h1>{{ offering.courseID }}: {{ offering.getTitle() }}</h1>
+        <span>{{ offering.studentCount }} students</span>
     </div>
 </template>
 <style scoped>

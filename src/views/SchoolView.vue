@@ -7,8 +7,10 @@
     import ProgramSetup from './ProgramSetup.vue'
     import { onMounted } from 'vue';
     import Group from '../obj/Group.js';
+    import LoginStatus from '@/EdSuite/ServerConnect.vue';
     const school = ref(new School("RHS"));
     const file = ref(null);
+    const hasChanged = ref(false);
     //add Teachers
     function seedSchool(){
         let s = new School("RHS");
@@ -34,13 +36,14 @@
     }
     
     onMounted(() => {
-        loadData();
+        //loadData();
         const unwatch = watch(school, saveData, { deep: true});
     });
     
     function saveData(){
-        let jsonSchool = JSON.stringify(school.value);
-        localStorage.setItem("school", jsonSchool);
+        hasChanged.value = true;
+        // let jsonSchool = JSON.stringify(school.value);
+        // localStorage.setItem("school", jsonSchool);
     }
     function loadData(){
         let jsonSchool = localStorage.getItem("school");
@@ -69,7 +72,7 @@
 
 function loadStarter2(){
    
-    if (confirm("Are you sure? Current data will be overwritten. Consider backing up first")){
+    if (confirm("Are you sure? Current data will be overwritten. Consider backing up first -- and turn off autosave")){
         
         let pSchool = School.CheckVersion(json);
         console.log("checkversioncomplete");
@@ -108,8 +111,16 @@ function handleFileUpload(){
 }
 </script>
 <template>
+    
     <h1>{{ school.name }}</h1>
-    <nav>
+    <section>
+        <LoginStatus @saved = "hasChanged = false" 
+            @fetched = "(val) => Object.assign(school, School.FromJson(val))"
+            :hasChanged = "hasChanged" 
+            :appNumber = "2" 
+            :obj = school />
+    </section>
+        <nav>
         <b-button @click="loadStarter2()">Load Starting Point (deletes current data)</b-button>
         <b-button @click="downloadBackup()">Download Backup</b-button>
         <h4>Upload backup: </h4><input type="file" v-on:change="handleFileUpload()" ref="file">
