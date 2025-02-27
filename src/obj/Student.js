@@ -50,8 +50,9 @@ export default class Student{
         this.requirements.push(courseID);
         return true;
     }
-    isOfferingVacant(offering){  
-        return this.tempSchedule[offering.term - 1][offering.period -1] == null;
+    isOfferingVacant(offering){
+          
+        return this.tempSchedule[offering.term - 1][offering.period -1];
     }
     assignOffering(offering){
         this.tempSchedule[offering.term - 1][offering.period - 1] = offering.courseID;
@@ -76,6 +77,7 @@ export default class Student{
 
     }
     clearSchedule(terms, periods, tempOnly = true){
+
         if (!tempOnly){
             console.log("clearing actual schedule");
             this.schedule = [];

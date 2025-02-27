@@ -82,7 +82,7 @@
                 foundSchedule = true;
                 for (let courseID of student.requirements){
                     let course = props.program.getCourseByID(courseID);
-                    let r = course.findAvailableOffering(student);
+                    let r = course.findAvailableOffering(student, props.program);
                     if (!r){
                         console.log("failed at ", course.title);
                         logEntry.schedule = JSON.parse(JSON.stringify(student.tempSchedule));
@@ -111,12 +111,16 @@
             let student = props.program.students[studentIndex];
             student.clearSchedule(props.program.terms, props.program.periods, false);
         }
-        console.log(props.program);
         for (let course of props.program.courses){
+            //this right now clears all students from all courses.
+            
             console.log("Course: ", course);
-            course.clearStudents ();
+            course.clearStudents (selectedStudents.value);
         }
         alert("Schedules cleared");
+    }
+    function clearSchedulingNotes(){
+        props.program.schedulingNotes = [];
     }
     /*---Now it is time to schedule.  For now I'm going to just do this one:
     so a student needs a schedule (program.terms x program.periods)
@@ -197,8 +201,14 @@
         <b-button @click="makeSchedule()">Make Schedule</b-button>
         <b-button @click="clearSchedules()">clear Schedule</b-button>
         
-
+        <div>
+        Scheduling Notes: <b-button @click="clearSchedulingNotes()">Clear</b-button>
+        <ul>
+            <li v-for = "note in program.schedulingNotes">{{ note }}</li>
+        </ul>
     </div>
+    </div>
+    
     
 </template>
 <style scoped>

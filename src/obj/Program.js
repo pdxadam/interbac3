@@ -11,6 +11,7 @@ export default class Program{
     teachers = []; //teachers taken from the school when the program is created.
     subjects = [];
     students = []; //array of student objects
+    schedulingNotes = [];
     terms = 3;
     periods = 5;
     topTeacherID = 0;
@@ -70,6 +71,9 @@ export default class Program{
                 }
                 newProgram.students.push(newStudent);
             }
+        }
+        if ('schedulingNotes' in jProgram){
+            newProgram.schedulingNotes = jProgram.schedulingNotes;
         }
         console.log("done with subjects");
         if ('teachers' in jProgram){
@@ -196,6 +200,11 @@ export default class Program{
             if (id == student.studentID){
                 return student;
             }
+        }
+    }
+    addSchedulingNote(newNote){
+        if (!this.schedulingNotes.includes(newNote)){        
+            this.schedulingNotes.push(newNote);
         }
     }
 
