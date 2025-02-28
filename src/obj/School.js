@@ -3,7 +3,7 @@ import Teacher from '@/obj/Teacher.js';
 
 export default class School{
     name = "Riverdale High School";
-    version = 1.0;
+    version = 1.1;
     programs = [];
     teachers = [];
     terms = 3;
@@ -47,8 +47,10 @@ export default class School{
                 //loop through the programs
                 let program = pSchool.programs[p];
                 //loop through the courses
-                program.courses = JSON.parse(JSON.stringify(program.classes));
-                delete program.classes; // does this work? or are we killing both?
+                if ('classes' in program){
+                    program.courses = JSON.parse(JSON.stringify(program.classes));
+                    delete program.classes; // does this work? or are we killing both?
+                }
                 program.topCourseID = program.topClassID;
                 delete program.topClassID;
                 for (let c= 0; c < program.courses.length; c++){
