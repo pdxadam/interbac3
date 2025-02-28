@@ -8,6 +8,7 @@
     });
     const chosenCourse = ref(null);
     const departments = ref([]);
+    const deletedCourses = ref([]);
     const chosenDepartment = ref("Show All");
     function getDepartments(){
         departments.value = [];
@@ -78,6 +79,9 @@
         const offeringIndex = event.dataTransfer.getData("offeringIndex");
         event.target.classList.remove("dropHere");
         course.offerings.splice(offeringIndex,1);
+        if (!deletedCourses.value.includes(course)){
+            deletedCourses.value.push(course);
+        }
     }
     function dragEnterTrash(event){
         event.preventDefault();
@@ -110,47 +114,61 @@
 
             </b-select>
             
-            <div class='dragElement' draggable="true" :key = chosenCourse.courseID @dragstart="dragNewOffering($event, chosenCourse.courseID);" v-if="chosenCourse != null">{{ chosenCourse.title  }}</div>
+            <div class='dragElement' draggable="true" :key = chosenCourse.courseID @dragstart="dragNewOffering($event, chosenCourse.courseID);" v-if="chosenCourse != null">
+                {{ chosenCourse.title  }}
+            </div>
             <div id="trash" @dragend = "dragExitTrash($event);" @dragover.prevent @dragenter = "dragEnterTrash($event)" @dragleave = "dragExitTrash($event);" @drop="dropTrash($event)">
-                <b-icon @dragenter.prevent icon="delete" size="is-large" type="is-danger" /></div>
-        </div>    
-        <div id="schedules">
-    <table v-for = "n in program.terms">
-        <thead>
-            <tr>
-                <th :colspan = "program.teachers.length">Term {{ n }}</th>
-            </tr>
-            <tr>
-                <template v-for = "teacher in program.teachers">
-                <th v-if="shouldShow(teacher)" :course="getCourse(teacher)">
-                    
-                       {{ teacher.name }}
-                    
-                </th>
-                </template>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for = "period in program.periods">
-                <template v-for = "teacher in program.teachers" :key = teacher.id>
-                <td  v-if = "shouldShow(teacher)" :course="getCourse(teacher)" @dragover.prevent @dragenter.prevent @drop="drop($event, {term: n, period: period, teacherID: teacher.id})">
-                
-                        <div v-for = "c in program.courses" :key = c>
-                            <div v-for = "o, index in c.offerings">
-                                <div :key="index" v-if = "o.teacherID == teacher.id && o.term == n && o.period == period" draggable="true" class="dragElement"  @dragstart = "startDrag($event, {courseID:c.courseID,offeringIndex:index});">
-                                    {{ c.title }} <br />({{ o.studentCount }})
-                                </div>
-                            </div>
-                        </div>
-                    
-                </td>
-            </template>
-            </tr>
-        </tbody>
-    </table>
-    </div>
-</div>
+                <b-icon @dragenter.prevent icon="delete" size="is-large" type="is-danger" />
+            </div> 
+            <h1>DeletedCourses</h1>
+            <b-button @click="deletedCourses = []">Clear</b-button>
+            <div v-for = "course in deletedCourses" class='dragElement' draggable="true" :key = course.courseID @dragstart="dragNewOffering($event, course.courseID);">
+                {{ course.title  }}
 
+            </div>
+        </div>  
+        <div id="schedules">
+            <table v-for = "n in program.terms">
+                <thead>
+                    
+                    <tr>
+                        
+                        <th style="text-align: center" :colspan = "program.teachers.length + 1">Term {{ n }}</th>
+                    </tr>
+                    <tr>
+                        <th>Period</th>
+                        <template v-for = "teacher in program.teachers">
+                           
+                            <th v-if="shouldShow(teacher)" :course="getCourse(teacher)">
+                                
+                                {{ teacher.name }}
+                                
+                            </th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for = "period in program.periods">
+                        <td>{{ period }}</td>
+                        <template v-for = "teacher in program.teachers" :key = teacher.id>
+                        
+                            <td  v-if = "shouldShow(teacher)" :course="getCourse(teacher)" @dragover.prevent @dragenter.prevent @drop="drop($event, {term: n, period: period, teacherID: teacher.id})">
+                        
+                                <div v-for = "c in program.courses" :key = c>
+                                    <div v-for = "o, index in c.offerings">
+                                        <div :key="index" v-if = "o.teacherID == teacher.id && o.term == n && o.period == period" draggable="true" class="dragElement"  @dragstart = "startDrag($event, {courseID:c.courseID,offeringIndex:index});">
+                                            {{ c.title }} <br />({{ o.studentCount }})
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </td>
+                    </template>
+                    </tr>
+                </tbody>
+            </table>
+         </div>
+    </div>
 </template>
 <style scoped>
     #dragOptions{
@@ -186,6 +204,11 @@
         border: 1px solid black;
         padding: 2px;
         width: 200px !important;
+        min-height: 25px;
+    }
+    td:nth-child(1), th:nth-child(1){
+        width: 50px !important;
+        text-align: center;
     }
     tr{
         border: 2px solid navy;
@@ -198,9 +221,10 @@
     }
     .dragElement{
         user-select: none;
-        background-color: skyblue;
+        background-color: aliceblue;
         border: 1px dashed navy;
-        font-weight: bold;
+        margin: 2px;
+        font-size: 0.85rem;
         display: block;
     }
 </style>
