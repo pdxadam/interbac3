@@ -6,6 +6,7 @@
         program: Program,
 
     });
+    const chosenCourse = ref(null);
     const departments = ref([]);
     const chosenDepartment = ref("Show All");
     function getDepartments(){
@@ -36,6 +37,56 @@
             return "hidden";
         }
     }
+    function startDrag(event, offeringObject){
+        
+        console.log(offeringObject);
+        event.dataTransfer.dropEffect = 'move';
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('courseID', offeringObject.courseID);
+        
+        event.dataTransfer.setData('action', "move");
+        event.dataTransfer.setData('offeringIndex', offeringObject.offeringIndex);
+    }
+    function dragNewOffering(event, courseID){
+        event.dataTransfer.dropEffect = 'copy';
+        event.dataTransfer.effectAllowed = 'copy';
+        event.dataTransfer.setData('action', "new");    
+        event.dataTransfer.setData('courseID', courseID);
+
+
+    }
+    function drop(event, objTarget){
+        const action = event.dataTransfer.getData('action');
+        const term = objTarget.term;
+        const period = objTarget.period;
+        const teacherID = objTarget.teacherID;
+        const course = props.program.getCourseByID(event.dataTransfer.getData("courseID"));
+        if (action == "new"){
+            course.createOffering(teacherID, term, period);
+            return;
+        } 
+        const offeringIndex = event.dataTransfer.getData("offeringIndex");       
+        const offering = course.offerings[offeringIndex];
+        console.log("offering:", offering);
+        offering.term = term;
+        offering.period = period;
+        offering.teacherID = teacherID;
+       
+    }
+    function dropTrash(event){
+        const course = props.program.getCourseByID(event.dataTransfer.getData("courseID"));
+        const offeringIndex = event.dataTransfer.getData("offeringIndex");
+        event.target.classList.remove("dropHere");
+        course.offerings.splice(offeringIndex,1);
+    }
+    function dragEnterTrash(event){
+        event.preventDefault();
+        event.target.classList.add("dropHere");
+    }
+    function dragExitTrash(event){
+        event.preventDefault();
+        event.target.classList.remove("dropHere");
+    }
     getDepartments();
 </script>
 <template>
@@ -51,40 +102,81 @@
             {{ d }}
         </b-dropdown-item>
     </b-dropdown>
+    <div id="schedule">
+        <div id="dragOptions">
+            <b-select placeholder="select a course" v-model="chosenCourse">
+                <option v-for = "c in program.courses" :value="c">{{ c.title }}</option>
+              
+
+            </b-select>
+            
+            <div class='dragElement' draggable="true" :key = chosenCourse.courseID @dragstart="dragNewOffering($event, chosenCourse.courseID);" v-if="chosenCourse != null">{{ chosenCourse.title  }}</div>
+            <div id="trash" @dragend = "dragExitTrash($event);" @dragover.prevent @dragenter = "dragEnterTrash($event)" @dragleave = "dragExitTrash($event);" @drop="dropTrash($event)">
+                <b-icon @dragenter.prevent icon="delete" size="is-large" type="is-danger" /></div>
+        </div>    
+        <div id="schedules">
     <table v-for = "n in program.terms">
         <thead>
             <tr>
                 <th :colspan = "program.teachers.length">Term {{ n }}</th>
             </tr>
             <tr>
-                <th v-for = "teacher in program.teachers" :course="getCourse(teacher)">
-                    <template v-if="shouldShow(teacher)">
-                        {{ teacher.name }}
-                    </template>
+                <template v-for = "teacher in program.teachers">
+                <th v-if="shouldShow(teacher)" :course="getCourse(teacher)">
+                    
+                       {{ teacher.name }}
+                    
                 </th>
+                </template>
             </tr>
         </thead>
         <tbody>
             <tr v-for = "period in program.periods">
-                <td v-for = "teacher in program.teachers" :course="getCourse(teacher)">
-                    <template v-if = "shouldShow(teacher)">
-                        <span v-for = "c in program.courses">
-                            <span v-for = "o in c.offerings">
-                                <span v-if = "o.teacherID == teacher.id && o.term == n && o.period == period">
+                <template v-for = "teacher in program.teachers" :key = teacher.id>
+                <td  v-if = "shouldShow(teacher)" :course="getCourse(teacher)" @dragover.prevent @dragenter.prevent @drop="drop($event, {term: n, period: period, teacherID: teacher.id})">
+                
+                        <div v-for = "c in program.courses" :key = c>
+                            <div v-for = "o, index in c.offerings">
+                                <div :key="index" v-if = "o.teacherID == teacher.id && o.term == n && o.period == period" draggable="true" class="dragElement"  @dragstart = "startDrag($event, {courseID:c.courseID,offeringIndex:index});">
                                     {{ c.title }} <br />({{ o.studentCount }})
-                                </span>
-                            </span>
-                        </span>
-                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    
                 </td>
+            </template>
             </tr>
         </tbody>
     </table>
+    </div>
+</div>
 
 </template>
 <style scoped>
+    #dragOptions{
+        width: 100px;
+        background-color: white;
+    }
+    #trash{
+        text-align: center;
+        margin-top: 50px;
+    }
+    .dropHere{
+        background-color: dodgerblue;
+    }
+    #schedule{
+        display: flex;
+        flex-flow: row wrap;
+        background-color: navy;
+        justify-content: space-around;
+    }
+    #schedules{
+        width: calc(100% - 105px);
+        display: flex;
+        flex-flow: row wrap;
+    }
     table{
-        
+        background-color: white;
         overflow-x: scroll;
         border-collapse: collapse;
         margin: 5px 2px;
@@ -103,5 +195,12 @@
     }
     .hidden{
         display: none;
+    }
+    .dragElement{
+        user-select: none;
+        background-color: skyblue;
+        border: 1px dashed navy;
+        font-weight: bold;
+        display: block;
     }
 </style>
