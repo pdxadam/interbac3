@@ -44,6 +44,29 @@ export default class Course{
             }
         }
     }
+    findAlternate(currentOffering, student, program){ 
+        //currentOffering is where it is currently scheduled for this student
+        this.offerings.sort((a,b) => a.studentCount - b.studentCount);
+        for (let i = 0; i < this.offerings.length; i++){
+            let o = offerings[i];
+            if (o == currentOffering){
+                //this is not the one we want--it's the one we're in.
+                console.log("skipping current offering");
+                continue;
+            }
+            if (o.studentCount < this.maxStudentCount){
+                //there is room, keep working
+                let studentSlot = student.isOfferingVacant(o);
+                if (studentSlot == null){
+                    //it is free and has room, so:
+                    //  schedule it, remove the current offering from the student schedule and the student from the current offering, then return true
+
+                }
+                
+            }
+        }
+
+    }
     findAvailableOffering(student, program){
         //TODO: create a scheduling suggestions list on the program. 
         
@@ -53,7 +76,7 @@ export default class Course{
             return false; //there are no offerings to elicit
         }
         this.offerings.sort((a,b) => a.studentCount - b.studentCount);
-        //wait, I don't want to do it by the last assigned offering. I want to sort it by the number of students
+        
         //check if there is room in that offering
         let foundOffering = false;
         let tryCount = 0;

@@ -1,15 +1,18 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref, computed } from 'vue';
     import Program from '@/obj/Program.js';
     import Teacher from '@/obj/Teacher.js';
+    import Student from '@/obj/Student.js';
     const props = defineProps({
         program: Program,
 
     });
     const chosenCourse = ref(null);
+    const manualSchedule = ref([]);
     const departments = ref([]);
     const deletedCourses = ref([]);
     const chosenDepartment = ref("Show All");
+    const chosenStudent = ref("-1");
     function getDepartments(){
         departments.value = [];
         for (let c of props.program.teachers){
@@ -56,6 +59,39 @@
 
 
     }
+    function addToProposedSchedule(offering){
+        console.log("Offering: ", offering);
+        if (offering == null || offering == ""){
+            return;
+        }
+        if (chosenStudent.value == -1){
+            return;
+        }
+        const student = props.program.students[chosenStudent.value];
+        console.log("student: ", student);
+        if (student.schedule[offering.term - 1][offering.period - 1] == offering.courseID){
+            student.schedule[offering.term - 1][offering.period - 1] = null;
+        }
+        else{
+            student.schedule[offering.term - 1][offering.period - 1] = offering.courseID;
+        
+        }
+        
+        
+
+    }
+    function inSchedule(offering) {
+        if (offering == null || offering == "" ){
+            return false;
+        }
+        if (chosenStudent.value == -1){
+            return false;
+        }
+        let student = props.program.students[chosenStudent.value];
+        console.log("schedule: ", student.schedule)
+        console.log("offering", offering);
+        return student.schedule[offering.term - 1][offering.period - 1] != null && student.schedule[offering.term - 1][offering.period - 1] == offering.courseID;
+    }
     function drop(event, objTarget){
         const action = event.dataTransfer.getData('action');
         const term = objTarget.term;
@@ -91,6 +127,20 @@
         event.preventDefault();
         event.target.classList.remove("dropHere");
     }
+        
+    function isStudentRequirement(c){
+        
+        if (chosenStudent.value == -1){
+            return false;
+        
+        }
+        const student = props.program.students[chosenStudent.value];
+        console.log(chosenStudent.value);
+        console.log("requirements: ", student.requirements);
+        console.log("courseID: ", c.courseID);
+        console.log(student.requirements.includes(c.courseID));
+        return(student.requirements.includes(c.courseID));
+    }
     getDepartments();
 </script>
 <template>
@@ -104,6 +154,18 @@
         </b-dropdown-item>
         <b-dropdown-item v-for = "d in departments" :value = d>
             {{ d }}
+        </b-dropdown-item>
+    </b-dropdown>
+    Or By Student:
+    <b-dropdown v-model = "chosenStudent">
+        <template #trigger>
+            <b-button :label = "chosenStudent == -1?'Choose student':program.students[chosenStudent].name" type="is-primary" />
+        </template>
+        <b-dropdown-item value="-1" >
+            (none)
+        </b-dropdown-item>
+        <b-dropdown-item v-for = "s, index in program.students" :value = index>
+            {{ s.name }}
         </b-dropdown-item>
     </b-dropdown>
     <div id="schedule">
@@ -155,8 +217,15 @@
                             <td  v-if = "shouldShow(teacher)" :course="getCourse(teacher)" @dragover.prevent @dragenter.prevent @drop="drop($event, {term: n, period: period, teacherID: teacher.id})">
                         
                                 <div v-for = "c in program.courses" :key = c>
-                                    <div v-for = "o, index in c.offerings">
-                                        <div :key="index" v-if = "o.teacherID == teacher.id && o.term == n && o.period == period" draggable="true" class="dragElement"  @dragstart = "startDrag($event, {courseID:c.courseID,offeringIndex:index});">
+                                    <div v-for = "o, index in c.offerings" >
+                                        <div :key="index" 
+                                            v-if = "o.teacherID == teacher.id && o.term == n && o.period == period" 
+                                            draggable="true" 
+                                            class = "dragElement"
+                                            :class = "{'highlight':isStudentRequirement(c),'isScheduled':inSchedule(o)}" 
+                                            @dragstart = "startDrag($event, {courseID:c.courseID,offeringIndex:index});" 
+                                            @click= "addToProposedSchedule(o)">
+                                           
                                             {{ c.title }} <br />({{ o.studentCount }})
                                         </div>
                                     </div>
@@ -178,6 +247,9 @@
     #trash{
         text-align: center;
         margin-top: 50px;
+    }
+    .highlight{
+        border: 3px solid yellow !important;
     }
     .dropHere{
         background-color: dodgerblue;
@@ -226,5 +298,8 @@
         margin: 2px;
         font-size: 0.85rem;
         display: block;
+    }
+    .isScheduled{
+        color: magenta;
     }
 </style>

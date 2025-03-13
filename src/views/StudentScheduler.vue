@@ -62,7 +62,7 @@
         
    }
 
-
+   
 
     function makeSchedule(){
         let success = 0;
@@ -73,9 +73,12 @@
             let tries = 0;
             let foundSchedule = false;
             student.schedulingLog = [];
+            student.orderRequirementsByOfferingCount(props.program);
             while(!foundSchedule && tries < 20 ){
                 //scramble the requirements order
-                student.randomizeRequirements();
+                //TODO: Try putting it in order of fewest offerings to most and see if that works.
+                
+                if (tries > 0)student.randomizeRequirements();
                 student.clearSchedule(props.program.terms, props.program.periods);
                 let logEntry = {'requirements': JSON.parse(JSON.stringify(student.requirements)), schedule: [], reason: ""};
                 tries++;

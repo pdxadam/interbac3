@@ -3,7 +3,7 @@ export default class Student{
     name = "student";
     grade = -1;
     requirements = [];  //list of course IDs this student needs to get scheduled for
-    schedule = [];
+    schedule = []; //2d array: terms by 
     tempSchedule = [];
     schedulingLog = []; //list of objects including requiremntsList, schedule, and note at point of failure
     hasSchedule = false;
@@ -59,6 +59,9 @@ export default class Student{
         //TODO: Test assigning schedules
         //maybe have the scheduling action be a function of the student
     }
+    removeFromSchedule(offering){
+        this.schedule[offering.term - 1][offering.period - 1] = null;
+    }
     adoptTempSchedule(program){
         this.hasSchedule = true;
         //it looks like we have a complete schedule. Let's make it our schedule and assign these students to those things
@@ -110,6 +113,27 @@ export default class Student{
         this.requirements[index] = this.requirements[randomIndex];
         this.requirements[randomIndex] = swap;
      }   
+    
     }
-
+    orderRequirementsByOfferingCount(program){
+        console.log("before sort", this.requirements);
+        let lastChange = 1;        
+        while (lastChange > -1){
+            lastChange = -1;
+            for (let i = 0; i < this.requirements.length - 1; i++){  
+                
+                let c1 = program.getCourseByID(this.requirements[i]);
+                let c2 = program.getCourseByID(this.requirements[i + 1]);
+                console.log("comparing ", c1.title, " with offerings ", c1.offerings.length, " with ", c2.title, ": offerings ", c2.offerings.length);
+                if (c1.offerings.length > c2.offerings.length){
+                    console.log("change");
+                    let temp = this.requirements[i];
+                    this.requirements[i] = this.requirements[i + 1];
+                    this.requirements[i + 1] = temp;
+                    lastChange = i;
+                }
+            }
+        }
+        
+     }
 }

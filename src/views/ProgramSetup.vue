@@ -55,8 +55,10 @@
         <ul>
             <li v-for="program, index in school.programs" @click="selectProgram(program, index);">
                 {{ program.name }} 
+                <b-button @click = "console.log(JSON.stringify(program))">See Data</b-button>
             </li>
         </ul>
+        
     </nav>
 
     <section v-if="selectedProgram != null" id="programDetails">

@@ -79,7 +79,7 @@
                         Year: {{ c.year }} Sequence: {{ c.sequence }}
                         <div class="buttonBlock">
                             <b-button type="is-primary" outlined @click = "editRequirement(c)"><b-icon icon="pencil-outline" size="is-small" /></b-button>
-                            <b-button type="is-danger" outlined class='cmdRemove' @click = "removeCourse(index, false)" >X</b-button>
+                            <b-button type="is-danger" outlined class='cmdRemove' @click = "removeCourse(index, true)" >X</b-button>
                         </div>
                     </div>
                 </li>

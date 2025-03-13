@@ -42,6 +42,12 @@ export default class Offering{
         this.students.push(studentID);
         
     }
+    removeStudent(studentID){
+        let index = this.students.indexOf(studentID);
+        if (index > -1){
+            this.students.splice(index, 1);
+        } 
+    }
     get studentCount(){
         return this.students.length;
     }
